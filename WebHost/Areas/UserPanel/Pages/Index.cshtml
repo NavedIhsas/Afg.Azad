@@ -1,0 +1,338 @@
+﻿@page
+@model WebHost.Areas.UserPanel.Pages.IndexModel
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<link href="~/admintheme/assets/css/loading.css" rel="stylesheet" />
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+
+
+<style>
+    div#plotId {
+        width: 400px;
+    }
+</style>
+<div class="dashboard__main">
+    <div class="dashboard__content bg-light-4">
+        <div class="row pb-50 mb-10">
+            <div class="col-auto">
+                <h1 class="text-24 lh-12 fw-700 ff-estedad">Settings</h1>
+                <div class="mt-10">Complete your information using the form below.</div>
+            </div>
+        </div>
+
+
+        <div class="row y-gap-30">
+            <div class="col-12">
+                <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+                    <div class="tabs -active-purple-2 js-tabs pt-0">
+                        <div class="tabs__controls d-flex x-gap-30 items-center pt-20 px-30 border-bottom-light js-tabs-controls">
+                            <button class="tabs__button text-light-1 js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">
+                                Edit Profile
+                            </button>
+                            <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-2" type="button">
+                                Password
+                            </button>
+                        </div>
+                        <div class="tabs__content py-30 px-30 js-tabs-content">
+                            <div class="tabs__pane -tab-item-1 is-active">
+                                <div class="row y-gap-20 x-gap-20 items-center">
+                                    <div class="col-auto">
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <img id="avatarImg" class="size-100 circle" src="~/FileUploader/@Model.Edit.AvatarName" alt="@Model.Edit.FirstName @Model.Edit.LastName" title="@Model.Edit.FirstName @Model.Edit.LastName" style="border-radius:50%">
+                                        }
+                                        else
+                                        {
+                                            <img id="avatarImg" class="size-100 circle" src="~/Img/userAvatar.png" alt="Profile Picture" title="Profile Picture" style="border-radius:50%">
+                                        }
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="text-16 fw-500 text-dark-1">Image</div>
+                                        <div class="text-14 lh-2 mt-10">Image should be 100x100 px, less than 100 KB, and in PNG or JPG format.</div>
+
+                                        <div class="d-flex x-gap-10 y-gap-10 flex-wrap pt-15">
+                                            <div>
+                                                <div class="d-flex justify-center items-center size-40 rounded-8 bg-light-3">
+                                                    <div id="clickInput" class="icon-cloud text-16"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="border-top-light pt-30 mt-30">
+                                    <form id="form1" method="post" class="contact-form row y-gap-30" name="form1">
+
+                                        <input onchange="loadImg()" id="avatarFile" type="file" asp-for="Edit.Avatar" style="display:none" />
+                                        <span asp-validation-for="Edit.FirstName" class="text-error-2"></span>
+
+                                        <div class="col-md-6">
+                                            <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">Email (Can not be changed)</label>
+                                            <input asp-for="Edit.Email" value="@Model.Edit.Email" readonly="" type="email" placeholder="Sara">
+                                            <span asp-validation-for="Edit.Email" class="text-error-2"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">First Name</label>
+                                            <input asp-for="Edit.FirstName" type="text" placeholder="Sara">
+                                            <span asp-validation-for="Edit.FirstName" class="text-error-2"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">Last Name</label>
+                                            <input asp-for="Edit.LastName" type="text" placeholder="Ahmadi">
+                                            <span asp-validation-for="Edit.LastName" class="text-error-2"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">Phone Number</label>
+                                            <input asp-for="Edit.Phone" type="text" placeholder="Mobile">
+                                            <span asp-validation-for="Edit.Phone" class="text-error-2"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">Birth Date</label>
+                                            <input asp-for="Edit.BirthDate" class="PersianDateInput" value="@Model?.Edit?.BirthDate" type="text" placeholder="1372/04/08">
+                                            <span asp-validation-for="Edit.BirthDate" class="text-error-2"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">Province</label>
+                                            <select id="province" asp-for="Edit.ProvinceId" asp-items="@(new SelectList(Model?.Edit?.ProvinceSelectList, "Id", "Name"))">
+                                                <option value="0">--Select Province--</option>
+                                            </select>
+                                            <span asp-validation-for="Edit.ProvinceId" class="text-error-2"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">City</label>
+                                            <select id="city" type="text" asp-items="@(new SelectList(Model?.Edit?.CityProvince, "Id", "City"))" asp-for="Edit.CityId" class="form-control" placeholder="City">
+                                                <option value="0">--Select City--</option>
+                                            </select>
+                                            <span asp-validation-for="Edit.CityId" class="text-error-2"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">Address</label>
+                                            <input asp-for="Edit.Area" type="text" placeholder="Card 4 - First Street">
+                                            <span asp-validation-for="Edit.Area" class="text-error-2"></span>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">About Me</label>
+                                            <textarea asp-for="Edit.AboutMe" placeholder="Description...." rows="7"></textarea>
+                                            <span asp-validation-for="Edit.AboutMe" class="text-error-2"></span>
+                                        </div>
+                                        <input type="hidden" asp-for="Edit.Id" />
+                                        <div class="col-12">
+                                            <button type="button" id="submit-form1" class="button -md -purple-1 text-white">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="tabs__pane -tab-item-2">
+                                <form method="post" class="contact-form row y-gap-30" id="changePasswordForm" name="changePasswordForm">
+
+                                    <div class="col-md-7">
+                                        <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">Current Password</label>
+                                        <input asp-for="ChangePassword.OldPassword" type="password" placeholder="*********">
+                                        <span asp-validation-for="ChangePassword.OldPassword" class="text-error-2"></span>
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">New Password</label>
+                                        <input asp-for="ChangePassword.NewPassword" type="password" placeholder="*********">
+                                        <span asp-validation-for="ChangePassword.NewPassword" class="text-error-2"></span>
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <label class="text-15 lh-2 fw-500 text-dark-1 mb-10">Confirm New Password</label>
+                                        <input asp-for="ChangePassword.ConfirmNewPassword" type="password" placeholder="*********">
+                                        <span asp-validation-for="ChangePassword.ConfirmNewPassword" class="text-error-2"></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <button type="button" id="changePasswordBtn" class="button -md -purple-1 text-white">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer -dashboard py-30">
+        <div class="row items-center justify-between">
+            <div class="col-auto">
+                <div class="text-13 lh-2">
+                    <p>&copy; 2023 All rights reserved,  Afghanistan Open University. Designed by <a href="" target="_blank">Endark Team</a>.</p>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="d-flex items-center">
+                    <div class="d-flex items-center flex-wrap x-gap-20">
+                        <div>
+                            <a asp-page="/ContactUs" class="text-13 lh-2">Support</a>
+                        </div>
+                        <div>
+                            <a asp-page="/AboutUs" class="text-13 lh-2">About Us</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Courses" class="text-13 lh-2">Courses</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Articles" class="text-13 lh-2">Articles</a>
+                        </div>
+                    </div>
+
+                    <button class="button -md -rounded bg-light-4 text-light-1 mr-30">English</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+@section Scriipts{
+    <script>
+
+        $("#submit-form1").click(function () {
+           
+            var form = $("#form1");
+            form.validate();
+            if (form.valid() === false) {
+                return false;
+            }
+            $.ajax({
+                url: '',
+                data: new FormData(document.forms.form1),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                beforeSend: function () {
+                    $('#loader').removeClass('hidden')
+                },
+                success: function (result) {
+                    if (result.isSucceeded)
+                        notify("top center", "تغییرات با موفقیت ذخیره شد", "success");
+                    else {
+                        notify("top center", result.message, "error");
+                    }
+
+                },
+                complete: function () {
+                    $('#loader').addClass('hidden')
+                },
+
+            });
+        })
+
+
+
+        $("#changePasswordBtn").click(function () {
+           
+            var form = $("#changePasswordForm");
+            form.validate();
+            if (form.valid() === false) {
+                return false;
+            }
+            $.ajax({
+                url: '?handler=ChangePassword',
+                data: new FormData(document.forms.changePasswordForm),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                beforeSend: function () {
+                    $('#loader').removeClass('hidden')
+                },
+                success: function (result) {
+                    if (result.isSucceeded)
+                    {
+                        notify("top center", result.message, "success");
+                        $("#ChangePassword_OldPassword").val("");
+                        $("#ChangePassword_NewPassword").val("");
+                        $("#ChangePassword_ConfirmNewPassword").val("");
+                    }    
+                    else {
+                        notify("top center", result.message, "error");
+                    }
+
+                },
+                complete: function () {
+                    $('#loader').addClass('hidden')
+                },
+
+            });
+        })
+
+        $("#clickInput").click(function () {
+            document.getElementById('avatarFile').click();
+        })
+
+        function loadImg() {
+
+            $('#avatarImg').attr('src', URL.createObjectURL(event.target.files[0]));
+        }
+
+        $("#province").change(function (e) {
+            var value = $("#province").val();
+            $.ajax({
+                url: "?handler=GetCiy&id=" + value,
+                type: "get",
+                success: function (result) {
+                    $('#city').empty()
+                    result.forEach(x => {
+                        $('#city').append(`<option value="${x.id}">${x.city}</option> `);
+
+                    });
+                }
+
+            })
+        })
+
+        $(document).ready(function () {
+            $('.PersianDateInput').persianDatepicker({
+                persianDigit: false,
+                autoClose: true,
+                format: 'YYYY/MM/DD',
+            });
+        });
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgUp').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#inputAvatar").change(function () {
+            readURL(this);
+        });
+
+    </script>
+}

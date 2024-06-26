@@ -1,0 +1,30 @@
+﻿@page
+@model             CreateModel
+@{
+    ViewData["Title"] = "ایجاد کابر جدید";
+
+}
+<div id="page-wrapper">
+    <div class="container">
+        <partial name="Shared/_Create_View_Header"/>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Role.Name" class="control-label">عنوان نقش<span class="text-danger">*</span></label>
+                            <input type="text" name="name" class="form-control">
+                            <span class="text-danger" asp-validation-for="Role.Name"></span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-info waves-effect waves-light">ایجاد</button>
+
+            </div>
+
+
+        </form>
+    </div>
+
+</div>

@@ -1,0 +1,154 @@
+﻿@page
+@using _0_FrameWork.Application
+@using _0_Framework.Application
+@using AccountManagement.Domain.Account.Agg
+@inject IAuthHelper authHelper;
+@inject IAccountRepository Account;
+@model WebHost.Areas.Administration.Pages.Setting.UserActivityModel
+@{
+    var domain = authHelper.GetCurrentDomainUrl();
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="page-title pull-right">@ViewData["title"]</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">جستجو </h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-inline" role="form" method="get">
+                    <div class="form-group">
+                        <select asp-for="SearchModel.Method" type="text" class="form-control">
+                            <option value="0" selected> انتخاب...</option>
+                            <option value="POST">میتود POST</option>
+                            <option value="GET"> میتود GET</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="SearchModel.Date" type="date" class="form-control" placeholder="تاریخ..." />
+                    </div>
+                    <div class="form-group">
+                        <select asp-for="SearchModel.UserId" asp-items="@(new SelectList(Model.Users,"Id","FullName"))" type="text" class="select2">
+                            <option value="0" selected> انتخاب شخص...</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-l-10">جستجو</button>
+                    @*<a class="btn btn-primary waves-effect waves-light m-l-10" asp-page="./UserActivityModel">مشاهده همه</a>*@
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    لیست فعالیت ها (@Model.List.Count)
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline " role="grid">
+                            <table class="table table-striped table-bordered table-hover table-responsive dataTable no-footer" id="datatable" aria-describedby="dataTables-example_info">
+                                <thead>
+                                    <tr role="row" class="text-center">
+                                        <th class="sorting" tabindex="0" aria-controls="dataTables" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending"> # </th>
+
+                                        <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"
+                                            aria-sort="ascending">UserId </th>
+
+                                        <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"
+                                            aria-sort="ascending">نوع میتود </th>
+
+                                        <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">مسیر</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">تاریخ</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">ساعت</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">فعالیت</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">عملیات</th>
+
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.List)
+                                    {
+                                        var fullname = Account.GetUserFullnameBy(item.UserId);
+                                       
+                                        <tr class="gradeU odd">
+                                            <td>@item.Id</td>
+                                            <td>@fullname</td>
+                                            <td>@item.Method</td>
+                                            <td><a href="@domain@item.Path" target="_blank" class="text-primary">@item.Path.Replace("Administration/","")</a></td>
+                                            <td>@item.CreateDate.ToString("dd MMMM", new CultureInfo("prs-AF"))</td>
+                                            <td>@item.Timestamp.ToString("HH:mm")</td>
+                                           @{
+                                               var itemActivity = "";
+                                               itemActivity = item.Activity.Length > 50 ? item.Activity[..50] : item.Activity;
+                                           }
+                                           <td>@itemActivity</td>
+                                           <td>
+                                               <input type="hidden" value="@item.Activity" id="userActivity_@item.Id"/>
+                                               <a onclick="activityDetails(@item.Id)" id="moreActivity" class="btn btn-info waves-effect waves-light m-b-5">
+                                                   جزئیات بیشتر
+                                               </a>
+                                           </td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--  Modal content for the above example -->
+<div id="accountDetails" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg" style="width: 95% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myLargeModalLabel">جزئیات فعالیت </h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body">
+                    <p style="overflow:auto" id="account-activity"></p>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+@section Scripts
+{
+
+    <script>
+
+        function activityDetails(id) {
+           
+            var rr = $("#userActivity_"+id).val();;
+            $("#accountDetails").modal('show');
+            $('#account-activity').text(rr);
+        }
+
+        $("#moreActivity").on('click',function(evn){
+           
+            var rr=this.val();
+
+            $("#accountDetails").modal('show');
+            $('#account-activity').text(rr);
+
+        })
+    </script>
+}

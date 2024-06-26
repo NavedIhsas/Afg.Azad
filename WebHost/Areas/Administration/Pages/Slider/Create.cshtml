@@ -1,0 +1,259 @@
+﻿@using _0_FrameWork.Application
+@model CommentManagement.Application.Contract.HomePhoto.SliderViewModel
+@{
+    ViewData["Title"] = "تغییر اسلایدر";
+    Layout = "Shared/_AdminLayout";
+
+}
+
+
+<link rel="stylesheet" href="~/AdminTheme/assets/css/dropzoneV5.min.css" type="text/css" />
+
+<link href="~/admintheme/assets/css/loading.css" rel="stylesheet" />
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">مدیریت گالری</h3>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                <div class="panel-body col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">نوع</label>
+                                <select id="selectType" name="type" type="text" class="select2">
+                                    <option value="0">--انتخاب--</option>
+                                    <option value="@ThisType.Article">مقاله</option>
+                                    <option value="@ThisType.Slide">اسلاید</option>
+                                    <option value="@ThisType.News">خبر</option>
+                                </select>
+                                <p id="helpText" class="help-block text-info"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4" id="serviceTag">
+                            <div class="form-group">
+                                <label asp-for="Title" class="control-label">عنوان</label>
+                                <select id="service" name="selectValue" type="text" class="select2">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12 portlets">
+                            <div class="m-b-30">
+                                <form method="post">
+                                    <div class="dropzone mt-4" id="my-dropzone">
+                                        <div class="fallback">
+                                            <input name="file" type="file" multiple />
+                                        </div>
+                                        <div class="dz-message">
+                                            <i class="zmdi zmdi-upload"></i>
+                                            <span>فایل خود را انتخاب و یا به داخل جعبه بیندازید</span>
+                                        </div>
+                                    </div>
+                                </form>
+                                <strong>
+                                    <p class="help-block text-danger" id="sizePhoto"></p>
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                    <a  onclick="location.reload()" class="btn btn-success waves-effect waves-light m-b-5">رفرش</a>
+                    <a asp-page="./Index" class="btn btn-dark waves-effect waves-light m-b-5">بازگشت</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-info">
+                    ابتدا در <a class="link text-pink" rel="nofollow" target="_blank" href="https://compressor.io/">این سایت </a> رفته و عکس خود را کامپرس (بهینه) کنید.
+                </p>
+                <p class="text-info">
+                    با استفاده از Paint یا سایر نرم افزار ها عکس را به سایز (width:1920px; height:860px) تبدیل کنید (در صورت که شما اینکار را انجام ندهید بطور خودکار عکس شما Resize خواهد شد).
+                </p>
+                <p class="text-info">
+                    عکس را به کادر بالا بکشید و یا روی کادر کلیک کرده و عکس مورد نظر را انتخاب کنید.
+                </p>
+
+            </div>
+            <div class="card-body">
+                <p class=" text-danger">
+                    حداکثر عکس های که در اسلایدر قابل نمایش است 4 تا از آخرین عکس ها خواهد بود،
+                </p>
+
+                <p class=" text-danger">
+                    <span class="text-danger"> اگر حجم عکس بعد از resize بیشتر از 200 کیلوبایت باشد ، عکس آپلود نخواهد شد.</span>
+                </p>
+                <p class=" text-danger">
+                    سایز عکس بایستی برابر با (width:1920px; height:860px) باشد ، در غیر این صورت بطور خودکار به همین سایز برش داده خواهد شد.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col col-md-4 ">
+        <a class="btn btn-pink btn-rounded pull-left m-r-5" href="/Administration/Slider/Gallery">گالری عکس ها</a>
+        <a class="btn btn-info btn-rounded pull-left" href="/Administration/Slider/index">بازگشت به لیست</a>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    <!-- Page Specific JS Libraries -->
+
+
+    <script src="~/AdminTheme/assets/js/dropzoneV5.min.js"></script>
+    <script>
+        $("#service").change(function () {
+            Dropzone.forElement('#my-dropzone').removeAllFiles(true)
+            $('.dz-message').show();
+        })
+
+
+        $("#selectType").change(function () {
+            $("#serviceTag").removeClass("hidden");
+            //$('#my-dropzone').empty();
+        
+            Dropzone.forElement('#my-dropzone').removeAllFiles(true)
+            $('.dz-message').show();
+
+            var type = $("#selectType").val();
+            $.ajax({
+                url: "/Administration/Slider?type=" + type + "&handler=SelectType",
+                type: "GET",
+                beforeSend: function () {
+                    $('#loader').removeClass('hidden')
+                },
+                success: function (result) {
+
+                    $('#service').empty();
+                    $("#helpText").text("");
+                    var type = $("#selectType").val();
+
+                    switch (parseInt(type)) {
+                        case @ThisType.Article:
+                            $("#helpText").text("width:615 || hieght:500 px");
+                            break;
+                        case @ThisType.News:
+                            $("#helpText").text("width:615 || hieght:500 px");
+                            break;
+                        case @ThisType.Slide:
+                            {
+                                $("#helpText").text("width:1920 || hieght:860 px");
+                                $("#serviceTag").addClass("hidden");
+                            }
+                            break;
+
+                        default:
+                            $("#helpText").text("width:300 || hieght:410 px");
+                            break;
+                    }
+
+
+                    result.forEach(x => {
+                        $('#service').append(`<option value="${x.id}">${x.title}</option> `);
+
+                    });
+
+
+                },
+                complete: function () {
+                    $('#loader').addClass('hidden')
+                },
+
+            });
+
+
+        });
+        function DropzoneParameterName() {
+           
+            var type = $("#service").val();
+            if (type == null || type == 0)
+                return false;
+            return 'files';
+        }
+
+
+        Dropzone.options.myDropzone = {
+            url: "/Administration/Slider?handler=Upload",
+            parallelUploads: 2,
+            uploadMultiple: true,
+            maxFilesize: true, // In byte - 100000000 is 100 mb
+            paramName: DropzoneParameterName,
+            maxFiles: 2,
+            //acceptedFiles: '.rar, .zip',
+            accept: function (file, done) {
+                dropzone = this;
+                var selectValue = $("#service").val();
+                var type = $("#selectType").val();
+                if (type != @ThisType.Slide) {
+                    if (type == null || selectValue == null || selectValue == "0") {
+                        notify("top center", "ابتدا فیلد های بالا را پر کنید", "error");
+                        dropzone.removeFile(file);
+                        return false;
+                    }
+                }
+
+                var reader = new FileReader();
+                reader.onload = (function (entry) {
+                   
+                    var image = new Image();
+                    image.src = entry.target.result;
+                    image.onload = function () {
+                       
+                        var type = $("#selectType").val();
+                        var width = this.width;
+                        var height = this.height;
+                        var size = file.size;
+
+                        if (type == @ThisType.Article || type==@ThisType.News) {
+                            if (width != 615 && height != 500) {
+                                notify("top center", "سایز عکس مناسب نیست", "error");
+                                dropzone.removeFile(file);
+                                return false;
+                            }
+                        }
+
+                    };
+                });
+
+                reader.readAsDataURL(file);
+                done();
+            },
+
+            init: function () {
+                this.on("errormultiple",
+                    function (file, message) {
+                        swal("Error", message, "error");
+                    });
+
+                this.on("sending", function (file, response, formData) {
+                   
+                    var type = $("#selectType").val();
+                    var selectValue = $("#service").val();
+                    formData.append("type", type);
+                    formData.append("selectValue", selectValue);
+                    formData.append("file", file);
+                });
+
+            }
+        }
+
+
+
+    </script>
+
+
+
+}

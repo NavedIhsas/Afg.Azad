@@ -1,0 +1,110 @@
+﻿@using _0_Framework.Application
+@using _0_Framework.Application
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ShopManagement.Domain.Quiz.UserResult
+@{
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+    Layout = "_Layout";
+}
+
+<section data-anim="fade" class="breadcrumbs ">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                <div class="breadcrumbs__content">
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="/Index">Home</a>
+                    </div>
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="/Quiz">Quizzes</a>
+                    </div>
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="">@Model.Quiz.Name</a>
+                    </div>
+                    <div class="breadcrumbs__item ">
+                        <a>Quiz Result</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="page-header -type-1">
+    <div class="container">
+        <div class="page-header__content">
+            <div class="row justify-center text-center">
+                <div class="col-auto">
+                    <div data-anim="slide-up delay-1">
+
+                        <h1 class="page-header__title"> @Model.Quiz.Name</h1>
+
+                    </div>
+
+                    <div data-anim="slide-up delay-2">
+
+                        <p class="page-header__text">You have successfully completed the quiz.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class=" layout-pb-lg">
+    <div class="container">
+        <div class="row no-gutters justify-content-center">
+            <div class="col-xl-8 col-lg-9 col-md-11">
+                <div class="shopCompleted-footer bg-light-4 border-light rounded-8">
+                    <div class="shopCompleted-footer__wrap">
+                        <h5 class="title text-center">
+                            Exam Result
+                        </h5>
+
+                        <div class="item">
+                            <span class="fw-500">Your Score</span>
+                            <span class="fw-500">@Model.PointsEarned</span>
+                        </div>
+
+                        <div class="item">
+                            <span class="fw-500">Correct Answers</span>
+                            <span class="fw-500">@Model.UsersCorrectAnswers</span>
+                        </div>
+                        <div class="item">
+                            <span class="fw-500">Wrong Answers</span>
+                            <span class="fw-500">@Model.UsersWrongAnswers</span>
+                        </div>
+
+                        <div class="item">
+                            <span class="">Course Name</span>
+                            <span class="">@Model.Quiz.Course.Name</span>
+                        </div>
+
+                        <div class="item -border-none">
+                            <span class="">Date of Administration</span>
+                            <span class="">@Model.Quiz.OnDate.ToShamsi()</span>
+                        </div>
+
+                        <div class="item -border-none">
+                            <span class="fw-500">Administration Time</span>
+                            <span class="fw-500">@Model.Quiz.OnDate.ToString("HH:mm:ss")</span>
+                        </div>
+
+                        <div class="item">
+                            <span class="fw-500">End Time</span>
+                            <span class="fw-500">@Model.Quiz.PeriodTime</span>
+                        </div>
+
+                    </div>
+                </div>
+                <br />
+
+
+            </div>
+        </div>
+    </div>
+</section>

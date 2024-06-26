@@ -1,0 +1,612 @@
+﻿@page "{id}"
+@using _0_FrameWork.Application
+@using _0_Framework.Application
+@model WebHost.Pages.CourseDetailsModel
+@inject IStringLocalizer<CourseDetailsModel> Localizer;
+@{
+    ViewData["Title"] = @Model.Course.Name;
+    var url = Model.CurrentDomainUrl + "/CourseDetails/" + Model.Course.Slug;
+    ViewData["keywords"] = Model.Course.Keywords;
+    ViewData["description"] = Model.Course.MetaDescription;;
+    ViewData["ogDescription"] = Model.Course.MetaDescription;;
+    ViewData["twitterDescription"] = Model.Course.MetaDescription; ;
+    ViewData["canonical"] = $"https://afgou.org/CourseDetails/{Model.Course.Slug}";
+    ViewData["ogType"] = "product";
+    ViewData["ogTitle"] = Model.Course.Name;
+    ViewData["ogImage"] = $"https://afgou.org/FileUploader/{Model.Course.Picture}";
+    ViewData["twitterImage"] = $"https://afgou.org/FileUploader/{Model.Course.Picture}";
+    ViewData["ogUrl"] = $"https://afgou.org/CourseDetails/{Model.Course.Slug}";
+    ViewData["twitterTitle"] = Model.Course.Name;
+    ViewData["twitterSite"] = $"https://afgou.org";
+    ViewData["author"] = "پهنتون آزاد افغانتسان";
+
+}
+
+
+<style>
+    .show-more__content a {
+        position: relative !important;
+        color: #317eeb !important
+    }
+
+</style>
+
+<link href="~/admintheme/assets/css/loading.css" rel="stylesheet" />
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+
+<style>
+    #playVideo {
+        cursor: pointer;
+    }
+</style>
+<section data-anim="fade" class="breadcrumbs ">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                <div class="breadcrumbs__content">
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="/Index">@Localizer["Home"]</a>
+                    </div>
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="/Courses">@Localizer["Courses"]</a>
+                    </div>
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="/Courses" asp-route-id="@Model.Course.Slug">@Model.Course.CourseGroup</a>
+                    </div>
+
+                    <div class="breadcrumbs__item ">
+                        <a href="#">@Model.Course.Name</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="js-pin-container">
+    <section class="page-header -type-5 bg-light-6">
+        <div class="page-header__bg">
+            <div class="bg-image js-lazy" data-bg="~/Theme/img/event-single/bg.png"></div>
+        </div>
+
+        <div class="container">
+            <div class="page-header__content pt-90 pb-90">
+                <div class="row y-gap-30 relative">
+                    <div class="col-xl-7 col-lg-8">
+                        <div data-anim="slide-up delay-1">
+                            <h1 class="text-30 lh-14 pl-60 lg:pl-0 ff-estedad">@Model.Course.Name</h1>
+                        </div>
+
+                        <p class="col-xl-9 mt-20">@Model.Course.ShortDescription</p>
+
+                        <div class="d-flex x-gap-30 y-gap-10 items-center flex-wrap pt-20">
+                            <div class="d-flex items-center text-light-1">
+                                <div class="icon icon-person-3 text-13"></div>
+                                <div class="text-14 mr-8">@Model.Course.UserCourseCount @Localizer["UserCourseDes"]</div>
+                            </div>
+
+                            <div class="d-flex items-center text-light-1">
+                                <div class="icon icon-wall-clock text-13"></div>
+                                <div class="text-14 mr-8">@Localizer["lastUpdate"] @Model.Course.UpdateDate</div>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex items-center pt-20">
+                            <div class="bg-image size-30 rounded-full js-lazy" data-bg="/FileUploader/@Model.Course.TeacherAvatar"></div>
+                            <div class="text-14 lh-2 mr-10">@Model.Course.TeacherName</div>
+                        </div>
+                    </div>
+
+                    <div class="courses-single-info js-pin-content">
+                        <div class="bg-white shadow-2 rounded-8 border-light py-10 px-10">
+                            @if (!string.IsNullOrWhiteSpace(Model.Course.File))
+                            {
+                                <div class="relative">
+                                    <img class="w-1/1" src="~/FileUploader/@Model.Course.PosterImg" alt="@Model.Course.Name" title="@Localizer["demo"] @Model.Course.Name">
+                                    <div class="absolute-full-center d-flex justify-center items-center">
+                                        <a href="~/FileUploader/@Model.Course.File" class="d-flex justify-center items-center size-60 rounded-full bg-white js-gallery" data-gallery="gallery1">
+                                            <div class="icon-play text-18" id=""></div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            }
+                            <div class="courses-single-info__content scroll-bar-1 pt-30 pb-20 px-20">
+                                <div class="d-flex justify-between items-center mb-30">
+                                    <div class="text-24 lh-2 text-dark-1 fw-500">@Localizer["demo"] @Model.Course.Name</div>
+                                    @*                                    <div class="lh-2 line-through">7600 تومان</div>
+                                    *@
+                                </div>
+
+                                @if (!Model.UserInCourse)
+                                {
+                                    <a asp-page-handler="RegisterCourse" asp-route-courseId="@Model.Course.Id" asp-route-slug="@Model.Course.Slug" class="button -md -purple-1 text-white w-1/1">
+                                        @Localizer["CourseRegistration"]
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="button -md -purple-1 text-white w-1/1">@Localizer["URMemberCourse"]</a>
+                                }
+                                <div class="text-14 lh-2 text-center mt-30">@Model.Course.Name With @Model.Course.TeacherName</div>
+
+                                <div class="mt-25">
+
+                                    <div class="d-flex justify-between py-8 ">
+                                        <div class="d-flex items-center text-dark-1">
+                                            <div class="icon-video-file"></div>
+                                            <div class="mr-10">@Localizer["Course"]</div>
+                                        </div>
+                                        <div>@Model.Course.EpisodeCount</div>
+                                    </div>
+
+                                    <div class="d-flex justify-between py-8 border-top-light">
+                                        <div class="d-flex items-center text-dark-1">
+                                            <div class="icon-puzzle"></div>
+                                            <div class="mr-10">@Localizer["quiz"]</div>
+                                        </div>
+                                        <div>3</div>
+                                    </div>
+                                    @*
+                                    <div class="d-flex justify-between py-8 border-top-light">
+                                    <div class="d-flex items-center text-dark-1">
+                                    <div class="icon-clock-2"></div>
+                                    <div class="mr-10">@Localizer["CourseTime"]</div>
+                                    </div>
+                                    <div>13 ساعت</div>
+                                    </div>*@
+
+                                    @if (!string.IsNullOrWhiteSpace(Model.Course.CourseLevel))
+                                    {
+                                        <div class="d-flex justify-between py-8 border-top-light">
+                                            <div class="d-flex items-center text-dark-1">
+                                                <div class="icon-bar-chart-2"></div>
+                                                <div class="mr-10">@Localizer["level"]</div>
+                                            </div>
+                                            <div>@Model.Course.CourseLevel</div>
+                                        </div>
+
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(Model.Course.CourseStatus))
+                                    {
+                                        <div class="d-flex justify-between py-8 border-top-light">
+                                            <div class="d-flex items-center text-dark-1">
+                                                <div class="icon-bar-chart-2"></div>
+                                                <div class="mr-10">@Localizer["Status"]</div>
+                                            </div>
+                                            <div>
+                                                <span>@Model.Course.CourseStatus</span>
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                    <div class="d-flex justify-between py-8 border-top-light">
+                                        <div class="d-flex items-center text-dark-1">
+                                            <div class="icon-translate"></div>
+                                            <div class="mr-10">@Localizer["language"]</div>
+                                        </div>
+                                        <div>@Localizer["Pashto&Dari"]</div>
+                                    </div>
+
+                                    <div class="d-flex justify-between py-8 border-top-light">
+                                        <div class="d-flex items-center text-dark-1">
+                                            <div class="icon-translate"></div>
+                                            <div class="mr-10">Price</div>
+                                        </div>
+                                        <div>
+                                            @if (Model.Course.Price > 0)
+                                            {
+                                                <span>@Model.Course.Price.ToMoney() Af</span>
+                                            }
+                                            else
+                                            {
+                                                <span >Free</span>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-between py-8 border-top-light">
+                                        <div class="d-flex items-center text-dark-1">
+                                            <div class="icon-badge"></div>
+                                            <div class="mr-10">@Localizer["Evidence"]</div>
+                                        </div>
+                                        <div>@Localizer["hasIt"]</div>
+                                    </div>
+
+                                    <div class="d-flex justify-between py-8 border-top-light">
+                                        <div class="d-flex items-center text-dark-1">
+                                            <div class="icon-infinity"></div>
+                                            <div class="mr-10">@Localizer["update"]</div>
+                                        </div>
+                                        <div>@Localizer["hasIt"]</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="d-flex justify-center pt-15">
+
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=@url" class="d-flex justify-center items-center size-40 rounded-full">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+
+                                    <a href="https://twitter.com/intent/tweet?url=@url" class="d-flex justify-center items-center size-40 rounded-full">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+
+                                    <a href="whatsapp://send?text=@url" data-action="share/whatsapp/share" class="d-flex justify-center items-center size-40 rounded-full">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+
+                                    <a href="https://www.linkedin.com/shareArticle?url=@url&title=@Model.Course.Name" class="d-flex justify-center items-center size-40 rounded-full">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+
+                                    <a href="https://telegram.me/share/url?url=@url&text=@Model.Course.Name" class="d-flex justify-center items-center size-40 rounded-full">
+                                        <i class="fa fa-telegram"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="layout-pt-md layout-pb-md">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-8">
+                    <div class="page-nav-menu -line">
+                        <div class="d-flex x-gap-30">
+                            <div><a href="#overview" class="pb-12 page-nav-menu__link is-active">@Localizer["Overview"]</a></div>
+                            <div><a href="#course-content" class="pb-12 page-nav-menu__link">@Localizer["CourseContent"]</a></div>
+                            <div><a href="#instructors" class="pb-12 page-nav-menu__link">@Localizer["Instructors"]</a></div>
+                            <div><a href="#reviews" class="pb-12 page-nav-menu__link">@Localizer["Reviews"]</a></div>
+                        </div>
+                    </div>
+
+                    <div id="overview" class="pt-60 lg:pt-40 to-over">
+                        <h4 class="text-18 fw-500 ff-estedad">@Localizer["Des"]</h4>
+
+                        <div class="show-more mt-30 js-show-more" id="show-more">
+                            <div class="show-more__content">
+                                @Html.Raw(Model.Course.Description)
+                            </div>
+
+                            <button id="show-more-btn" class="show-more__button text-purple-1 fw-500 underline mt-30">@Localizer["more"]</button>
+                        </div>
+
+                        @if (Model.Course.ToBeLearn.Any(x => !string.IsNullOrWhiteSpace(x.Title)))
+                        {
+                            <div class="mt-60">
+                                <h4 class="text-20 mb-30 ff-estedad">@Localizer["WhatYouLearn"]</h4>
+                                <div class="row x-gap-100 justfiy-between">
+                                    <div class="col-md-6">
+                                        <div class="y-gap-20">
+                                            @{
+                                                var count = Model.Course.ToBeLearnCount / 2;
+
+                                            }
+                                            @foreach (var item in Model.Course.ToBeLearn.Take(count))
+                                            {
+                                                <div class="d-flex items-center">
+                                                    <div class="d-flex justify-center items-center border-light rounded-full size-20 ml-10">
+                                                        <i class="size-12" data-feather="check"></i>
+                                                    </div>
+                                                    <p>@item.Title</p>
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="y-gap-20">
+
+                                            @foreach (var item in Model.Course.ToBeLearn.Skip(count))
+                                            {
+                                                <div class="d-flex items-center">
+                                                    <div class="d-flex justify-center items-center border-light rounded-full size-20 ml-10">
+                                                        <i class="size-12" data-feather="check"></i>
+                                                    </div>
+                                                    <p>@item.Title</p>
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.Course.NeedToLearn.Any(x=>!string.IsNullOrWhiteSpace(x.Title)))
+                        {
+                            <div class="mt-60">
+                                <h4 class="text-20 ff-estedad">@Localizer["Requirements"]</h4>
+                                <ul class="ul-list y-gap-15 pt-30">
+                                    @foreach (var item in Model.Course.NeedToLearn)
+                                    {
+                                        <li>@item.Title</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+
+                    <div id="course-content" class="pt-60 lg:pt-40">
+                        <h2 class="text-20 fw-500 ff-estedad">@Localizer["CourseContent"] </h2>
+
+                        <div class="d-flex justify-between items-center mt-30">
+                            <a asp-page="/Courses" class="underline text-purple-1">@Localizer["ExpandAllSections"]</a>
+                        </div>
+
+                        <div class="mt-10">
+                            <div class="accordion -block-2 text-left js-accordion">
+
+                                <div class="accordion__item">
+                                    <div class="accordion__button py-20 px-30 bg-light-4">
+                                        <div class="d-flex items-center">
+                                            <div class="accordion__icon">
+                                                <div class="icon" data-feather="chevron-down"></div>
+                                                <div class="icon" data-feather="chevron-up"></div>
+                                            </div>
+                                            <span class="text-15 fw-500 text-dark-1">@Localizer["CourseContent"]</span>
+                                        </div>
+
+                                        <div>@Model.Course.EpisodeCount @Localizer["video"] • @Model.Course.Time @Localizer["minute"]</div>
+                                    </div>
+
+                                    <div class="accordion__content" id="controlHeight">
+                                        <div class="accordion__content__inner px-30 py-30 text-right">
+                                            <div class="y-gap-20">
+
+
+                                                @foreach (var item in Model.Course.EpisodeCourse)
+                                                {
+                                                    <div class="d-flex justify-between">
+                                                        <div class="d-flex items-center">
+                                                            <div class="d-flex justify-center items-center size-30 rounded-full bg-purple-3 ml-10">
+                                                                <div class="icon-play text-9"></div>
+                                                            </div>
+                                                            <div>@item.Title</div>
+                                                        </div>
+                                                        <div class="d-flex x-gap-20 items-center">
+                                                            @if (Model.UserInCourse)
+                                                            {
+                                                                // <a id="playVideo" onclick="playVideo('@Model.Course.Slug','@item.Id')" class="text-14 lh-2 text-purple-1 underline">نمایش</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                @*                                                                <a id="playVideo" onclick="notify('top center','شما در کورس ثبت نام نکرده اید','error')" class="text-14 lh-2 text-purple-1 underline">نمایش</a>
+                                                        *@                                                     }
+                                                            <a href="#" class="text-14 lh-2 text-purple-1 underline">@item.Time</a>
+                                                            <a asp-page="CourseDetails" asp-page-handler="DownloadFile" asp-route-id="@item.Id" class="text-14 lh-2 text-purple-1 underline">@Localizer["download"]</a>
+                                                        </div>
+
+                                                        <div class="relative" style="display:none" id="episode-@item.Id">
+                                                            <img class="w-1/1" src="~/FileUploader/@Model.Course.PosterImg" alt="@Model.Course.Name" title="@Localizer["demo"] @Model.Course.Name">
+                                                            <div class="absolute-full-center d-flex justify-center items-center">
+                                                                <a href="#" id="episodeUrl-@item.Id" class="d-flex justify-center items-center size-60 rounded-full bg-white js-gallery" data-gallery="gallery1">
+                                                                    <div class="icon-play text-18" id="clickVideo"></div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.Course.TeacherId != 0)
+                    {
+                        <div id="instructors" class="pt-60 lg:pt-40">
+                            <h2 class="text-20 fw-500 ff-estedad">@Localizer["Instructor"]</h2>
+
+                            <div class="mt-30">
+                                <div class="d-flex x-gap-20 y-gap-20 items-center flex-wrap">
+                                    <div class="size-120">
+                                        <img class="object-cover" src="~/FileUploader/@Model.Course.TeacherAvatar" alt="@Model.Course.TeacherName" title="@Model.Course.TeacherName">
+                                    </div>
+
+                                    <div class="">
+                                        <h5 class="text-17 lh-14 fw-500">@Model.Course.TeacherName</h5>
+                                        <p class="mt-5">@Model.Course.TeacherSkills</p>
+
+                                        <div class="d-flex x-gap-20 y-gap-10 flex-wrap items-center pt-10">
+                                            <div class="d-flex items-center text-light-1">
+                                                <div class="icon-comment text-13 ml-8"></div>
+                                                <div class="text-13 lh-2">@Model.Course.Comments.Count @Localizer["Reviews"]</div>
+                                            </div>
+
+                                            <div class="d-flex items-center text-light-1">
+                                                <div class="icon-person-3 text-13 ml-8"></div>
+                                                <div class="text-13 lh-2">@Model.Course.UserCourseCount @Localizer["Students"]</div>
+                                            </div>
+
+                                            <div class="d-flex items-center text-light-1">
+                                                <div class="icon-wall-clock text-13 ml-8"></div>
+                                                <div class="text-13 lh-2">@Model.Course.CourseTeacherCount @Localizer["course"]</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-30">
+                                    <p>
+                                        @Model.Course.TeacherResume
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div id="reviews" class="pt-60 lg:pt-40">
+                        <div class="blogPost -comments">
+                            <div class="blogPost__content">
+                                <h2 class="text-20 fw-500 mt-60 lg:mt-40 ff-estedad">@Localizer["Reviews"]</h2>
+                                <ul class="comments__list mt-30">
+                                    @foreach (var item in Model.Course.Comments)
+                                    {
+                                        <li class="comments__item" id="comment-@item.Id">
+                                            <div class="comments__item-inner md:direction-column">
+                                                <div class="comments__img ml-20">
+                                                    @{
+                                                        var avatar = "";
+                                                        avatar = !string.IsNullOrWhiteSpace(item.Picture) ? item.Picture : "/Img/Comment.png";
+                                                    }
+                                                    <div class="bg-image rounded-full js-lazy" data-bg="@avatar"></div>
+                                                </div>
+
+                                                <div class="comments__body md:mt-15">
+                                                    <div class="comments__header">
+                                                        <h4 class="text-17 fw-500 lh-15">
+                                                            @item.Name
+                                                            <span class="text-13 text-light-1 fw-400">@item.CreateDateTime.TimeAgo()</span>
+                                                        </h4>
+
+                                                        <div class="stars">@item.Title</div>
+                                                    </div>
+                                                    @*
+                                                <h5 class="text-15 fw-500 mt-15">@item.Title</h5>*@
+                                                    <div class="comments__text mt-10">
+                                                        <p>@item.Message</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="respondForm pt-60">
+                            <h3 class="text-20 fw-500 ff-estedad">
+                                @Localizer["Reviews"]
+                            </h3>
+                            <form class="contact-form respondForm__form row y-gap-30 pt-30" method="post" name="commentForm" id="commentForm">
+                                <div class="col-12">
+                                    <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">@Localizer["Fullname"] </label>
+                                    <input asp-for="Command.Name" type="text" placeholder="@Localizer["Fullname"]">
+                                    <span asp-validation-for="Command.Name" class="text-error-2"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">@Localizer["ReviewTitle"]</label>
+                                    <input asp-for="Command.Title" type="text" placeholder="">
+                                    <span asp-validation-for="Command.Title" class="text-error-2"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">@Localizer["ReviewContent"]</label>
+                                    <textarea asp-for="Command.Message" placeholder="" rows="8"></textarea>
+                                    <span asp-validation-for="Command.Message" class="text-error-2"></span>
+                                </div>
+                                <input type="hidden" asp-for="Command.OwnerRecordId" value="@Model.Course.Id" />
+                                <div class="col-12">
+                                    <button type="button" id="submitComment" class="button -md -purple-1 text-white">
+                                        @Localizer["SubmitReview"]
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $('#show-more-btn').click(function () {
+           
+            if (!$('#show-more').hasClass('is-active')) {
+                $('.show-more__content a').css('z-index', '1');
+            } else {
+                $('.show-more__content a').css('z-index', '');
+            }
+        });
+        $("#submitComment").click(function () {
+           
+            var form = $("#commentForm");
+            form.validate();
+            if (form.valid() === false) {
+                return false;
+            }
+            $.ajax({
+                url: '?handler=Comment',
+                data: new FormData(document.forms.commentForm),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                beforeSend: function () {
+                    $('#loader').removeClass('hidden')
+                },
+                success: function (result) {
+                   
+                    if (result) {
+                        $("#Command_Name").val("");
+                        $("#Command_Title").val("");
+                        $("#Command_Message").val("");
+                        notify("top center", "نظر شما با موفقیت ثبد شد", "success");
+                    }
+
+                    else {
+                        notify("top center", result.message, "error");
+                    }
+
+                },
+                complete: function () {
+                    $('#loader').addClass('hidden')
+                },
+            });
+        })
+
+
+        function playVideo(slug, id) {
+            $.ajax({
+                url: "/CourseDetails/" + slug + "?episode=" + id + "&handler=Episode",
+                type: "get",
+                success: function (result) {
+                   
+                    document.getElementById("episodeUrl-" + id).href = result;
+                    //location.reload()
+                    var display = document.getElementById("episode-" + id).style.display = "block";
+                    var maxHieght = document.getElementById("controlHeight");
+                    var max = maxHieght.style.maxHeight;
+                    var newHiegth = parseInt(max) + 200;
+                    maxHieght.style.maxHeight = newHiegth + "px";
+                    //document.getElementById("clickVideo").click();
+
+                }
+            })
+        }
+
+    </script>
+}

@@ -1,0 +1,32 @@
+﻿@model AccountManagement.Application.Contract.Account.SendActivityEmailModel
+
+<html>
+<head>
+    <title>تائید ایمیل - پوهنتون آزاد افغانستان</title>
+    <style>
+        body {
+            color: #555;
+            font-family: Calibri, sans-serif;
+            font-size: 11pt;
+        }
+
+        blockquote {
+            border-left: 8px solid #cceeaa;
+            font-size: 12pt;
+            margin: 0;
+            padding: 30px 60px;
+        }
+    </style>
+</head>
+<body dir="rtl">
+<h2>@Model.FullName عزیز</h2>
+<blockquote>باتشکر از ثبت نام شما در سایت Afghanistan Open University لطفا برای تائید ایمیل خود بروی لینک زیر کلیک کنید</blockquote>
+<blockquote>این لینک فقط یکبار قابل استفاده میباشد</blockquote>
+
+
+<h3>
+    @*//href="/Author/Index?id=@item.AuthorID&handler=Delete*@
+        <a href="@Model.CurrentUrlDomain/Login?id=@Model.ActiveCode&handler=ConfirmEmail"> تائید ایمیل</a>
+</h3>
+</body>
+</html>

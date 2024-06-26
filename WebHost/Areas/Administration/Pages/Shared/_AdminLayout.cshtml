@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Coderthemes">
+
+    <link rel="shortcut icon" href="images/favicon_1.ico">
+
+    <title>@ViewData["Title"]</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <!-- Base Css Files -->
+    <link href="~/AdminTheme/assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!---select list search able-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <!---select list search able-->
+    <!-- Font Icons -->
+    <link href="~/AdminTheme/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/AdminTheme/assets/ionicon/css/ionicons.min.css" rel="stylesheet" />
+    <link href="~/AdminTheme/assets/css/material-design-iconic-font.min.css" rel="stylesheet">
+
+    <!-- animate css -->
+    <link href="~/AdminTheme/assets/css/animate.css" rel="stylesheet" />
+
+    <!-- Waves-effect -->
+    <link href="~/AdminTheme/assets/css/waves-effect.css" rel="stylesheet">
+
+    <link href="~/AdminTheme/assets/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- sweet alerts -->
+    <link href="~/AdminTheme/assets/sweet-alert/sweet-alert.min.css" rel="stylesheet">
+
+    <link href="~/AdminTheme/assets/summernote/summernote.css" rel="stylesheet" />
+    <!-- Custom Files -->
+    <link href="~/AdminTheme/assets/css/persian-datepicker.min.css" rel="stylesheet" />
+
+    @await RenderSectionAsync("Css", false)
+
+    <link href="~/AdminTheme/assets/css/helper.css" rel="stylesheet" type="text/css" />
+    <link href="~/AdminTheme/assets/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="~/AdminTheme/assets/js/modernizr.min.js"></script>
+
+    <link href="~/AdminTheme/assets/jquery-multi-select/multi-select.css" rel="stylesheet" type="text/css" />
+    <link href="~/AdminTheme/assets/select2/select2.css" rel="stylesheet" type="text/css" />
+
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P3X5RXFTQG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-P3X5RXFTQG');
+    </script>
+
+</head>
+
+<body class="fixed-left">
+    
+<link href="~/admintheme/assets/css/loading.css" rel="stylesheet" />
+<div id="loader-single" class="lds-dual-ring hidden overlay"></div>
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <div class="topbar">
+            <!-- LOGO -->
+            <div class="topbar-right">
+                <div class="text-center">
+                    <a asp-page="/Index" asp-area="" class="logo"><img src="~/Theme/img/general/logo.svg" alt="لوگو" /><span>  </span></a>
+                </div>
+            </div>
+            <!-- Button mobile view to collapse sidebar menu -->
+            <div class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <div class="">
+                        <div class="pull-right">
+                            <button class="button-menu-mobile open-left">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <span class="clearfix"></span>
+                        </div>
+
+                        @*                        @await Component.InvokeAsync("Notification")
+                        *@
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+        <partial name="_Menu" />
+
+        <div class="content-page">
+            <!-- Start content -->
+            <div class="content">
+                <div class="container">
+
+                    @RenderBody()
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <footer class="footer text-right">
+                <p>&copy; 2023 All rights reserved, Open Afghanistan University. Designed by <a href="" target="_blank">Endark Team</a>.</p>
+            </footer>
+
+        </div>
+    </div>
+
+    <div id="MainModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content" id="ModalContent">
+            </div>
+        </div>
+    </div>
+
+    @* <!---select list search able-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <!---select list search able-->
+
+    *@
+    <script src="~/AdminTheme/assets/js/jquery.min.js"></script>
+    <script src="~/AdminTheme/assets/js/bootstrap.min.js"></script>
+    <script src="~/AdminTheme/assets/js/waves.js"></script>
+    <script src="~/AdminTheme/assets/js/wow.min.js"></script>
+    <script src="~/AdminTheme/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="~/AdminTheme/assets/js/jquery.scrollTo.min.js"></script>
+    <script src="~/AdminTheme/assets/chat/moment-2.2.1.js"></script>
+    <script src="~/AdminTheme/assets/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/AdminTheme/assets/jquery-detectmobile/detect.js"></script>
+    <script src="~/AdminTheme/assets/fastclick/fastclick.js"></script>
+    <script src="~/AdminTheme/assets/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="~/AdminTheme/assets/jquery-blockui/jquery.blockUI.js"></script>
+
+    <!-- CUSTOM JS -->
+    <script src="~/AdminTheme/assets/js/jquery.app.js"></script>
+
+    <!-- Dashboard -->
+    <script src="~/AdminTheme/assets/js/jquery.dashboard.js"></script>
+
+
+    <!-- sweet alerts -->
+    <script src="~/AdminTheme/assets/sweet-alert/sweet-alert.min.js"></script>
+    <script src="~/AdminTheme/assets/sweet-alert/sweet-alert.init.js"></script>
+
+    <!-- flot Chart -->
+    <script src="~/AdminTheme/assets/flot-chart/jquery.flot.js"></script>
+    <script src="~/AdminTheme/assets/flot-chart/jquery.flot.time.js"></script>
+    <script src="~/AdminTheme/assets/flot-chart/jquery.flot.tooltip.min.js"></script>
+    <script src="~/AdminTheme/assets/flot-chart/jquery.flot.resize.js"></script>
+    <script src="~/AdminTheme/assets/flot-chart/jquery.flot.pie.js"></script>
+    <script src="~/AdminTheme/assets/flot-chart/jquery.flot.selection.js"></script>
+    <script src="~/AdminTheme/assets/flot-chart/jquery.flot.stack.js"></script>
+    <script src="~/AdminTheme/assets/flot-chart/jquery.flot.crosshair.js"></script>
+
+    <!-- Counter-up -->
+    <script src="~/AdminTheme/assets/counterup/waypoints.min.js" type="text/javascript"></script>
+    <script src="~/AdminTheme/assets/counterup/jquery.counterup.min.js" type="text/javascript"></script>
+
+
+
+    <!-- Chat -->
+    <script src="~/AdminTheme/assets/js/jquery.chat.js"></script>
+
+    <!-- Todo -->
+    <script src="~/AdminTheme/assets/js/jquery.todo.js"></script>
+
+    <script src="~/admintheme/assets/select2/select2.min.js" type="text/javascript"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script src="~/AdminTheme/assets/js/persian-date.min.js"></script>
+    <script src="~/AdminTheme/assets/js/persian-datepicker.min.js"></script>
+    <script src="~/AdminTheme/assets/js/site.js"></script>
+
+    <script src="~/AdminTheme/assets/summernote/summernote.min.js"></script>
+
+    <script src="~/adminTheme/assets/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/adminTheme/assets/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/admintheme/assets/js/notify.min.js"></script>
+
+   
+
+    @await RenderSectionAsync("Scripts", false)
+
+    <script>
+        $(document).ready(function () {
+
+            $('.PersianDateInput').persianDatepicker({
+                autoClose: true,
+                format: 'YYYY/MM/DD',
+            });
+
+
+            $('#dataTables-example').dataTable();
+        });
+
+      
+        jQuery(".select2").select2({
+            width: '100%'
+        });
+    </script>
+</body>
+</html>

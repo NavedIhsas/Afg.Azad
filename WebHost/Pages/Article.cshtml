@@ -1,0 +1,275 @@
+﻿@page "{id}"
+@using _0_Framework.Application
+@using _0_FrameWork.Application
+@model WebHost.Pages.ArticleModel
+
+@{
+
+    ViewData["Title"] = Model.Article.Title;
+    ViewData["keywords"] = Model.Article.Keywords;
+    ViewData["description"] = Model.Article.MetaDescription; ;
+    ViewData["ogDescription"] = Model.Article.MetaDescription; ;
+    ViewData["twitterDescription"] = Model.Article.MetaDescription; ;
+    ViewData["canonical"] = $"https://afgou.org/Article/{Model.Article.Slug}";
+    ViewData["ogType"] = "News";
+    ViewData["ogTitle"] = Model.Article.Title;
+    ViewData["ogImage"] = $"https://afgou.org/FileUploader/{Model.Article.Picture}";
+    ViewData["twitterImage"] = $"https://afgou.org/FileUploader/{Model.Article.Picture}";
+    ViewData["ogUrl"] = $"https://afgou.org/Article/{Model.Article.Slug}";
+    ViewData["twitterTitle"] = Model.Article.Title;
+    ViewData["twitterSite"] = $"https://afgou.org/Article/{Model.Article.Slug}";
+    ViewData["author"] = "Afghanistan Open University";
+}
+<link href="~/admintheme/assets/css/loading.css" rel="stylesheet" />
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+
+<section data-anim="fade" class="breadcrumbs ">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                <div class="breadcrumbs__content">
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="/Index">Home</a>
+                    </div>
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="/Articles">Blogs</a>
+                    </div>
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="">@Model.Article.CategoryName</a>
+                    </div>
+
+                    <div class="breadcrumbs__item ">
+                        <a href="#">@Model.Article.Title</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="page-header -type-1">
+    <div class="container">
+        <div class="page-header__content">
+            <div class="row justify-center text-center">
+                <div class="col-auto">
+                    <div data-anim="slide-up delay-1" style="max-width:80%">
+                        <div class="text-14 text-purple-1 uppercase fw-500 mb-8">@Model.Article.CategoryName</div>
+                        <h1 class="page-header__title lh-14">@Model.Article.ShortDescription</h1>
+                        <p class="page-header__text">@Model.Article.CreationDate.ToShamsi()</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="layout-pt-md">
+    <div class="container">
+        <div class="ratio ratio-16:9 rounded-8 bg-image js-lazy" data-bg="/FileUploader/@Model.Article.Picture"></div>
+    </div>
+</section>
+
+<section class="layout-pt-md layout-pb-lg">
+    <div class="container">
+        <div class="blogSection">
+            <div class="blogCard">
+                <div class="row justify-center">
+                    <div class="col-xl-8 col-lg-9 col-md-11">
+                        <div class="blogCard__content">
+                            @Html.Raw(Model.Article.Description)
+                        </div>
+                        @if (Model.Article.Pictures.Any())
+                        {
+
+                            <div class="row y-gap-30 pt-30">
+                                @foreach (var item in Model.Article.Pictures)
+                                {
+                                    <div class="col-sm-6">
+                                        <img src="~/FileUploader/@item.Picture" alt="@Model.Article.PictureAtl" title="@Model.Article.PictureTitle" class="w-1/1 initial-img rounded-8">
+                                    </div>
+                                }
+                            </div>
+
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.Article.Description2))
+                        {
+                            <div class="blogCard__content pt-30">
+                                @Html.Raw(Model.Article.Description2)
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-center pt-30">
+                <div class="col-xl-8 col-lg-9 col-md-11">
+                    <div class="row y-gap-20 justify-between items-center">
+
+
+                        <div class="col-auto">
+                            <div class="row x-gap-10 y-gap-10">
+
+                                @foreach (var item in Model.Article.KeyWords)
+                                {
+                                    <div class="col-auto">
+                                        <a asp-page="Articles" asp-route-title="@item" class="badge -sm -light-3 text-11 text-dark-1">@item</a>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-center pt-30">
+                <div class="col-xl-8 col-lg-9 col-md-11">
+                    <div class="d-flex border-bottom-light border-top-light py-30">
+                        <div class="">
+                            <div class="bg-image size-70 rounded-full js-lazy" data-bg="/FileUploader/@Model.Article.BloggerPicture"></div>
+                        </div>
+
+                        <div class="mr-30 md:mr-20">
+                            <h4 class="text-15 lh-15 fw-500">@Model.Article.BloggerName</h4>
+                            <div class="mt-5">@Model.Article.BloggerSkills</div>
+                            <p class="mt-25">@Model.Article.BloggerBio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-center pt-30">
+                <div class="col-xl-8 col-lg-9 col-md-11">
+                    <div class="blogPost -comments">
+                        <div class="blogPost__content">
+                            <h2 class="text-20 fw-500">
+                                User Reviews
+                            </h2>
+
+                            <ul class="comments__list mt-30">
+                                @foreach (var item in Model.Article.Comments)
+                                {
+                                    <li class="comments__item" id="comment-@item.Id">
+                                        <div class="comments__item-inner md:direction-column">
+                                            <div class="comments__img ml-20">
+                                                @{
+                                                    var avatar = "";
+                                                    avatar = !string.IsNullOrWhiteSpace(item.Picture) ? item.Picture : "/Img/Comment.png";
+                                                }
+                                                <div class="bg-image rounded-full js-lazy" data-bg="@avatar"></div>
+
+                                            </div>
+
+                                            <div class="comments__body md:mt-15">
+                                                <div class="comments__header">
+                                                    <h4 class="text-17 fw-500 lh-15">
+                                                        @item.Name
+                                                        <span class="text-13 text-light-1 fw-400">@item.CreateDateTime.TimeAgo()</span>
+                                                    </h4>
+                                                    <div class="stars"></div>
+                                                </div>
+
+                                                <h5 class="text-15 fw-500 mt-15">@item.Title</h5>
+                                                <div class="comments__text mt-10">
+                                                    <p>@item.Message</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="respondForm pt-30">
+                        <h3 class="text-20 fw-500">
+                            Reviews
+                        </h3>
+
+
+                        <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30" name="comment" id="comment">
+                            <div class="col-12">
+                                <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Full Name</label>
+                                <input asp-for="Command.Name" type="text" placeholder="full name...">
+                                <span asp-validation-for="Command.Name" class="text-error-2"></span>
+                            </div>
+                            <div class="col-12">
+                                <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Review Title</label>
+                                <input type="text" asp-for="Command.Title" placeholder="Review Title...">
+                                <span asp-validation-for="Command.Title" class="text-error-2"></span>
+                            </div>
+                            <div class="col-12">
+                                <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Review Content</label>
+                                <textarea asp-for="Command.Message" placeholder="Review Content..." rows="8"></textarea>
+                                <span asp-validation-for="Command.Message" class="text-error-2"></span>
+                            </div>
+                            <input type="hidden" asp-for="Command.OwnerRecordId" value="@Model.Article.Id" />
+                            <div class="col-12">
+                                <button type="button" id="submitComment" class="button -md -purple-1 text-white">
+                                    Submit Review
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+
+        $("#submitComment").click(function () {
+           
+            var form = $("#comment");
+            form.validate();
+            if (form.valid() === false) {
+                return false;
+            }
+            $.ajax({
+                url: '',
+                data: new FormData(document.forms.comment),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                beforeSend: function () {
+                    $('#loader').removeClass('hidden')
+                },
+                success: function (result) {
+                   
+                    if (result) {
+                        $("#Command_Name").val("");
+                        $("#Command_Title").val("");
+                        $("#Command_Message").val("");
+                        notify("top center", "نظر شما ثبد شد، پس از تایید مدیر منتشر خواهد شد", "success");
+                    }
+                    else {
+                        notify("top center", result.message, "error");
+                    }
+
+                },
+                complete: function () {
+                    $('#loader').addClass('hidden')
+                },
+            });
+        })
+
+    </script>
+}

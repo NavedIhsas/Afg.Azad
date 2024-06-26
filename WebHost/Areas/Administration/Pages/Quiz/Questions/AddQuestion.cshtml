@@ -1,0 +1,102 @@
+﻿@model Shop.Management.Application.Contract.Quiz.CreateQuestion
+@{
+    ViewData["Title"] = "افزودن سوال";
+}
+
+<div class="container">
+    <partial name="Shared/_Create_View_Header" />
+    <form asp-page="./Index" asp-page-handler="AddQuestion"
+          method="post"
+          data-ajax="true"
+          data-action="Refresh"
+          enctype="multipart/form-data">
+        <div class="modal-body">
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="QuizId" class="control-label">امتحان<span class="text-danger">*</span></label>
+                        <select asp-for="QuizId" asp-items="@(new SelectList(Model.Quiz,"Id","Name"))" class="form-control select2">
+                            <option value="0">--انتخاب--</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="QuizId"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="QuestionName" class="control-label">سوال<span class="text-danger">*</span></label>
+                        <textarea type="text" row="3" class="form-control" asp-for="QuestionName" placeholder="سوال خود را بنویسید"></textarea>
+                        <span class="text-danger" asp-validation-for="QuestionName"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="FirstOption" class="control-label">گزینه اول<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="FirstOption" placeholder="گزینه اول">
+                        <span class="text-danger" asp-validation-for="FirstOption"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="SecondOption" class="control-label">گزینه دوم<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="SecondOption">
+                        <span class="text-danger" asp-validation-for="SecondOption"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="ThirdOption" class="control-label">گزینه سوم<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="ThirdOption">
+                        <span class="text-danger" asp-validation-for="ThirdOption" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="FourthOption" class="control-label">گزینه چهارم<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="FourthOption">
+                        <span class="text-danger" asp-validation-for="FourthOption"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group no-margin">
+                        <label asp-for="CorrectAnswerPoints" class="control-label">نمره جواب درست<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" asp-for="CorrectAnswerPoints">
+                        <span class="text-danger" asp-validation-for="CorrectAnswerPoints"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CorrectAnswer" class="control-label">جواب درست<span class="text-danger">*</span></label>
+                        <select class="form-control" asp-for="CorrectAnswer">
+                            <option value="1">گزینه اول</option>
+                            <option value="2">گزینه دوم</option>
+                            <option value="3">گزینه سوم</option>
+                            <option value="4">گزینه چهارم</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="CorrectAnswer"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" asp-for="QuizId" />
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">بستن</button>
+            <button type="submit" class="btn btn-info waves-effect waves-light">ایجاد</button>
+        </div>
+    </form>
+</div>
+
+

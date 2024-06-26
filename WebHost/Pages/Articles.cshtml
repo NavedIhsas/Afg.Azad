@@ -1,0 +1,168 @@
+﻿@page
+@using _0_Framework.Application
+@model WebHost.Pages.ArticlesModel
+@inject IStringLocalizer<ArticlesModel> Localize
+@{
+    ViewData["Title"] = "Articles";
+}
+
+<div class="content-wrapper  js-content-wrapper">
+
+
+    <section data-anim="fade" class="breadcrumbs ">
+        <div class="container">
+            <div class="row">
+                <div class="col-auto">
+                    <div class="breadcrumbs__content">
+
+                        <div class="breadcrumbs__item ">
+                            <a  asp-page="Index">@Localize["Home"]</a>
+                        </div>
+
+                        <div class="breadcrumbs__item ">
+                            <a  asp-page="/Articles">@Localize["Blogs"]</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="page-header -type-1">
+        <div class="container">
+            <div class="page-header__content">
+                <div class="row justify-center text-center">
+                    <div class="col-auto">
+                        <div data-anim="slide-up delay-1">
+
+                            <h1 class="page-header__title">@Localize["Blogs"]</h1>
+
+                        </div>
+
+                        <div data-anim="slide-up delay-2">
+
+                            <p class="page-header__text">@Localize["BlogsDes"]</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="layout-pt-md layout-pb-lg">
+        <div data-anim-wrap class="container">
+            <div class="row">
+
+                <div class="col-lg-3">
+                    <div data-anim="slide-up delay-3" class="sidebar -blog">
+                        <div class="sidebar__item">
+                            <h5 class="sidebar__title">@Localize["Category"]</h5>
+
+                            <div class="sidebar-content -list">
+
+                                @foreach (var item in Model.Category)
+                                {
+                                    <a class="text-dark-1"  asp-page="Articles" asp-route-category="@item.Id">@item.Name</a>
+                                }
+
+
+                            </div>
+                        </div>
+
+                        <div class="sidebar__item">
+                            <h5 class="sidebar__title">@Localize["lastNews"]</h5>
+
+                            <div class="sidebar-content -recent y-gap-20">
+                                @foreach (var item in Model.News)
+                                {
+
+                                    <div class="sidebar-recent d-flex items-center">
+                                        <div class="sidebar-recent__image ml-15">
+                                            <img src="~/FileUploader/@item.Picture" alt="@item.PictureAlt" title="@item.PictureTitle">
+                                        </div>
+
+                                        <div class="sidebar-recent__content">
+                                            <h5 class="text-15 lh-15 fw-500">@item.Title</h5>
+                                            <div class="text-13 lh-2 mt-5">@item.CreationDate.ToShamsi()</div>
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+
+                       @* <div class="sidebar__item">
+                            <h5 class="sidebar__title">@Localize["Labels"]</h5>
+
+                            <div class="sidebar-content -tags">
+
+                                @foreach (var item in Model.List.Articles)
+                                {
+                                    <div class="sidebar-tag">
+                                        <a class="text-11 fw-500 text-dark-1"  asp-page="Articles" asp-route-title="@item">@item.Keywords</a>
+                                    </div>
+
+                                }
+
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row y-gap-30">
+
+
+                        @foreach (var item in Model.List.Articles)
+                        {
+                            <div data-anim-child="slide-up delay-3" class="col-lg-4 col-md-6">
+                                <a  asp-page="/Article" asp-route-id="@item.Slug" class="blogCard -type-1">
+                                    <div class="blogCard__image">
+                                        <img class="w-1/1 rounded-8" src="~/FileUploader/@item.Picture" title="@item.PictureTitle" alt="@item.PictureAtl">
+                                    </div>
+                                    <div class="blogCard__content mt-20">
+                                        <div class="blogCard__category">@item.Title</div>
+                                        <h4 class="blogCard__title text-16 lh-15 fw-500 mt-5">@item.ShortDescription</h4>
+                                        <div class="blogCard__date mt-5">@item.CreationDate.ToShamsi()</div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        }
+
+                    </div>
+
+                    @if (Model.List.PageCount > 1)
+                    {
+                        <div class="row justify-center pt-60 lg:pt-40">
+                            <div class="col-auto">
+                                <div class="pagination -buttons">
+                                    <a href="Articles?PageId=@(Model.List.CurrentPage - 1)" class="pagination__button -prev @(Model.List.CurrentPage < 2 ? "disabled" : "")">
+                                        <i class="icon icon-chevron-right"></i>
+                                    </a>
+
+                                    <div class="pagination__count">
+                                        @for (int i = 1; i <= Model.List.PageCount; i++)
+                                        {
+                                            <a class="@(i == Model.List.CurrentPage ? "-count-is-active active" : "")" href="Articles?PageId=@i">@i</a>
+                                        }
+                                    </div>
+
+                                    <a href="Articles?PageId=@(Model.List.CurrentPage + 1)" class="pagination__button -next @(Model.List.CurrentPage >= Model.List.PageCount ? "disabled" : "")">
+                                        <i class="icon icon-chevron-left"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+</div>

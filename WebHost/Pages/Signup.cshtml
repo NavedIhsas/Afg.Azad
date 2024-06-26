@@ -1,0 +1,73 @@
+﻿@page
+@model WebHost.Pages.SignupModel
+@{
+    Layout = "Shared/_AccountLayout";
+    ViewData["ReturnUrl"] = @Model.ReturnUrl;
+}
+<div class="form-page__content lg:py-50">
+    <div class="container">
+        <div class="row justify-center items-center">
+            <div class="col-xl-8 col-lg-9">
+                <div class="px-50 py-50 md:px-25 md:py-25 bg-white shadow-1 rounded-16">
+                    <h3 class="text-30 lh-13">ثبت نام</h3>
+                    <p class="mt-10">آیا قبلا ثبت نام کرده اید؟ <a  asp-page="/login" asp-route-returnUrl="@Model.ReturnUrl" class="text-purple-1">ورود</a></p>
+
+                    @if (ViewData["ExistEmail"] != null)
+                    {
+                        <div class="col-12">
+                            <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8 height-0">
+                                <div class="text-error-2 text-center lh-2 fw-500">@ViewData["ExistEmail"]</div>
+                            </div>
+                        </div>
+                    }
+                    <form name="submitForm" class="contact-form respondForm__form row y-gap-20 pt-30" method="post">
+                        <div class="col-lg-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">ایمیل *</label>
+                            <input type="email" asp-for="Register.Email" placeholder="ایمیل">
+                            <span asp-validation-for="Register.Email" class="text-error-2"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">نام </label>
+                            <input type="text" asp-for="Register.FirstName" placeholder="نام">
+                            <span asp-validation-for="Register.FirstName" class="text-error-2"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">تخلص </label>
+                            <input type="text" asp-for="Register.LastName" placeholder="فامیلی">
+                            <span asp-validation-for="Register.LastName" class="text-error-2"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">رمز عبور *</label>
+                            <input type="password" asp-for="Register.Password" placeholder="رمز عبور">
+                            <span asp-validation-for="Register.RePassword" class="text-error-2"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">تایید رمز عبور *</label>
+                            <input type="password" asp-for="Register.RePassword" placeholder=" تکرار رمز عبور">
+                            <span asp-validation-for="Register.RePassword" class="text-error-2"></span>
+                        </div>
+                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                        <div class="col-12">
+                            <button type="submit" id="submit-form" class="button -md -green-1 text-dark-1 fw-500 w-1/1">
+                                ثبت نام
+                            </button>
+                        </div>
+                    </form>
+
+                   @* <div class="lh-12 text-dark-1 fw-500 text-center mt-20">یـا ورود با حساب</div>
+
+                    <div class="d-flex x-gap-20 items-center justify-between pt-20">
+                        <div><button class="button -sm px-24 py-20 -outline-blue-3 text-blue-3 text-14">Facebook</button></div>
+                        <div><button class="button -sm px-24 py-20 -outline-red-3 text-red-3 text-14">Google</button></div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

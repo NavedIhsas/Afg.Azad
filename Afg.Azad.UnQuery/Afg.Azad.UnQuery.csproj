@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>3</WarningLevel>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" Version="8.0.865" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="ReflectionIT.Mvc.Paging" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\0_FrameWork\0_FrameWork.csproj" />
+    <ProjectReference Include="..\AccountManagement.Application\AccountManagement.Application.Contract.csproj" />
+    <ProjectReference Include="..\AccountManagement.Domain\AccountManagement.Domain.csproj" />
+    <ProjectReference Include="..\AccountMangement.Infrastrcture.EfCore\AccountManagement.Infrastructure.EfCore.csproj" />
+    <ProjectReference Include="..\ArticleManaagement.Domain\BlogManagement.Domain.csproj" />
+    <ProjectReference Include="..\BlogManagement.Infrastructure.EfCore\BlogManagement.Infrastructure.EfCore.csproj" />
+    <ProjectReference Include="..\CommentMangement.Domain\CommentManagement.Domain.csproj" />
+    <ProjectReference Include="..\CommnetManagement.Infrastructure.EfCore\CommentManagement.Infrastructure.EfCore.csproj" />
+    <ProjectReference Include="..\CourseGroup.Management.Application.Contract\Shop.Management.Application.Contract.csproj" />
+    <ProjectReference Include="..\DiscountManagementInfrastructure.EfCore\DiscountManagementInfrastructure.EfCore.csproj" />
+    <ProjectReference Include="..\ProductManagement.Domain\ShopManagement.Domain.csproj" />
+    <ProjectReference Include="..\ShopManagement.Infrastructure.EfCore\ShopManagement.Infrastructure.EfCore.csproj" />
+  </ItemGroup>
+
+</Project>

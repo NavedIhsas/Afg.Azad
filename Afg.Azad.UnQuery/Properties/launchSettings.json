@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Afg.Azad.UnQuery": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

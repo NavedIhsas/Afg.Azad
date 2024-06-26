@@ -1,0 +1,308 @@
+﻿@using _0_FrameWork.Application
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Options
+@using WebHost.Services
+@model Afg.Azad.UnQuery.Contract.MenuDot
+@inject IAuthHelper Helper;
+
+@inject IOptions<RequestLocalizationOptions> LocOptions
+@{
+}
+
+
+
+@*
+<style>
+    ul li {
+        max-width: 120px;
+    }
+</style>*@
+
+<header data-anim="fade" data-add-bg="bg-dark-1" class="header -type-1 js-header">
+    <div class="header__container">
+        <div class="row justify-between items-center">
+
+            <div class="col-auto">
+                <div class="header-left">
+
+                    <div class="header__logo ">
+                        <a data-barba asp-page="/Index">
+                            <img src="~/Theme/img/general/logo.svg" alt="Afghanistan Open Unversity">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="header-menu js-mobile-menu-toggle ">
+                <div class="header-menu__content">
+                    <div class="mobile-bg js-mobile-bg"></div>
+
+                    @if (!Helper.IsAuthenticated())
+                    {
+                        <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
+                            <a asp-page="/Login" class="text-dark-1">Login & SignUp</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
+                            <a asp-page="/UserPanel" class="text-dark-1 mr-30">@Helper.CurrentAccountFullName()</a>
+                        </div>
+                    }
+
+                    <div class="menu js-navList">
+                        <ul class="menu__nav text-white -is-active">
+                            <li >
+                                <a data-barba asp-page="/Index">Home</a>
+                            </li>
+
+                            <li class="menu-item-has-children -has-mega-menu">
+                                <a data-barba href="#">Courses <i class="icon-chevron-left text-11 mr-10"></i></a>
+                                <div class="mega xl:d-none">
+                                    <div class="mega__menu">
+                                        <div class="row x-gap-40">
+                                            @foreach (var item in Model.Courses)
+                                            {
+                                                <div class="col">
+                                                    <h4 class="text-17 fw-500 mb-20">@item.Title</h4>
+                                                    @if (item.Sub.Any())
+                                                    {
+                                                        <ul class="mega__list">
+                                                            @foreach (var sub in item.Sub)
+                                                            {
+                                                                <li><a data-barba asp-page="/Courses" asp-route-SearchModel.SubGroupId="@sub.Id">@sub.Title</a></li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="mega-banner bg-purple-1 ml-40">
+                                            <div class="text-24 lh-15 text-white fw-700">
+                                                پیوستن به بیش از<br>
+                                                <span class="text-green-1">20 هزار شاگرد از سراسر کشور</span>
+                                                در سراسر جهان
+                                            </div>
+                                            <a href="#" class="button -md -green-1 text-dark-1 fw-500 col-12">آموزش Free</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <ul class="subnav d-none xl:d-block">
+                                    <li class="menu__backButton js-nav-list-back">
+                                        <a href="#"><i class=" text-13 ml-10"></i> Courses </a>
+                                    </li>
+
+                                    @foreach (var item in Model.Courses)
+                                    {
+                                        <li class="menu-item-has-children">
+                                            <a asp-page="/Courses" asp-route-SerchModel.CategoryId="@item.Id">@item.Title<div class=" text-11"></div></a>
+
+                                            @if (item.Sub.Any())
+                                            {
+                                                <ul class="subnav">
+                                                    <li class="menu__backButton js-nav-list-back">
+                                                        <a href="#"><i class="icon-chevron-right text-13 ml-10"></i>@item.Title</a>
+                                                    </li>
+                                                    @foreach (var sub in item.Sub)
+                                                    {
+                                                        <li>
+                                                            <a asp-page="/Courses" asp-route-SerchModel.SubGroupId="@sub.Id"> @sub.Title</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </li>
+                                    }
+
+
+                                </ul>
+                            </li>
+
+                            <li class="menu-item-has-children">
+                                <a data-barba href="#">Blog <i class="icon-chevron-left text-11 mr-10"></i></a>
+                                <ul class="subnav">
+                                    <li class="menu__backButton js-nav-list-back">
+                                        <a href="#"><i class=" text-13 ml-10"></i> Blog</a>
+                                    </li>
+
+                                    @foreach (var item in Model.ArticleCategories)
+                                    {
+                                        <li><a asp-page="/Articles" asp-route-category="@item.Id">@item.Name</a></li>
+                                    }
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a data-barba asp-page="/Quiz">Quiz</a>
+                            </li>
+
+                            <li>
+                                <a data-barba asp-page="/News">News</a>
+                            </li>
+
+                            <li>
+                                <a data-barba asp-page="/ContactUs">Contact Us</a>
+                            </li>
+
+                            <li>
+                                <a data-barba asp-page="/AboutUs">About Us</a>
+                            </li>
+
+                            <li>
+                                <a permission="PermissionPlace.AdministrationHomepage" data-barba asp-page="/Index" asp-area="Administration">Admin Panel</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="mobile-footer px-20 py-20 border-top-light js-mobile-footer">
+                        <div class="mobile-footer__number">
+                            <div class="text-17 fw-500 text-dark-1">Contact Us</div>
+                            <div class="text-17 fw-500 text-purple-1">
+                                <a href="tel:+4917657803483">+49-17657803483 </a>
+                            </div>
+                        </div>
+
+                        <div class="lh-2 mt-10">
+                            <div>Address...</div>
+                            <div>
+                                <a >info@afgou.org</a>
+                            </div>
+                        </div>
+
+                        <div class="mobile-socials mt-10">
+
+                            <a href="https://www.facebook.com/afghanistanopenuniversity" class="d-flex items-center justify-center rounded-full size-40">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a class="d-flex items-center justify-center rounded-full size-40" href="https://www.linkedin.com/company/afghanistan-open-university/">
+                                <i class="icon-linkedin"></i>
+                            </a>
+                         
+                            <a class="d-flex items-center justify-center rounded-full size-40" href="https://twitter.com/AfgOpenUni?t=VknbMQetp3TDhzerAC6nbg&amp&s=09">
+                                <i class="icon-twitter"></i>
+                            </a>
+                            <a class="d-flex items-center justify-center rounded-full size-40" href="https://instagram.com/afghanistanopenuniversity?igshid=NzZlODBkYWE4Ng==">
+                                <i class="icon-instagram"></i>
+                            </a>
+                            <a class="d-flex items-center justify-center rounded-full size-40" href="https://t.me/AfghanistanOpenUniversity">
+                                <i class="fa fa-telegram"></i>
+                            </a>
+
+                            <a class="d-flex items-center justify-center rounded-full size-40" href="https://youtube.com/@@afghanistanopenuniversityaou?si=0Nwtydanqw0gV3tX">
+                                <i class="fa fa-youtube"></i>
+                            </a>
+                            <a class="d-flex items-center justify-center rounded-full size-40" href="https://whatsapp.com/channel/0029Va8eyjjKgsNmhQJ6on1F">
+                                <i class="fa fa-whatsap"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="header-menu-close" data-el-toggle=".js-mobile-menu-toggle">
+                    <div class="size-40 d-flex items-center justify-center rounded-full bg-white">
+                        <div class="icon-close text-dark-1 text-16"></div>
+                    </div>
+                </div>
+
+                <div class="header-menu-bg"></div>
+            </div>
+
+
+            <div class="col-auto">
+                <div class="header-right d-flex items-center">
+
+                    <div class="header-right__icons text-white d-flex items-center">
+                        <div class="">
+                            <button class="d-flex items-center text-white" data-el-toggle=".js-search-toggle">
+                                <i class="text-20 icon icon-search"></i>
+                            </button>
+                            <form method="get">
+                                <div class="toggle-element js-search-toggle">
+                                    <div class="header-search pt-90 bg-white shadow-4">
+                                        <div class="container">
+                                            <div class="header-search__field">
+                                                <div class="icon icon-search text-dark-1"></div>
+                                                <input type="text" name="search" id="tags" class="col-12 text-18 lh-12 text-dark-1 fw-500" placeholder="Search Course">
+
+                                                <button type="button" class="d-flex items-center justify-center size-40 rounded-full bg-purple-3" data-el-toggle=".js-search-toggle">
+                                                    <img src="~/Theme/img/menus/close.svg" alt="icon">
+                                                </button>
+                                            </div>
+
+                                            <div class="header-search__content mt-30">
+                                                <div class="d-flex y-gap-5 flex-column mt-20" id="contentSearch">
+                                                    <a id="tags1" class="text-dark-1"></a>
+                                                </div>
+
+                                                <div class="mt-30">
+                                                    <button id="submitSearch" asp-page="/Courses" class="uppercase underline">Search Des</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="header-search__bg" data-el-toggle=".js-search-toggle"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="relative mr-30 d-none xl:d-block">
+                        <button class="d-flex items-center text-white" data-el-toggle=".js-cart-toggle">
+                            <a asp-page="/Login">
+                                <i class="text-20 icon-person-2"></i>
+                            </a>
+                        </button>
+                    </div>
+
+                    <div class="d-none xl:d-block mr-20">
+                        <button class="text-white items-center" data-el-toggle=".js-mobile-menu-toggle">
+                            <i class="text-11 icon icon-mobile-menu"></i>
+                        </button>
+                    </div>
+
+                  
+                    @*
+                      <div class="relative mr-30 xl:ml-20">
+                        <button class="d-flex items-center text-white" data-el-toggle=".js-cart-toggle">
+                            <i class="text-20 icon-worldwide "></i>
+                        </button>
+                    </div>
+                    *@
+
+                    @*  <div class="toggle-element js-cart-toggle">
+                        <div class="header-cart bg-white -dark-bg-dark-1 rounded-8">
+                            <div class="px-30 pt-30 pb-10">
+                                <div class="row justify-between x-gap-40 pb-20" title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
+                                    <form id="selectLanguage" asp-page="index"
+                                          asp-page-handler="SetLanguage" asp-route-returnUrl="@returnUrl"
+                                          method="post" class="form-horizontal contact-form" role="form">
+                                        <select class="select__button js-button" name="culture" onchange="this.form.submit();" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <div class="header-right__buttons d-flex items-center mr-30 md:d-none">
+
+                        @if (!Helper.IsAuthenticated())
+                        {
+                            <a asp-page="/Login" class="button -sm -white text-dark-1 mr-30">Registration</a>
+                        }
+                        else
+                        {
+                            <a asp-page="/Index" asp-area="UserPanel" class="button -sm -white text-dark-1 mr-30">@Helper.CurrentAccountFullName()</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</header>

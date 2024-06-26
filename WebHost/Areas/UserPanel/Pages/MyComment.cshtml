@@ -1,0 +1,86 @@
+﻿@page
+@using _0_FrameWork.Application
+@using AccountManagement.Domain.Account.Agg
+@model WebHost.Areas.UserPanel.Pages.MyCommentModel
+@inject IAuthHelper AuthHelper;
+@inject IAccountRepository Account
+@{
+    var userId = AuthHelper.CurrentAccountInfo().AccountId;
+    var user = Account.GetUserBy(userId);
+}
+@{
+    ViewData["Title"] = "My Comment";
+}
+
+
+<div class="dashboard__main">
+    <div class="dashboard__content bg-light-4">
+    <div class="row pb-50 mb-10">
+        <div class="col-auto">
+
+            <h1 class="text-30 lh-12 fw-700">Reviews</h1>
+            <div class="mt-10">You will only see comments here if you have logged into the application and provided Reviews</div>
+
+        </div>
+    </div>
+    <div class="row y-gap-30">
+        <div class="col-12">
+            <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+                <div class="d-flex items-center py-20 px-30 border-bottom-light">
+                    <h2 class="text-17 lh-2 fw-500">All Reviews</h2>
+                </div>
+                <div class="py-30 px-30">
+                    <div class="row y-gap-30">
+                            @foreach (var item in Model.List)
+                            {
+                            <div class="md:direction-column">
+                                <div class="d-flex ">
+                                    <div class="mr-20">
+                                        @if (AuthHelper.IsAuthenticated())
+                                        {
+                                            <img class="size-50" src="~/FileUploader/@user.Avatar" alt="@user.FirstName @user.LastName" title="@user.FirstName @user.LastName">
+                                        }
+                                        else
+                                        {
+                                            <img class="size-50" src="~/Img/userAvatar.png" alt="image">
+                                        }
+                                    </div>
+
+                                    <div class="comments__body md:mt-15">
+                                        <div class="comments__header">
+                                            <h4 class="text-17 fw-500 lh-15">
+                                                    @if (item.Type == ThisType.Course)
+                                                    {
+                                                    <a class="text-primary" href="/CourseDetails/@item?.CourseSlug#comment-@item?.Id"> @item?.CourseName</a>
+                                                    }
+                                                    else if (item.Type == ThisType.Article)
+                                                    {
+                                                    <a href="/Article/@item.ArticleSlug#comment-@item.Id" class="text-primary">@item?.ArticleName</a>
+                                                    }
+                                                    else
+                                                    {
+                                                    <a href="/NewsDetails/@item.ArticleName#comment-@item.Id" class="text-primary">@item?.ArticleName</a>
+
+                                                    }
+                                                <span class="text-13 text-light-1 fw-400 ml-5">@item.CreationDate</span>
+                                            </h4>
+
+                                        </div>
+
+                                        <h5 class="text-15 fw-500 mt-15">@item.Title</h5>
+                                        <div class="comments__text mt-10">
+                                            <p>@item.Message</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>

@@ -1,0 +1,132 @@
+﻿@page
+@using _0_Framework.Application
+@model WebHost.Areas.Administration.Pages.IndexModel
+@{
+    ViewData["Title"] = "صفحه اصلی";
+}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="page-title">داشبورد گزارشات</h4>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <form method="get">
+                    <div class="row">
+                        <h3 class="panel-title"> آمار بازدید کنندگان  سایت</h3>
+                        <a asp-page="Index" asp-page-handler="RemoveAllVisitors" class="panel-title btn btn-danger" style="font-size: 12px; float: left;">حذف همه گزارشات</a>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="table-responsive">
+                            <table id="datatable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Ip</th>
+                                        <th>لینک</th>
+                                        <th>لینک ارجاع</th>
+                                        <th>مرورگر</th>
+                                        <th>سیستم عامل</th>
+                                        <th>خزنده؟</th>
+                                        <th>زمان</th>
+                                        <th>شناسه کاربر</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ResultTodayReport.Visitors.OrderByDescending(x => x.Time.Date).ThenByDescending(x => x.Time.Hour))
+                                    {
+                                        <tr>
+                                            <td><div>@item.Ip</div></td>
+                                            <td>
+                                                <a href="@item.CurrentLink">
+                                                    @{
+                                                        var currentLink = "";
+                                                        if (item.CurrentLink.Length > 50)
+                                                            currentLink = item.CurrentLink[..50]+"...";
+
+                                                        else currentLink = item.CurrentLink;
+                                                    }
+                                                    @currentLink
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="@item.ReferrerLink">
+                                                    @{
+                                                        var referrLink = "";
+                                                        if (item.ReferrerLink.Length > 50)
+                                                            referrLink = item.ReferrerLink[..50] + "...";
+
+                                                        else referrLink = item.ReferrerLink;
+                                                    }
+                                                    @referrLink
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    @if (item.Browser.Contains("Chrome"))
+                                                    {
+                                                        <img height="30" width="30" src="~/Icon/chrome.png" />
+                                                    }
+                                                    else if (item.Browser.Contains("Firefox"))
+                                                    {
+                                                        <img height="30" width="30" src="~/Icon/firefox.png" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img height="30" width="30" src="~/Icon/browser.png" />
+                                                    }
+                                                </div>
+                                            </td>
+                                            <td><div>@item.OperationSystem</div></td>
+                                            <td>@if (!item.IsSpider)
+                                                {
+                                                    <span class="text-success">خیر</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">بلی</span>
+                                                }</td>
+                                            <td><div><span class="">@item.Time.Date.ToFarsi()- @item.Time.ToString("HH:mm")</span></div></td>
+                                            <td>
+                                                @{
+                                                    var visitId = "";
+                                                    if (item.VisitorId?.Length > 10)
+                                                        visitId = item.VisitorId[..10] + "...";
+
+                                                    else visitId = item.VisitorId;
+                                                }
+                                                @visitId
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').dataTable({
+                "pageLength": 50
+            });
+        });
+    </script>
+}

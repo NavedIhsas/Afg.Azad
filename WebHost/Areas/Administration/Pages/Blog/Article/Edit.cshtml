@@ -1,0 +1,224 @@
+﻿@model BlogManagement.Application.Contract.Article.EditArticleViewModel
+@{
+    ViewData["Title"] = "ویرایش مقاله";
+    Layout = "Shared/_AdminLayout";
+
+}
+
+<div id="page-wrapper">
+    <div class="container">
+        <partial name="Shared/_Create_View_Header" />
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="modal-body col col-md-8">
+
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label">نام<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" asp-for="Title">
+                            <span class="text-danger" asp-validation-for="Title"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label">اسلاگ<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="اسلاگ را نمیتوانید تغییر دهید" asp-for="Title" disabled>
+                            <span class="text-danger" asp-validation-for="Title"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="CategoryId" class="control-label">گروه مقاله<span class="text-danger">*</span></label>
+                            <Select asp-for="CategoryId " asp-Items="@(new SelectList(Model.SelectList, "Id", "Name"));" type="file" class="select2 form-control">
+                                <option value="0">--انتخاب کنید--</option>
+                            </Select>
+                            <span class="text-danger" asp-validation-for="CategoryId"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group no-margin">
+                            <label asp-for="BloggerId" class="control-label">نویسنده<span class="text-danger">*</span></label>
+                            <select class="form-control autogrow select2" asp-for="BloggerId" asp-items="@(new SelectList(Model.BloggerSelectList, "Id", "AccountName"))">
+                                <option value="0">انتخاب کنید</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="BloggerId"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="CanonicalAddress" class="control-label">CanonicalAddress</label>
+                            <input type="url" asp-for="CanonicalAddress" class="form-control">
+                            <span class="text-danger" asp-validation-for="CanonicalAddress"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="PictureAtl" class="control-label">Alt<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" asp-for="PictureAtl">
+                            <span class="text-danger" asp-validation-for="PictureAtl" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="PictureTitle" class="control-label">عنوان<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" asp-for="PictureTitle">
+                            <span class="text-danger" asp-validation-for="PictureTitle"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Keywords" class="control-label">کلمات کلیدی<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" asp-for="Keywords" placeholder="حداکثر 100 کاراکتر">
+                            <span class="text-danger" asp-validation-for="Keywords"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ShowOrder" class="control-label">ترتیب نمایش</label>
+                            <input type="text" class="form-control" asp-for="ShowOrder">
+                            <span class="text-danger" asp-validation-for="ShowOrder"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label asp-for="ShortDescription" class="control-label">توضیحات کوتاه</label>
+                            <textarea class="form-control autogrow" asp-for="ShortDescription" rows="4" placeholder="حداکثر 1000 کاراکتر" onchange="fillField('ShortDescription', 'MetaDescription')"></textarea>
+
+                            <span class="text-danger" asp-validation-for="ShortDescription"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label asp-for="MetaDescription" class="control-label">توضیحات متا<span class="text-danger">*</span></label>
+                            <textarea class="form-control autogrow" id="MetaDescription" asp-for="MetaDescription" rows="2" placeholder="حداکثر 150 کاراکتر"></textarea>
+                            <span class="text-danger" asp-validation-for="MetaDescription"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label asp-for="Description" class="control-label">توضیحات اصلی<span class="text-danger">*</span></label>
+                            <textarea class="form-control autogrow" asp-for="Description" id="Description" rows="5"></textarea>
+
+                            <span class="text-danger" asp-validation-for="Description"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label asp-for="Description2" class="control-label">توضیحات دوم (اختیاری)</label>
+                            <textarea class="form-control autogrow" asp-for="Description2" rows="5"></textarea>
+
+                            <span class="text-danger" asp-validation-for="Description2"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col col-md-4">
+
+                <img id="imgCourse" class="thumbnail img-responsive" src="/FileUploader/@Model.PictureName" alt="" />
+                <div class="form-group">
+                    <div class="form-group">
+                        <label asp-for="Picture" class="control-label">عکس<span class="text-danger">*</span></label>
+                        <input id="imgCourseUp" onchange="validateImage(this,410,334,'submitButton')" type="file" asp-for="Picture" class="form-control" accept="image/*">
+                        <span class="text-danger" asp-validation-for="Picture"></span>
+                        <p class="help-block"> width:410px; height:334px;  size:60kb</p>
+                        </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <input type="checkbox" class="checkbox-inline" asp-for="IsPublish">
+                    <label asp-for="IsPublish" class="checkbox-inline">ذخیره به صورت پیش نویس</label>
+                </div>
+
+                <p class="help-block">
+                    در صورت انتخاب کردن این گزینه مقاله شما در سایت منتشر نشده بلکه به صورت
+                    پیش نویس فقط در پنل ادمین میباشد
+                    بعداً میتوانید وضعیت را تغییر دهید.
+                </p>
+                
+                <partial name="Shared/PartialView/UploadPhotoGuid" />
+
+            </div>
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <input type="hidden" asp-for="Slug" value="@Model.Slug" />
+            <div class="modal-footer">
+
+                <button type="submit" id="submitButton" class="btn btn-info">تایید</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+
+    <script>
+
+        CKEDITOR.replace('Description', {
+            customConfig: '/theme/js/ckeditor.js'
+        });
+
+        CKEDITOR.replace('Description2', {
+            customConfig: '/theme/js/ckeditor.js'
+        });
+
+
+
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgCourse').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgCourseUp").change(function () {
+            readURL(this);
+        });
+
+
+
+
+
+
+    
+    </script>
+}
+

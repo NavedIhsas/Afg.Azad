@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+@{
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="~/Theme/css/base.min.css" />
+    <link rel="stylesheet" href="~/Theme/css/choices.min.css" />
+    <link rel="stylesheet" href="~/Theme/css/all.min.css" />
+    <link rel="stylesheet" href="~/Theme/vendor/leaflet/leaflet.css" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="~/Theme/css/vendors.css">
+    <link rel="stylesheet" href="~/Theme/css/main.css">
+
+    <title>@ViewData["Title"]|user profile</title>
+</head>
+
+<body class="preloader-visible" data-barba="wrapper">
+    <!-- preloader start -->
+    <div class="preloader js-preloader">
+        <div class="preloader__bg"></div>
+    </div>
+    <!-- preloader end -->
+
+
+    <main class="main-content bg-beige-1">
+
+        @await Component.InvokeAsync("AccountHeader");
+        <div class="content-wrapper  js-content-wrapper">
+
+            <section class="form-page">
+                <div class="form-page__img bg-dark-1">
+                    <div class="form-page-composition">
+                        <div class="-bg"><img data-move="30" class="js-mouse-move" src="~/Theme/img/login/bg.png" alt="bg"></div>
+                        <div class="-el-1"><img data-move="20" class="js-mouse-move" src="~/Theme/img/home-2/hero/bg.png" alt="image"></div>
+                        <div class="-el-2"><img data-move="40" class="js-mouse-move" src="~/Theme/img/home-2/hero/1.png" alt="icon"></div>
+                        <div class="-el-3"><img data-move="40" class="js-mouse-move" src="~/Theme/img/home-2/hero/2.png" alt="icon"></div>
+                        <div class="-el-4"><img data-move="40" class="js-mouse-move" src="~/Theme/img/home-2/hero/3.png" alt="icon"></div>
+                    </div>
+                </div>
+
+                @RenderBody()
+            </section>
+
+
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="~/AdminTheme/assets/js/jquery.min.js"></script>
+    <script src="~/Theme/vendor/leaflet/leaflet.js"></script>
+    <script src="~/Theme/js/vendors.js"></script>
+    <script src="~/Theme/js/main.js"></script>
+
+    @await RenderSectionAsync("Scripts",false)
+</body>
+
+</html>

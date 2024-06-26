@@ -1,0 +1,33 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Server Error";
+}
+
+<section class="no-page layout-pt-lg layout-pb-lg bg-beige-1">
+    <div class="container">
+        <div class="row y-gap-50 justify-between items-center">
+            <div class="col-lg-6">
+                <div class="no-page__img">
+                    <img src="~/Theme/img/404/1.svg" alt="image" class="img-svg">
+                </div>
+            </div>
+
+            <div class="col-xl-5 col-lg-6">
+                <div class="no-page__content">
+                    <h1 class="no-page__main text-dark-1">
+                        40<span class="text-purple-1">4</span>
+                    </h1>
+                    <h2 class="text-30 lh-12 mt-5 ff-estedad">Oops! The requested page was not found.</h2>
+                    <div class="mt-10">
+                        The page you are looking for does not exist, or its address has changed. <br>
+                        Dear user, we are in the process of development, and we apologize for any possible errors.
+                        <br />
+                        We will soon identify and fix the errors.
+                    </div>
+                    <button asp-page="Index" asp-area="" class="button -md -purple-1 text-white mt-20">Home Page</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

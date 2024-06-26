@@ -1,0 +1,148 @@
+﻿@page
+@model CreateModel
+@{
+    ViewData["Title"] = "ایجاد کابر جدید";
+
+}
+
+<div id="page-wrapper">
+    <div class="container">
+        <partial name="Shared/_Create_View_Header" />
+
+        <form method="post" enctype="multipart/form-data" name="submitForm" id="userForm">
+            <div class="modal-body col col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Command.FirstName" class="control-label">نام <span class="text-danger">*</span></label>
+                            <input type="text" asp-for="Command.FirstName" class="form-control">
+                            <span class="text-danger" asp-validation-for="Command.FirstName"></span>
+                        </div>
+                    </div>
+                     <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Command.LastName" class="control-label">فامیل <span class="text-danger">*</span></label>
+                            <input type="text" asp-for="Command.LastName" class="form-control">
+                            <span class="text-danger" asp-validation-for="Command.LastName"></span>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Command.Phone" class="control-label">موبایل</label>
+                            <input type="tel" asp-for="Command.Phone" class="form-control " required>
+                            <span class="text-danger" asp-validation-for="Command.Phone"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Command.Password" class="control-label">رمز عبور<span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" asp-for="Command.Password">
+                            <span class="text-danger" asp-validation-for="Command.Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Command.RoleId" class="control-label">انتخاب نقش...<span class="text-danger">*</span></label>
+                            <Select asp-for="Command.RoleId" asp-Items="@Model.SelectList" type="file" class="form-control">
+                                <option value="0">--انتخاب کنید--</option>
+                            </Select>
+                            <p class="help-block">لطفا با دقت انتخاب کنید ممکن است بعداً بعضی نقش ها قابل ویراش نباشد</p>
+                            <span class="text-danger" asp-validation-for="Command.RoleId"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Command.Email" class="control-label">ایمیل<span class="text-danger">*</span></label>
+                            <input type="email" asp-for="Command.Email" class="form-control " required>
+                            <span class="text-danger" asp-validation-for="Command.Email"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <p></p>
+                <img id="imgCourse" class="thumbnail img-responsive" src="~/AdminTheme/images/Defulat/defulat-user.png" />
+                <div class="form-group">
+                    <label asp-for="Command.Avatar" class="control-label">آواتار</label>
+                    <input id="imgCourseUp" type="file" asp-for="Command.Avatar" class="form-control" accept="image">
+                    <span class="text-danger" asp-validation-for="Command.Avatar"></span>
+                </div>
+            </div>
+            <button id="submit-form" type="submit" class="btn btn-info waves-effect waves-light">ایجاد</button>
+        </form>
+    </div>
+
+
+</div>
+@section Scripts
+    {
+    <script>
+
+        $(function () {
+
+            $('#submit-form').on('click',
+                function (evt) {
+                    evt.preventDefault();
+                   
+
+
+                    var form = $("#userForm");
+                    form.validate();
+                    if (form.valid() === false) {
+                        return false;
+                    }
+                    $.ajax({
+                        url: '',
+                        data: new FormData(document.forms.submitForm),
+                        contentType: false,
+                        processData: false,
+                        type: 'POST',
+                        headers: {
+                            RequestVerificationToken:
+                                $('input:hidden[name="__RequestVerificationToken"]').val()
+                        },
+
+                        success: function (result) {
+                           
+                            if (result.isSucceeded) {
+                                notify("top center", result.message, "success");
+                                window.location.href = '/Administration/Accounts/Users';
+
+                            } else {
+                                notify("top center", result.message, "error")
+                            }
+                        }
+
+                    });
+                });
+        });
+
+
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgCourse').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgCourseUp").change(function () {
+            readURL(this);
+        });
+
+
+    </script>
+}

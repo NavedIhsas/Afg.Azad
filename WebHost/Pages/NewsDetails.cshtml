@@ -1,0 +1,272 @@
+﻿@page
+@using _0_Framework.Application
+@using _0_FrameWork.Application
+@model WebHost.Pages.NewsDetailsModel
+@inject IStringLocalizer<NewsDetailsModel> Localize;
+@{
+    
+    ViewData["Title"] = Model.News.Title;
+    ViewData["keywords"] = Model.News.Keywords;
+    ViewData["description"] = Model.News.MetaDescription;;
+    ViewData["ogDescription"] = Model.News.MetaDescription;;
+    ViewData["twitterDescription"] = Model.News.MetaDescription; ;
+    ViewData["canonical"] = $"https://afgou.org/NewsDetails/{Model.News.Slug}";
+    ViewData["ogType"] = "News";
+    ViewData["ogTitle"] = Model.News.Title;
+    ViewData["ogImage"] = $"https://afgou.org/FileUploader/{Model.News.Picture}";
+    ViewData["twitterImage"] = $"https://afgou.org/FileUploader/{Model.News.Picture}";
+    ViewData["ogUrl"] = $"https://afgou.org/NewsDetails/{Model.News.Slug}";
+    ViewData["twitterTitle"] = Model.News.Title;
+    ViewData["twitterSite"] = $"https://afgou.org/NewsDetails/{Model.News.Slug}";
+    ViewData["author"] = "Afghanistan Open University";
+}
+
+<link href="~/admintheme/assets/css/loading.css" rel="stylesheet" />
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+
+<section data-anim="fade" class="breadcrumbs ">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                <div class="breadcrumbs__content">
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="/Index">@Localize["Home"]</a>
+                    </div>
+
+                    <div class="breadcrumbs__item ">
+                        <a asp-page="/Articles">@Localize["NewsList"]</a>
+                    </div>
+                    <div class="breadcrumbs__item ">
+                        <a href="#">@Model.News.Title</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="page-header -type-1">
+    <div class="container">
+        <div class="page-header__content">
+            <div class="row justify-center text-center">
+                <div class="col-auto">
+                    <div data-anim="slide-up delay-1">
+                        <div class="text-14 text-purple-1 uppercase fw-500 mb-8">@Model.News.CategoryName</div>
+                        <h1 class="page-header__title lh-14">@Model.News.ShortDescription</h1>
+                        <p class="page-header__text">@Model.News.CreationDate.ToShamsi()</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="layout-pt-md">
+    <div class="container">
+        <div class="ratio ratio-16:9 rounded-8 bg-image js-lazy" data-bg="/FileUploader/@Model.News.Picture"></div>
+    </div>
+</section>
+
+<section class="layout-pt-md layout-pb-lg">
+    <div class="container">
+        <div class="blogSection">
+            <div class="blogCard">
+                <div class="row justify-center">
+                    <div class="col-xl-8 col-lg-9 col-md-11">
+                        <div class="blogCard__content">
+                            @Html.Raw(Model.News.Description)
+                        </div>
+                        @if (Model.News.Pictures.Any())
+                        {
+
+                            <div class="row y-gap-30 pt-30">
+                                @foreach (var item in Model.News.Pictures)
+                                {
+                                    <div class="col-sm-6">
+                                        <img src="~/FileUploader/@item.Picture" alt="@Model.News.PictureAtl" title="@Model.News.PictureTitle" class="w-1/1 initial-img rounded-8">
+                                    </div>
+                                }
+                            </div>
+
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.News.Description2))
+                        {
+                            <div class="blogCard__content pt-30">
+                                @Html.Raw(Model.News.Description2)
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-center pt-30">
+                <div class="col-xl-8 col-lg-9 col-md-11">
+                    <div class="row y-gap-20 justify-between items-center">
+
+
+                        <div class="col-auto">
+                            <div class="row x-gap-10 y-gap-10">
+
+                                @foreach (var item in Model.News.KeyWordsList)
+                                {
+                                    <div class="col-auto">
+                                        <a asp-page="Articles" asp-route-title="@item" class="badge -sm -light-3 text-11 text-dark-1">@item</a>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-center pt-30">
+                <div class="col-xl-8 col-lg-9 col-md-11">
+                    <div class="d-flex border-bottom-light border-top-light py-30">
+                        <div class="">
+                            <div class="bg-image size-70 rounded-full js-lazy" data-bg="/FileUploader/@Model.News.BloggerPicture"></div>
+                        </div>
+
+                        <div class="mr-30 md:mr-20">
+                            <h4 class="text-15 lh-15 fw-500">@Model.News.BloggerName</h4>
+                            <div class="mt-5">@Model.News.BloggerSkills</div>
+                            <p class="mt-25">@Model.News.BloggerBio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-center pt-30">
+                <div class="col-xl-8 col-lg-9 col-md-11">
+                    <div class="blogPost -comments">
+                        <div class="blogPost__content">
+                            <h2 class="text-20 fw-500">
+                                @Localize["UserReview"]
+                            </h2>
+
+                            <ul class="comments__list mt-30">
+                                @foreach (var item in Model.News.Comments)
+                                {
+                                    <li class="comments__item" id="comment-@item.Id">
+                                        <div class="comments__item-inner md:direction-column">
+                                            <div class="comments__img ml-20">
+                                                @{
+                                                    var avatar = "";
+                                                    avatar = !string.IsNullOrWhiteSpace(item.Picture) ? item.Picture : "/Img/Comment.png";
+                                                }
+                                                <div class="bg-image rounded-full js-lazy" data-bg="@avatar"></div>
+                                            </div>
+
+                                            <div class="comments__body md:mt-15">
+                                                <div class="comments__header">
+                                                    <h4 class="text-17 fw-500 lh-15">
+                                                        @item.Name
+                                                        <span class="text-13 text-light-1 fw-400">@item.CreateDateTime.TimeAgo()</span>
+                                                    </h4>
+                                                    <div class="stars"></div>
+                                                </div>
+
+                                                <h5 class="text-15 fw-500 mt-15">@item.Title</h5>
+                                                <div class="comments__text mt-10">
+                                                    <p>@item.Message</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="respondForm pt-30">
+                        <h3 class="text-20 fw-500">
+                            @Localize["Reviews"]
+                        </h3>
+
+
+                        <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30" name="comment" id="comment">
+                            <div class="col-12">
+                                <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">@Localize["Fullname"]</label>
+                                <input asp-for="Command.Name" type="text" placeholder="...">
+                                <span asp-validation-for="Command.Name" class="text-error-2"></span>
+                            </div>
+                            <div class="col-12">
+                                <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">@Localize["ReviewTitle"]</label>
+                                <input type="text" asp-for="Command.Title" placeholder="@Localize["ReviewTitle"]...">
+                                <span asp-validation-for="Command.Title" class="text-error-2"></span>
+                            </div>
+                            <div class="col-12">
+                                <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">@Localize["ReviewContent"]</label>
+                                <textarea asp-for="Command.Message" placeholder="@Localize["WriteYourReview"]..." rows="8"></textarea>
+                                <span asp-validation-for="Command.Message" class="text-error-2"></span>
+                                <input type="hidden" asp-for="Command.OwnerRecordId" value="@Model.News.Id" />
+                            </div>
+                            <div class="col-12">
+                                <button type="button" id="submitComment" class="button -md -purple-1 text-white">
+                                    @Localize["SubmitReview"]
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+
+        $("#submitComment").click(function () {
+           
+            var form = $("#comment");
+            form.validate();
+            if (form.valid() === false) {
+                return false;
+            }
+            $.ajax({
+                url: '',
+                data: new FormData(document.forms.comment),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                beforeSend: function () {
+                    $('#loader').removeClass('hidden')
+                },
+                success: function (result) {
+                   
+                    if (result) {
+                        $("#Command_Name").val("");
+                        $("#Command_Title").val("");
+                        $("#Command_Message").val("");
+                        notify("top center", "نظر شما ثبد شد، پس از تایید مدیر منتشر خواهد شد", "success");
+                    }
+                    else {
+                        notify("top center", result.message, "error");
+                    }
+
+                },
+                complete: function () {
+                    $('#loader').addClass('hidden')
+                },
+            });
+        })
+
+    </script>
+}

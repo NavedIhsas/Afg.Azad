@@ -1,0 +1,113 @@
+﻿﻿@using _0_Framework.Application
+@using ShopManagement.Domain.CourseGroupAgg
+@using _0_Framework.Application
+@model IEnumerable<Afg.Azad.UnQuery.Contract.Course.GetPopularCourseViewModel>
+@inject IStringLocalizer<IndexModel> localizer
+@{
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+<section class="layout-pt-lg layout-pb-lg">
+    <div data-anim-wrap class="container">
+        <div class="row y-gap-15 justify-between items-center">
+            <div class="col-lg-6">
+
+                <div class="sectionTitle ">
+                    <h2 class="sectionTitle__title ">@localizer["PopularCourses"]</h2>
+                    <p class="sectionTitle__text ">@localizer["PopularCourseDes"]</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row y-gap-30 justify-center pt-50">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-6">
+                    <div data-anim-child="slide-up delay-1">
+
+                        <a  asp-page="/CourseDetails" asp-route-id="@item.Slug" class="coursesCard -type-1 -hover-shadow border-light rounded-8">
+                            <div class="relative">
+                                <div class="coursesCard__image overflow-hidden rounded-top-8">
+                                    <img class="w-1/1" src="~/FileUploader/@item.Picture" title="@item.PictureTitle" alt="@item.PictureAlt">
+                                    <div class="coursesCard__image_overlay rounded-top-8"></div>
+                                </div>
+                                <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
+                                </div>
+                            </div>
+
+                            <div class="h-100 pt-15 pb-10 px-20">
+
+                                <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">@item.Name</div>
+
+                                <div class="d-flex x-gap-10 items-center pt-10">
+
+                                    <div class="d-flex items-center">
+                                        <div class="ml-8">
+                                            <img src="~/Theme/img/coursesCards/icons/1.svg" alt="icon">
+                                        </div>
+                                        <div class="text-14 lh-2">@item.UserCourseCount </div>
+                                    </div>
+
+                                    <div class="d-flex items-center">
+                                        <div class="ml-8">
+                                            <img src="~/Theme/img/coursesCards/icons/2.svg" alt="icon">
+                                        </div>
+                                        <div class="text-14 lh-2">@item.TotalTime</div>
+                                    </div>
+
+                                    <div class="d-flex items-center">
+                                        <div class="ml-8">
+                                            <img src="~/Theme/img/coursesCards/icons/3.svg" alt="icon">
+                                        </div>
+                                        <div class="text-14 lh-2">@item.Level</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="coursesCard-footer">
+                                    <div class="coursesCard-footer__author">
+                                        <img src="~/FileUploader/@item.Teacher.Photo" alt="image">
+                                        <div>@item.Teacher.AccountName</div>
+                                    </div>
+                                    <div class="coursesCard-footer__price">
+                                        @if (item.Price > 0)
+                                        {
+                                            <div></div>
+                                            <div>
+                                                @item.Price.ToMoney()
+                                                Af
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div></div>
+
+                                            <div class="text-success">
+                                                <span> @localizer["Free"]</span>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <h5 class="m-0"></h5>
+
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            }
+
+
+        </div>
+
+        <div class="row justify-center pt-60 lg:pt-40">
+            <div class="col-auto">
+                <a  asp-page="/Courses" class="button -md -outline-purple-1 text-purple-1">
+                    @localizer["ViewAll"]
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,90 @@
+﻿@model Shop.Management.Application.Contract.Quiz.CreateQuiz
+@{
+    ViewData["Title"] = "ایجاد امتحان جدید";
+}
+<div class="container">
+    <partial name="Shared/_Create_View_Header" />
+    <form asp-page="./Index" asp-page-handler="Create"
+          method="post"
+          data-ajax="true"
+          data-action="Refresh"
+          enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">نام<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="Name" onchange="makeSlug('Name', 'Slug')">
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Slug" class="control-label">اسلاگ<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="Slug">
+                        <span class="text-danger" asp-validation-for="Slug"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CourseId" class="control-label">کورس<span class="text-danger">*</span></label>
+                        <Select asp-for="CourseId" asp-Items="@(new SelectList(Model.SelectList, "Id", "Name"));" type="file" class="form-control select2">
+                            <option value="0">--انتخاب کنید--</option>
+                        </Select>
+                        <span class="text-danger" asp-validation-for="CourseId"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="OnDate" class="control-label">تاریخ برگزاری<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control PersianDateInput" asp-for="OnDate">
+                        <span class="text-danger" asp-validation-for="OnDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Time" class="control-label">زمان برگزاری<span class="text-danger">*</span></label>
+                        <input type="time" class="form-control" asp-for="Time">
+                        <span class="text-danger" asp-validation-for="Time"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PeriodTime" class="control-label">زمان پایان<span class="text-danger">*</span></label>
+                        <input type="time" class="form-control" asp-for="PeriodTime">
+                        <span class="text-danger" asp-validation-for="PeriodTime"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group no-margin">
+                        <label asp-for="MetaDes" class="control-label">توضیحات میتا<span class="text-danger">*</span></label>
+                        <textarea class="form-control autogrow" asp-for="MetaDes" rows="5"></textarea>
+                        <span class="text-danger" asp-validation-for="MetaDes"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="KeyWord" class="control-label">کلمات کلیدی<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="KeyWord" placeholder="حداکثر 150 کاراکتر">
+                        <span class="text-danger" asp-validation-for="KeyWord"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">بستن</button>
+            <button type="submit" class="btn btn-info waves-effect waves-light">ایجاد</button>
+        </div>
+    </form>
+</div>
+
+

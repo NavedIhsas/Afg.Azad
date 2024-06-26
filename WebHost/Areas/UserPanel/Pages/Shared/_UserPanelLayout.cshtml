@@ -1,0 +1,244 @@
+﻿@using _0_FrameWork.Application
+@using AccountManagement.Application.Contract.Account
+@using AccountManagement.Domain.Account.Agg
+@inject IAuthHelper AuthHelper;
+@inject IAccountRepository Account 
+@{
+    var userId = AuthHelper.CurrentAccountInfo().AccountId;
+    var user = Account.GetUserBy(userId);
+}
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="~/Theme/ltr/css/all.min.css" />
+    <link rel="stylesheet" href="~/Theme/ltr/vendor/leaflet/leaflet.css" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="~/Theme/ltr/css/vendors.css">
+    <link rel="stylesheet" href="~/Theme/ltr/css/main.css">
+    <link href="~/AdminTheme/assets/css/persian-datepicker.min.css" rel="stylesheet" />
+
+    <title>@ViewData["Title"] | پروفایل کاربری</title>
+</head>
+
+<body class="preloader-visible" data-barba="wrapper">
+    <div class="preloader js-preloader">
+        <div class="preloader__bg"></div>
+    </div>
+    <div class="barba-container" data-barba="container">
+
+        <main class="main-content">
+
+            <header class="header -dashboard -dark-bg-dark-1 js-header">
+                <div class="header__container py-20 px-30">
+                    <div class="row justify-between items-center">
+                        <div class="col-auto">
+                            <div class="d-flex items-center">
+                                <div class="header__explore text-dark-1">
+                                    <button class="d-flex items-center js-dashboard-home-9-sidebar-toggle">
+                                        <i class="icon -dark-text-white icon-explore"></i>
+                                    </button>
+                                </div>
+
+                                <div class="header__logo mr-30 md:mr-20">
+                                    <a data-barba asp-page="Index" asp-area="">
+                                        <img class="-light-d-none" src="~/Theme/img/general/logo.svg" alt="logo">
+                                        <img class="-dark-d-none" src="~/Theme/img/general/logo-dark.svg" alt="logo">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="d-flex items-center">
+                                <div class="d-flex items-center sm:d-none">
+                                   
+                                    <div class="relative">
+                                        <button data-maximize class="d-flex text-light-1 items-center justify-center size-50 rounded-16 -hover-dshb-header-light">
+                                            <i class="text-24 icon icon-maximize"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="relative d-flex items-center mr-10">
+                                    <a href="#" data-el-toggle=".js-profile-toggle">
+                                        @if (AuthHelper.IsAuthenticated())
+                                        {
+                                            <img class="size-50" src="~/FileUploader/@user.Avatar" alt="@user.FirstName @user.LastName" title="@user.FirstName @user.LastName" style=" border-radius: 50%;">
+                                        }
+                                        else
+                                        {
+                                            <img class="size-50" src="~/Img/userAvatar.png" alt="image" style=" border-radius: 50%;">
+                                        }
+                                    </a>
+
+                                    <div class="toggle-element js-profile-toggle">
+                                        <div class="toggle-bottom -profile bg-white -dark-bg-dark-1 shadow-4 border-light rounded-8 mt-10">
+                                            <div class="px-30 py-30">
+
+                                                <div class="sidebar -dashboard">
+
+                                                    <div class="sidebar__item -dark-text-white @Html.ActiveClassUserPanel("Index")">
+                                                        <a  asp-page="Index" asp-area="UserPanel" class="d-flex items-center text-16 lh-2 fw-500">
+                                                            <i class="text-20 icon-discovery ml-15"></i>
+                                                            Dashboard
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="sidebar__item @Html.ActiveClassUserPanel("/MyCourse")">
+                                                        <a asp-page="/MyCourse"  class="d-flex items-center text-16 lh-2 fw-500 ">
+                                                            <i class="text-20 icon-play-button ml-15"></i>
+                                                            Course List
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="sidebar__item @Html.ActiveClassUserPanel("/MyComments")">
+                                                        <a class="d-flex items-center text-16 lh-2 fw-500 " asp-page="/MyComments">
+                                                            <i class="text-20 icon-comment ml-15"></i>
+                                                            Comments
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="sidebar__item ">
+                                                        <a asp-page="/Signup" asp-page-handler="Logout" asp-area="" class="d-flex items-center text-16 lh-2 fw-500 ">
+                                                            <i class="text-20 icon-power ml-15"></i>
+                                                            Logout
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+
+            <div class="content-wrapper js-content-wrapper">
+                <div class="dashboard -home-9 js-dashboard-home-9">
+                    <div class="dashboard__sidebar scroll-bar-1">
+
+
+                        <div class="sidebar -dashboard">
+
+                            <div class="sidebar__item -dark-text-white @Html.ActiveClassUserPanel("/Index")">
+                                <a asp-page="/Index" asp-area="UserPanel" class="d-flex items-center text-16 lh-2 fw-500 -dark-text-white">
+                                    <i class="text-20 icon-discovery ml-15"></i>
+                                    Dashboard
+                                </a>
+                            </div>
+
+                            <div class="sidebar__item @Html.ActiveClassUserPanel("/MyCourse")">
+                                <a asp-page="/MyCourse"  class="d-flex items-center text-16 lh-2 fw-500 ">
+                                    <i class="text-20 icon-play-button ml-15"></i>
+                                    Course List
+                                </a>
+                            </div>
+
+
+                            <div class="sidebar__item @Html.ActiveClassUserPanel("/MyComment")">
+                                <a asp-page="/MyComment" class="d-flex items-center text-16 lh-2 fw-500 ">
+                                    <i class="text-20 icon-comment ml-15"></i>
+                                    Comments
+                                </a>
+                            </div>
+
+                            <div class="sidebar__item">
+                                <a asp-page="/Login" asp-page-handler="Logout" asp-area="" class="d-flex items-center text-16 lh-2 fw-500 ">
+                                    <i class="text-20 icon-power ml-15"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+        <aside class="sidebar-menu toggle-element js-msg-toggle js-dsbh-sidebar-menu">
+            <div class="sidebar-menu__bg"></div>
+
+            <div class="sidebar-menu__content scroll-bar-1 py-30 px-40 sm:py-25 sm:px-20 bg-white -dark-bg-dark-1">
+                <div class="row items-center justify-between mb-30">
+                    <div class="col-auto">
+                        <div class="-sidebar-buttons">
+                            <button data-sidebar-menu-button="messages" class="text-17 text-dark-1 fw-500 -is-button-active">
+                                Send Message
+                            </button>
+
+                            <button data-sidebar-menu-button="messages-2" data-sidebar-menu-target="messages" class="d-flex items-center text-17 text-dark-1 fw-500">
+                                <i class="icon-chevron-right text-11 text-purple-1 ml-10"></i>
+                                Messages
+                            </button>
+
+                            <button data-sidebar-menu-button="settings" data-sidebar-menu-target="messages" class="d-flex items-center text-17 text-dark-1 fw-500">
+                                <i class="icon-chevron-right text-11 text-purple-1 ml-10"></i>
+                                Settings
+                            </button>
+
+                            <button data-sidebar-menu-button="contacts" data-sidebar-menu-target="messages" class="d-flex items-center text-17 text-dark-1 fw-500">
+                                <i class="icon-chevron-right text-11 text-purple-1 ml-10"></i>
+                                Contacts
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-auto">
+                        <div class="row x-gap-10">
+                            <div class="col-auto">
+                                <button data-sidebar-menu-target="settings" class="button -purple-3 text-purple-1 size-40 d-flex items-center justify-center rounded-full">
+                                    <i class="icon-setting text-16"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button data-sidebar-menu-target="contacts" class="button -purple-3 text-purple-1 size-40 d-flex items-center justify-center rounded-full">
+                                    <i class="icon-friend text-16"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button data-el-toggle=".js-msg-toggle" class="button -purple-3 text-purple-1 size-40 d-flex items-center justify-center rounded-full">
+                                    <i class="icon-close text-14"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+
+    </div>
+
+
+
+<!-- barba container end -->
+    <!-- JavaScript -->
+    <script src="~/AdminTheme/assets/js/jquery.min.js"></script>
+
+    <script src="~/Theme/ltr/vendor/Chart/chart.min.js"></script>
+    <script src="~/Theme/ltr/vendor/leaflet/leaflet.js"></script>
+    <script src="~/Theme/ltr/js/vendors.js"></script>
+    <script src="~/Theme/ltr/js/main.js"></script>
+    <script src="~/AdminTheme/assets/js/persian-date.min.js"></script>
+    <script src="~/AdminTheme/assets/js/persian-datepicker.min.js"></script>
+    <script src="~/admintheme/assets/js/notify.min.js"></script>
+    <script src="~/theme/js/custom.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    @await RenderSectionAsync("Scriipts",false)
+</body>
+
+</html>

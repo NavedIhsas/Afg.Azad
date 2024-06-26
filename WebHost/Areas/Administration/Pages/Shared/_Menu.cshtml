@@ -1,0 +1,209 @@
+﻿@using _0_FrameWork.Application
+@using AccountManagement.Application.Contract.Account
+@using AccountManagement.Domain.Account.Agg
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject IAuthHelper AuthHelper;
+@inject IAccountRepository Account;
+@{
+    var currentAccout = AuthHelper.CurrentAccountInfo();
+    var user = Account.GetUserBy(currentAccout.AccountId);
+}
+
+@section Css
+{
+    <style>
+        #sidebar-menu {
+            width: 100%;
+            background-color: #ffffff;
+            padding-bottom: 50px;
+            height: 500px;
+        }
+    </style>
+}
+<div class="left side-menu">
+    <div class="sidebar-inner">
+        <div class="user-details">
+
+            <div class="pull-right">
+                @if (!string.IsNullOrWhiteSpace(user.Avatar))
+                {
+                    <img src="/FileUploader/@user.Avatar" alt="" class="thumb-md img-circle">
+                }
+                else
+                {
+                    <img src="~/AdminTheme/images/users/avatar-1.png" alt="" class="thumb-md img-circle">
+                }
+            </div>
+
+            <div class="user-info">
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">@AuthHelper.CurrentAccountFullName()</a>
+
+                </div>
+
+                <p class="text-muted m-0">@user.Role.Name</p>
+            </div>
+        </div>
+        <!--- Divider -->
+
+        <div id="sidebar-menu" style="overflow: scroll !important; height: 500px;">
+
+            <ul>
+                <li>
+                    <a permission="PermissionPlace.AdministrationHomepage" asp-page="/Index" class="waves-effect @Html.ActiveClass("/index") "><i class="md md-home"></i><span> داشبورد </span></a>
+                </li>
+
+                <li class="has_sub" permission="@PermissionPlace.SystemAdministratorActivity">
+                    <a class="waves-effect"><i class="md md-message"></i><span> فعالیت ها</span><span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a asp-page="/Notifications/Index" class="@Html.ActiveClass("/Notifications/Index") ">اعلانات </a>
+                        </li>
+
+                        <li>
+                            <a asp-area="Administration" asp-page="/Notifications/Index" asp-page-handler="AdminsActivity" class="@Html.ActiveClass("/Notifications/Index") ">فعالیت مدیران سیستم </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li permission="PermissionPlace.ListCourses" class="has_sub">
+                    <a class="waves-effect "><i class="md md-book"></i><span>  مدیریت کورس     ها </span><span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a permission="PermissionPlace.ListCourseGroups" class="@Html.ActiveClass("/Courses/CourseGroup/Index") " asp-page="/Courses/CourseGroup/Index">گروه ها</a></li>
+                        <li><a permission="PermissionPlace.ListCourses" class="@Html.ActiveClass("/Courses/Course/Index") " asp-page="/Courses/Course/Index">کورس     ها</a></li>
+
+                        <li>
+                            <a permission="PermissionPlace.ListCourseEpisodes" asp-page="/Courses/CourseEpisode/Index" class="@Html.ActiveClass("/Courses/CourseEpisode/Index") ">فایل های کورس    </a>
+                        </li>
+
+                        <li>
+                            <a permission="PermissionPlace.CreateCourseStatus" asp-page="/Courses/CourseStatus/Index" class="@Html.ActiveClass("/Courses/CourseStatus/Index") ">وضعیت کورسها </a>
+                        </li>
+                        <li>
+                            <a permission="PermissionPlace.CreateCourseLevel" asp-page="/Courses/CourseLevel/Index" class="@Html.ActiveClass("/Courses/CourseLevel/Index")">سطح کورسها</a>
+                        </li>
+                        <li>
+                            <a permission="PermissionPlace.ListOnlineCourse" asp-page="/Courses/OnlineCourse/Index" class="@Html.ActiveClass("/Courses/OnlineCourse/Index")">ایجاد کننده لینک</a>
+                        </li>
+
+                        <li>
+                            <a permission="PermissionPlace.ListQuiz" asp-page="/Quiz/Index" class="@Html.ActiveClass("/Quiz/Index")">امتحانات</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="has_sub" permission="PermissionPlace.ListArticles">
+                    <a class="waves-effect"><i class="md md-message"></i><span> اخبار و وبلاگ </span><span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a permission="PermissionPlace.ListArticleCategories" class="@Html.ActiveClass("/Blog/ArticleCategory/Index")" asp-page="/Blog/ArticleCategory/Index">گروه مقاله ها </a>
+                        </li>
+
+                        <li>
+                            <a permission="PermissionPlace.ListArticles" class="@Html.ActiveClass("/Blog/Article/Index")" asp-page="/Blog/Article/Index">مقاله ها </a>
+                        </li>
+
+                        <li>
+                            <a permission="PermissionPlace.ListNews" class="@Html.ActiveClass("/News/Index")" asp-page="/News/Index">مدیریت خبر ها </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="has_sub" permission="PermissionPlace.ListCostumerDiscount">
+                    <a class="waves-effect"><i class="md md-shop"></i><span> سیستم تخفیفات </span><span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a permission="PermissionPlace.ListCostumerDiscount" class="@Html.ActiveClass("/Discount/CustomerDiscount/Index")" asp-page="/Discount/CustomerDiscount/Index">تخفیفات مشتری </a>
+                        </li>
+
+                        <li>
+                            <a permission="PermissionPlace.ListColleagueDiscount" class="@Html.ActiveClass("/Discount/ColleagueDiscount/Index")" asp-page="/Discount/ColleagueDiscount/Index">تخفیفات همکار </a>
+                        </li>
+
+                        <li>
+                            <a permission="PermissionPlace.ListDiscountCode" class="@Html.ActiveClass("/Discount/DiscountCode/Index")" asp-page="/Discount/DiscountCode/Index">تخفیفات کد اختصاصی </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="has_sub" permission="PermissionPlace.Slider">
+                    <a class="waves-effect"><i class="fa fa-sliders"></i><span> اسلایدر </span><span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a permission="PermissionPlace.CreatePhotoHomePage" class="@Html.ActiveClass("/Slider/Index")" asp-page="/Slider/Index">تغییر اسلایدر </a>
+                        </li>
+                        <li>
+                            <a permission="PermissionPlace.Gallery" class="@Html.ActiveClass("/Slider/Gallery")" asp-page="/Slider/Gallery">گالری عکس ها </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li permission="PermissionPlace.ListUsers" class="has_sub">
+                    <a class="waves-effect "><i class="fa fa-user"></i><span>  کاربران و نقش ها </span><span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a permission="PermissionPlace.ListUsers" asp-page="/Accounts/Users/Index" class="@Html.ActiveClass("/Accounts/Users/Index")">کاربران </a>
+                        </li>
+
+                        <li>
+                            <a permission="PermissionPlace.ListBlockedUsers" asp-page="/Accounts/Users/BlockedUserList" class="@Html.ActiveClass("/Accounts/Users/BlockedUserList")" asp-area="Administration">کاربران مسدود شده </a>
+                        </li>
+
+                        <li>
+                            <a permission="PermissionPlace.ListTeacherAndBlogger" asp-page="/Accounts/Users/Teacher" class="@Html.ActiveClass("/Accounts/Users/Teacher")">اساتید و بلاگر ها </a>
+                        </li>
+
+                        <li>
+                            <a permission="PermissionPlace.ListRoles" asp-page="/Accounts/Roles/Index" class="@Html.ActiveClass("/Accounts/Roles/Index")">نقش ها و سطح دسترسی </a>
+                        </li>
+
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
+                <li permission="PermissionPlace.Settings" class="has_sub">
+                    <a class="waves-effect "><i class="fa fa-gear"></i><span>تنظیمات </span><span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a permission="PermissionPlace.ListCity" asp-page="/Setting/City" class="@Html.ActiveClass("/Setting/City")"> شهر ها </a>
+                        </li>
+                        <li>
+                            <a permission="PermissionPlace.ListComments" asp-page="/Comment/index" class="@Html.ActiveClass("/Comment/index")"> نظرات </a>
+                        </li>
+                        <li>
+                            <a asp-page="/Setting/ContactUs" class="@Html.ActiveClass("/Setting/ContactUs")"> پیام های دریافتی </a>
+                        </li>
+                        <li>
+                            <a asp-page="/Email/index" class="@Html.ActiveClass("/Email/index")"> ایمیل های دریافتی </a>
+                        </li>
+
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
+                @*
+                <li class="has_sub" permission="ListNews">
+                <a class="waves-effect"><i class="fa fa-newspaper-o"></i><span> خبر </span><span class="pull-right"><i class="md md-add"></i></span></a>
+                <ul class="list-unstyled">
+                <li><a permission="ListNews" asp-page="/News/Index">لیست خبر</a></li>
+                <li><a permission="ListNews" asp-page="/News/NewsPictures/Index">عکس های خبر</a></li>
+                </ul>
+                </li>
+                *@
+
+                <li>
+                    <a asp-page="/Signup" asp-page-handler="Logout" asp-area="" class="waves-effect "><i class="md md-lock"></i><span> خروج </span></a>
+                </li>
+
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+</div>

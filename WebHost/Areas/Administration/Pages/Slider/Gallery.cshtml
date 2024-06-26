@@ -1,0 +1,135 @@
+﻿@page
+@using _0_Framework.Application
+@model WebHost.Areas.Administration.Pages.Slider.GalleryModel
+@{
+}
+
+<!-- SECTION FILTER
+                     ================================================== -->
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 ">
+        <div class="portfolioFilter">
+            <a href="javascript:void(0)" data-filter="*" class="disabled">همه </a>
+            <a href="#" data-filter="*" class="current"> گالری اسلاید ها</a>
+           @* <a href="#" data-filter=".webdesign">گالری کورس ها</a>
+            <a href="#" data-filter=".graphicdesign">گالری کاربران</a>
+            <a href="#" data-filter=".illustrator">گالری وبلاگ</a>
+            <a href="#" data-filter=".photography">گالری خبر ها</a>*@
+        </div>
+    </div>
+</div>
+
+<div class="row port">
+    <div class="portfolioContainer">
+        @foreach (var slide in Model.List)
+        {
+            <div class="col-sm-6 col-lg-3 col-md-4 webdesign illustrator">
+                <div class="gal-detail thumb">
+                    <a class="image-popup" title="Screenshot-1">
+                        <img src="@slide.PictureStringFormat" class="thumb-img" alt="work-thumbnail">
+                    </a>
+                    <div class="row">
+                        <div class="col col-md-6">
+                            <h4>@slide.CreationDate.ToFarsi()</h4>
+                        </div>
+                        <div class="col col-md-6">
+                            <a class="" onclick="removeSlide(@slide.Id)">
+                                <i class="fa fa-trash-o pull-left p-t-10" style="font-size:24px;color:red"></i>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div> <!-- End row -->
+
+
+
+<div id="removeSlide" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" id="ModalContent">
+            <div class="container">
+                <form 
+                      method="post"
+                      data-ajax="true"
+                      data-action="Refresh">
+                    <div class="modal-body">
+                        <p class="text-warning">
+                            <h2 class="alert alert-warning text-center"><i class=" text-danger fa fa-warning fa-1x">هشدار !</i></h2>
+                            <br />
+                            <h4 class="text-center"><strong>  آیا از حذف این اسلاید مطمئنید؟</strong></h4>
+                            <br />
+                            در صورت تائید این سلاید حذف شده و دیگر قابل بازگشت نیست
+                        </p>
+                    </div>
+                    <input type="hidden" name="slideId" id="slideId" />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">بازگشت</button>
+                        <button type="submit" class="btn btn-info waves-effect waves-light">حذف کردن</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    <script type="text/javascript" src="~/AdminTheme/assets/gallery/isotope.js"></script>
+    <script type="text/javascript" src="~/AdminTheme/assets/magnific-popup/magnific-popup.js"></script>
+
+
+    <script type="text/javascript">
+
+
+        function removeSlide(id) {
+            
+            $("#removeSlide").modal('show');
+            $("#slideId").val(id);
+        }
+
+        $(window).load(function () {
+            var $container = $('.portfolioContainer');
+            $container.isotope({
+                filter: '*',
+                animationOptions: {
+                    duration: 750,
+                    easing: 'linear',
+                    queue: false
+                }
+            });
+
+            $('.portfolioFilter a').click(function () {
+                $('.portfolioFilter .current').removeClass('current');
+                $(this).addClass('current');
+
+                var selector = $(this).attr('data-filter');
+                $container.isotope({
+                    filter: selector,
+                    animationOptions: {
+                        duration: 750,
+                        easing: 'linear',
+                        queue: false
+                    }
+                });
+                return false;
+            });
+        });
+        $(document).ready(function () {
+            $('.image-popup').magnificPopup({
+                type: 'image',
+                closeOnContentClick: true,
+                mainClass: 'mfp-fade',
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                }
+            });
+        });
+
+    </script>
+}

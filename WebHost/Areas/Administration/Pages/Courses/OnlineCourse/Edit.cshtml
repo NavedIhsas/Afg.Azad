@@ -1,0 +1,92 @@
+﻿
+@model Shop.Management.Application.Contract.OnlineCourse.EditOnlineCourse
+@{
+    ViewData["Title"] = "افزودن لینک جدید    ";
+}
+
+<div class="container">
+    <partial name="Shared/_Create_View_Header" />
+
+    <form asp-page="./Index" asp-page-handler="Edit"
+          method="post"
+          data-ajax="true"
+          data-action="Refresh"
+          enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label">عنوان <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="Title">
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CourseId" class="control-label">کورس  </label>
+                        <select type="text" class="form-control select2" asp-for="CourseId" asp-items="@(new SelectList(Model.CoursesSelectList, "Id", "Name"))">
+                            <option selected="" dis>--انتخاب کنید--</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="CourseId"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Url" class="control-label">لینک <span class="text-danger">*</span></label>
+                        <input type="url" class="form-control" asp-for="Url" accept="video" required>
+                        <span class="text-danger" asp-validation-for="Url"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Time" class="control-label">زمان </label>
+                        <input type="TimeSpan" class="form-control" asp-for="Time">
+                        <span class="text-danger" asp-validation-for="Time"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+              
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="SendEmail" class=" control-label">ایمیل ارسال شود؟ </label>
+                        <input type="checkbox" class="cform-control" asp-for="SendEmail" checked="">
+                        <span class="text-danger" asp-validation-for="SendEmail"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+              
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Description" class="checkbox-inline control-label">توضیحات </label>
+                        <textarea type="text" class="checkbox-inline" row="3" asp-for="Description"></textarea>
+                        <span class="text-danger" asp-validation-for="Description"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" asp-for="Id"/>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">بستن</button>
+            <button type="submit" class="btn btn-info waves-effect waves-light">ویرایش</button>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+

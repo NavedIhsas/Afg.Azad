@@ -1,0 +1,471 @@
+﻿@page
+@model WebHost.Pages.CoursesModel
+@inject IStringLocalizer<CoursesModel> localizer
+
+@{
+    ViewData["Title"] = "Courses";
+    var category = ViewData["Category"] as List<long>;
+    var theacher = ViewData["Teacher"] as List<long>;
+    var level = ViewData["Level"] as List<long>;
+}
+
+
+<div class="content-wrapper  js-content-wrapper">
+    <section data-anim="fade" class="breadcrumbs ">
+        <div class="container">
+            <div class="row">
+                <div class="col-auto">
+                    <div class="breadcrumbs__content">
+
+                        <div class="breadcrumbs__item ">
+                            <a asp-page="/Index">@localizer["Home"]</a>
+                        </div>
+
+                        <div class="breadcrumbs__item ">
+                            <a href="#">@localizer["Courses"]</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="page-header -type-1">
+        <div class="container">
+            <div class="page-header__content">
+                <div class="row">
+                    <div class="col-auto">
+                        <div data-anim="slide-up delay-1">
+                            <h1 class="page-header__title ff-estedad">@localizer["Courses"]</h1>
+                        </div>
+                        <div data-anim="slide-up delay-2">
+                            <p class="page-header__text">@localizer["CoursesDes"]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="layout-pt-md layout-pb-lg">
+        <div data-anim-wrap class="container">
+            <div class="row y-gap-50">
+                <div class="col-xl-3 col-lg-4 lg:d-none">
+                    <div class="pr-30 lg:pr-0">
+                        <form method="get" id="submitForm" asp-page="Courses">
+
+                            <div data-anim="slide-up delay-2" class="sidebar -courses">
+                                <div class="sidebar__item">
+                                    <div class="accordion js-accordion">
+                                        <div class="accordion__item js-accordion-item-active">
+                                            <div class="accordion__button items-center">
+                                                <h5 class="sidebar__title">@localizer["Category"]</h5>
+
+                                                <div class="accordion__icon">
+                                                    <div class="icon icon-chevron-down"></div>
+                                                    <div class="icon icon-chevron-up"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="accordion__content">
+                                                <div class="accordion__content__inner">
+                                                    <div class="sidebar-checkbox">
+                                                        @foreach (var item in Model.CourseGroups)
+                                                        {
+                                                            var filter = (category != null && category.Any(x => x == item.Id) ? "checked" : "");
+                                                            <div class="sidebar-checkbox__item">
+                                                                <div class="form-checkbox">
+                                                                    <input type="checkbox" @filter name="SearchModel.CategoryId" value="@item.Id" onclick="submitForm()">
+                                                                    <div class="form-checkbox__mark">
+                                                                        <div class="form-checkbox__icon icon-check"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="sidebar-checkbox__title">@item.Title</div>
+                                                                <div class="sidebar-checkbox__count">(@item.CourseCount)</div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="sidebar__item">
+                                    <div class="accordion js-accordion">
+                                        <div class="accordion__item js-accordion-item-active">
+                                            <div class="accordion__button items-center">
+                                                <h5 class="sidebar__title">@localizer["teacher"]</h5>
+
+                                                <div class="accordion__icon">
+                                                    <div class="icon icon-chevron-down"></div>
+                                                    <div class="icon icon-chevron-up"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="accordion__content">
+                                                <div class="accordion__content__inner">
+                                                    <div class="sidebar-checkbox">
+
+                                                        @foreach (var item in Model.Teachers)
+                                                        {
+                                                            var filter = (theacher != null && theacher.Any(x => x == item.Id) ? "checked" : "");
+
+                                                            <div class="sidebar-checkbox__item">
+                                                                <div class="form-checkbox">
+                                                                    <input type="checkbox" @filter name="SearchModel.TeacherId" value="@item.Id" onclick="submitForm()">
+                                                                    <div class="form-checkbox__mark">
+                                                                        <div class="form-checkbox__icon icon-check"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="sidebar-checkbox__title">@item.AccountName</div>
+                                                                <div class="sidebar-checkbox__count">(@item.CourseCount)</div>
+                                                            </div>
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="sidebar__item">
+                                    <div class="accordion js-accordion">
+                                        <div class="accordion__item js-accordion-item-active">
+                                            <div class="accordion__button items-center">
+                                                <h5 class="sidebar__title">@localizer["level"]</h5>
+
+                                                <div class="accordion__icon">
+                                                    <div class="icon icon-chevron-down"></div>
+                                                    <div class="icon icon-chevron-up"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="accordion__content">
+                                                <div class="accordion__content__inner">
+                                                    <div class="sidebar-checkbox">
+
+                                                        @foreach (var item in Model.CourseLevels)
+                                                        {
+                                                            var filter = (level != null && level.Any(x => x == item.Id) ? "checked" : "");
+
+                                                            <div class="sidebar-checkbox__item">
+                                                                <div class="form-checkbox">
+                                                                    <input type="checkbox" @filter name="SearchModel.LevelId" value="@item.Id" onclick="submitForm()">
+                                                                    <div class="form-checkbox__mark">
+                                                                        <div class="form-checkbox__icon icon-check"></div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="sidebar-checkbox__title">@item.Title</div>
+                                                                <div class="sidebar-checkbox__count">(@item.Courses.Count)</div>
+                                                            </div>
+                                                        }
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+                <div data-anim-child="slide-up delay-3" class="col-xl-9 col-lg-8">
+                    <div class="accordion js-accordion">
+                        <div class="accordion__item">
+                            <div class="row y-gap-20 items-center justify-between pb-30">
+                                <div class="col-auto">
+                                    <div class="text-14 lh-12">@localizer["show"] <span class="text-dark-1 fw-500">@Model.Course.Courses.Count</span> @localizer["result"]</div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="row x-gap-20 y-gap-20">
+                                        <div class="col-auto d-none lg:d-block">
+                                            <div class="accordion__button w-unset">
+                                                <button class="button h-50 px-30 -light-7 text-purple-1">
+                                                    <i class="icon-filter ml-10"></i>
+                                                    @localizer["filter"]
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion__content d-none lg:d-block">
+                                <div class="sidebar -courses px-30 py-30 rounded-8 bg-light-3 mb-50">
+                                    <div class="row x-gap-60 y-gap-40">
+                                        <div class="col-xl-3 col-lg-4 col-sm-6">
+                                            <div class="sidebar__item">
+                                                <h5 class="sidebar__title">@localizer["Category"]</h5>
+                                                <div class="sidebar-checkbox">
+
+                                                    @foreach (var group in Model.CourseGroups)
+                                                    {
+                                                        var filter = (category != null && category.Any(x => x == group.Id) ? "checked" : "");
+
+                                                        <div class="sidebar-checkbox__item">
+                                                            <div class="form-checkbox">
+                                                                <input type="checkbox" @filter value="@group.Id" name="SearchModel.CategoryId" onclick="submitForm()">
+                                                                <div class="form-checkbox__mark">
+                                                                    <div class="form-checkbox__icon icon-check"></div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="sidebar-checkbox__title">@group.Title</div>
+                                                            <div class="sidebar-checkbox__count">(@group.CourseCount)</div>
+                                                        </div>
+                                                    }
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-xl-3 col-lg-4 col-sm-6">
+                                            <div class="sidebar__item">
+                                                <h5 class="sidebar__title">@localizer["teacher"] </h5>
+                                                <div class="sidebar-checkbox">
+
+                                                    @foreach (var teacher in Model.Teachers)
+                                                    {
+                                                        var filter = (theacher != null && theacher.Any(x => x == teacher.Id) ? "checked" : "");
+
+                                                        <div class="sidebar-checkbox__item">
+                                                            <div class="form-checkbox">
+                                                                <input type="checkbox" @filter value="@teacher.Id" name="SearchModel.TeacherId" onclick="submitForm()">
+                                                                <div class="form-checkbox__mark">
+                                                                    <div class="form-checkbox__icon icon-check"></div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="sidebar-checkbox__title">@teacher.AccountName</div>
+                                                            <div class="sidebar-checkbox__count">(@teacher.CourseCount)</div>
+                                                        </div>
+
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-xl-3 col-lg-4 col-sm-6">
+                                            <div class="sidebar__item">
+                                                <h5 class="sidebar__title">@localizer["level"]</h5>
+                                                <div class="sidebar-checkbox">
+
+                                                    @foreach (var levelCourse in Model.CourseLevels)
+                                                    {
+                                                        var filter = (level != null && level.Any(x => x == levelCourse.Id) ? "checked" : "");
+
+                                                        <div class="sidebar-checkbox__item">
+                                                            <div class="form-checkbox">
+                                                                <input type="checkbox" @filter name="SearchModel.LevelId" value="@levelCourse.Id" onclick="submitForm()">
+                                                                <div class="form-checkbox__mark">
+                                                                    <div class="form-checkbox__icon icon-check"></div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="sidebar-checkbox__title">@levelCourse.Title</div>
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row y-gap-30 side-content__wrap">
+
+                        @foreach (var course in Model.Course.Courses)
+                        {
+                            <div class="side-content col-xl-4 col-lg-6 col-md-4 col-sm-6">
+
+                                <a asp-page="/CourseDetails" asp-route-id="@course.Slug" class="coursesCard -type-1 ">
+                                    <div class="relative">
+                                        <div class="coursesCard__image overflow-hidden rounded-8">
+                                            <img class="w-1/1" src="~/FileUploader/@course.Picture" alt="@course.PictureAlt" title="@course.PictureTitle">
+                                            <div class="coursesCard__image_overlay rounded-8"></div>
+                                        </div>
+                                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
+                                        </div>
+                                    </div>
+
+                                    <div class="h-100 pt-15">
+
+                                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">@course.Name</div>
+
+                                        <div class="d-flex x-gap-10 items-center pt-10">
+
+                                            <div class="d-flex items-center">
+                                                <div class="ml-8">
+                                                    <img src="~/Theme/img/coursesCards/icons/1.svg" alt="icon">
+                                                </div>
+                                                <div class="text-14 lh-2">@course.UserCourse.Count @localizer["person"]</div>
+                                            </div>
+
+                                            <div class="d-flex items-center">
+                                                <div class="ml-8">
+                                                    <img src="~/Theme/img/coursesCards/icons/2.svg" alt="icon">
+                                                </div>
+                                                <div class="text-14 lh-2">@course.TotalTime</div>
+                                            </div>
+
+                                            <div class="d-flex items-center">
+                                                <div class="ml-8">
+                                                    <img src="~/Theme/img/coursesCards/icons/3.svg" alt="icon">
+                                                </div>
+                                                <div class="text-14 lh-2">@localizer["basic"]</div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="coursesCard-footer">
+                                            <div class="coursesCard-footer__author">
+                                                <img src="~/FileUploader/@course.Teacher.Photo" alt="image">
+                                                <div>@course.Teacher.AccountName</div>
+                                            </div>
+
+                                            <div class="coursesCard-footer__price">
+                                                <span>@course.CourseGroup</span>
+                                                @* @if (course.Price > 0)
+                                            {
+                                            <span>@course.Price.ToMoney()</span>
+                                            }
+                                            else
+                                            {
+                                            <span>
+                                            Free
+                                            </span>
+                                            }*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+
+                                <div class="side-content__item">
+                                    <div class="px-30 pt-20 pb-30 bg-white rounded-8 border-light shadow-2">
+                                        <div class="text-18 lh-16 text-dark-1">@course.Name </div>
+
+                                        <div class="row x-gap-10 y-gap-10 items-center pt-15">
+
+                                            <div class="col-auto">
+                                                <div class="d-flex items-center">
+                                                    <img class="ml-8" src="~/Theme/img/coursesCards/icons/1.svg" alt="icon">
+                                                    <div class="text-14 lh-2">@course.UserCourse.Count @localizer["person"]</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-auto">
+                                                <div class="d-flex items-center">
+                                                    <img class="ml-8" src="~/Theme/img/coursesCards/icons/2.svg" alt="icon">
+                                                    <div class="text-14 lh-2">@course.TotalTime</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-auto">
+                                                <div class="d-flex items-center">
+                                                    <img class="ml-8" src="~/Theme/img/coursesCards/icons/3.svg" alt="icon">
+                                                    <div class="text-14 lh-2">@course.Level</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="d-inline-block px-15 py-5 bg-green-1 text-dark-1 rounded-200 text-11 fw-500 uppercase mt-20">@localizer["bestSellerCourse"]</div>
+
+                                        <p class="text-dark-1 mt-15">@course.ShortDescription</p>
+
+                                        <div class="row y-gap-15 pt-15">
+
+                                            @foreach (var toBeLearn in course.ToBeLearns)
+                                            {
+                                                <div class="col-12">
+                                                    <div class="d-flex items-center">
+                                                        <div class="size-20 d-flex items-center justify-center rounded-full border-light">
+                                                            <div class="icon-check text-6"></div>
+                                                        </div>
+                                                        <div class="mr-10">
+                                                            @toBeLearn.Title
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+
+                                        </div>
+
+                                        @* <div class="row x-gap-20 y-gap-15 items-center pt-30">
+                                    <div class="col">
+                                    <a asp-page="CourseDetails" asp-page-handler="RegisterCourse" asp-route-courseId="@course.Id" asp-route-slug="@course.Slug" class="button -md h-60 -purple-1 text-white col-12">@localizer["signUpToCourse"]</a>
+                                    </div>
+                                    <div class="col-auto">
+                                    <div class="d-flex items-center justify-center size-60 rounded-full border-light">
+                                    <div class="icon-bookmark text-20 text-purple-1"></div>
+                                    </div>
+                                    </div>
+                                    </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                    @if (Model.Course.PageCount > 1)
+                    {
+                        <div class="row justify-center pt-90 lg:pt-50">
+                            <div class="col-auto">
+                                <div class="pagination -buttons">
+                                    <a class="pagination__button -prev @(Model.Course.CurrentPage < 2 ? "disabled" : "")" href="Courses?PageId=@(Model.Course.CurrentPage - 1)">
+                                        <i class="icon icon-chevron-right"></i>
+                                    </a>
+                                    @for (var i = 1; i <= Model.Course.PageCount; i++)
+                                    {
+                                        <div class="pagination__count">
+                                            <a class=" @(i == Model.Course.CurrentPage ? "-count-is-active active" : "")" href="courses?PageId=@i">@i</a>
+                                        </div>
+                                    }
+                                    <a href="Courses?PageId=@(Model.Course.CurrentPage + 1)" class="pagination__button -next @(Model.Course.CurrentPage >= Model.Course.PageCount ? "disabled" : "")">
+                                        <i class="icon icon-chevron-left"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts
+{
+    <script>
+        function submitForm() {
+           
+            $("#submitForm").submit();
+        }
+    </script>
+}

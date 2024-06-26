@@ -1,0 +1,46 @@
+﻿@using _0_Framework.Application
+@model System.Collections.Generic.List<Afg.Azad.UnQuery.Contract.Article.LatestArticleQueryModel>
+@inject IStringLocalizer<IndexModel> localizer
+
+<section class="layout-pt-lg layout-pb-lg">
+    <div data-anim-wrap class="container">
+        <div data-anim-child="slide-left delay-1" class="row y-gap-20 justify-between items-center">
+            <div class="col-lg-6">
+
+                <div class="sectionTitle ">
+
+                    <h2 class="sectionTitle__title ">@localizer["LatestBlog"]</h2>
+
+                    <p class="sectionTitle__text ">@localizer["LatestBlogDes"]</p>
+                </div>
+            </div>
+
+            <div class="col-auto">
+
+                <a  asp-page="/Articles" class="button -icon -purple-3 text-purple-1">
+                    @localizer["ViewAll"]
+                    <i class="icon-arrow-top-right text-13 mr-10"></i>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="row y-gap-30 pt-60">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-6">
+                    <div data-anim-child="slide-left delay-2" class="blogCard -type-1">
+                        <div class="blogCard__image">
+                            <img src="~/FileUploader/@item.Picture" title="@item.PictureTitle" alt="@item.PictureAtl">
+                        </div>
+                        <div class="blogCard__content mt-20">
+                            <a  asp-page="/Article" asp-route-id="@item.Slug" class="blogCard__category">@item.Title</a>
+                            <h4 class="blogCard__title text-16 lh-15 mt-5">@item.ShortDescription</h4>
+                            <div class="blogCard__date text-14 mt-5">@item.CreationDate.ToShamsi()</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

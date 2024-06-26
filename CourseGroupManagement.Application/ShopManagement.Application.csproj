@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+	  <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+    <PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AccountManagement.Domain\AccountManagement.Domain.csproj" />
+    <ProjectReference Include="..\CommentMangement.Domain\CommentManagement.Domain.csproj" />
+    <ProjectReference Include="..\CourseGroup.Management.Application.Contract\Shop.Management.Application.Contract.csproj" />
+    <ProjectReference Include="..\ProductManagement.Domain\ShopManagement.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

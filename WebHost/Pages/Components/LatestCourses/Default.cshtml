@@ -1,0 +1,119 @@
+﻿@model System.Collections.Generic.List<Afg.Azad.UnQuery.Contract.Course.LatestCourseViewModel>
+@inject IStringLocalizer<IndexModel> localizer
+@{
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+<section class="layout-pt-lg layout-pb-lg section-bg">
+    <div class="section-bg__item bg-light-6"></div>
+
+    <div data-anim-wrap class="container">
+        <div class="row y-gap-15 justify-between items-center">
+            <div class="col-lg-6">
+
+                <div class="sectionTitle ">
+
+                    <h2 class="sectionTitle__title ">@localizer["LatestCourses"]</h2>
+
+                    <p class="sectionTitle__text ">@localizer["LatestCoursesDes"]</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-auto">
+                <div class="d-inline-block">
+
+                    <a  asp-page="/Courses" class="button -icon -light-11 text-purple-1">
+                        @localizer["ViewAll"]
+                        <i class="icon-arrow-top-right text-13 mr-10"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="relative">
+            <div class="overflow-hidden pt-60 lg:pt-50 js-section-slider" data-gap="30" data-loop data-pagination data-nav-prev="js-courses-prev" data-nav-next="js-courses-next" data-slider-cols="xl-4 lg-3 md-2 sm-2">
+                <div class="swiper-wrapper">
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="swiper-slide">
+                            <div data-anim-child="slide-up delay-1">
+
+                                <a  asp-page="/CourseDetails" asp-route-id="@item.Slug" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
+                                    <div class="relative">
+                                        <div class="coursesCard__image overflow-hidden rounded-8">
+                                            <img class="w-1/1" src="~/FileUploader/@item.Picture" title="@item.PictureTitle" alt="@item.PictureAlt">
+                                            <div class="coursesCard__image_overlay rounded-8"></div>
+                                        </div>
+                                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
+                                        </div>
+                                    </div>
+
+                                    <div class="h-100 px-10 pt-10">
+                                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">@item.Name</div>
+
+                                        <div class="d-flex x-gap-10 items-center pt-10">
+
+                                            <div class="d-flex items-center">
+                                                <div class="ml-8">
+                                                    <img src="~/Theme/img/coursesCards/icons/1.svg" alt="icon">
+                                                </div>
+                                                <div class="text-14 lh-2">@item.UserCourse.Count </div>
+                                            </div>
+
+                                            <div class="d-flex items-center">
+                                                <div class="ml-8">
+                                                    <img src="~/Theme/img/coursesCards/icons/2.svg" alt="icon">
+                                                </div>
+                                                <div class="text-14 lh-2">@item.TotalTime</div>
+                                            </div>
+
+                                            <div class="d-flex items-center">
+                                                <div class="ml-8">
+                                                    <img src="~/Theme/img/coursesCards/icons/3.svg" alt="icon">
+                                                </div>
+                                                <div class="text-14 lh-2">@item.Level</div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="coursesCard-footer">
+                                            <div class="coursesCard-footer__author">
+                                                <img src="~/FileUploader/@item.Teacher.Photo" alt="image">
+                                                <div>@item.Teacher.AccountName</div>
+                                            </div>
+                                            <div class="coursesCard-footer__price">
+                                                @if (item.Price > 0)
+                                                {
+                                                    <span>@item.Price Af</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-success">Free</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+
+            <button class="section-slider-nav -prev -dark-bg-dark-2 -outline-dark-1 -absolute-out size-50 rounded-full xl:d-none js-courses-prev">
+                <i class="icon icon-arrow-left text-24"></i>
+            </button>
+
+            <button class="section-slider-nav -next -dark-bg-dark-2 -outline-dark-1 -absolute-out size-50 rounded-full xl:d-none js-courses-next">
+                <i class="icon icon-arrow-right text-24"></i>
+            </button>
+
+        </div>
+    </div>
+</section>

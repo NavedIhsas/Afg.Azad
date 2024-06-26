@@ -1,0 +1,190 @@
+﻿@page
+@using _0_Framework.Application
+@using _0_FrameWork.Application
+@using Afg.Azad.UnQuery.Contract.Quiz
+@inject IQuizQuery Quiz;
+@model QuizStatusModel
+@{
+    ViewData["Title"] = @Model.Quiz.Name;
+    var des = $"امتحان {@Model.Quiz.Name} کورس {@Model.Quiz.CourseName} و در پوهنتون آزاد افغانستان";
+    ViewData["keywords"] ="امتحان آنلاین ،  کورس آنلاین، پوهنتون آزاد افغانستان، دانشگاه آزاد افغانستان";
+    ViewData["description"] = des;
+    ViewData["ogDescription"] = des;
+    ViewData["twitterDescription"] = des;
+    ViewData["canonical"] = $"https://afgou.org";
+    ViewData["ogType"] = "product";
+    ViewData["ogTitle"] = @Model.Quiz.Name;
+    ViewData["ogImage"] = "https://afgou.org/Theme/img/general/mainLogo.svg";
+    ViewData["twitterImage"] = "https://afgou.org/Theme/img/general/mainLogo.svg";
+    ViewData["ogUrl"] = $"https://afgou.org";
+    ViewData["twitterTitle"] = @Model.Quiz.Name;
+    ViewData["twitterSite"] = $"https://afgou.org";
+    ViewData["author"] = "Afghanistan Open University";
+    Layout = "_Layout";
+}
+
+
+<section data-anim="fade" class="breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                <div class="breadcrumbs__content">
+
+                    <div class="breadcrumbs__item">
+                        <a asp-page="/Index">Home</a>
+                    </div>
+
+                    <div class="breadcrumbs__item">
+                        <a asp-page="/Quiz">Exams</a>
+                    </div>
+
+                    <div class="breadcrumbs__item">
+                        <a asp-page="">@Model.Quiz.Name</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-header -type-1">
+    <div class="container">
+        <div class="page-header__content">
+            <div class="row justify-center text-center">
+                <div class="col-auto">
+                    <div data-anim="slide-up delay-1">
+
+                        <h1 class="page-header__title"> @Model.Quiz.Name</h1>
+
+                    </div>
+
+                    <div data-anim="slide-up delay-2">
+
+                        <p class="page-header__text">Each student can participate in the exam session only three times before the end of the exam time.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="layout-pb-lg">
+    <div class="container">
+        <div class="row no-gutters justify-content-center">
+            <div class="col-xl-8 col-lg-9 col-md-11">
+                <div class="shopCompleted-footer bg-light-4 border-light rounded-8">
+                    <div class="shopCompleted-footer__wrap">
+                        <h5 class="title text-center">
+                            Exam Details
+                        </h5>
+
+                        <div class="item">
+                            <span class="fw-500">Title</span>
+                            <span class="fw-500">@Model.Quiz.Name</span>
+                        </div>
+
+                        <div class="item">
+                            <span class="">Course Name</span>
+                            <span class="">@Model.Quiz.CourseName</span>
+                        </div>
+
+                        <div class="item -border-none">
+                            <span class="">Date of Exam</span>
+                            <span class=""> @Model.Quiz.OnDate.ToShamsi()</span>
+                        </div>
+
+                        <div class="item -border-none">
+                            <span class="fw-500">Time of Exam</span>
+                            <span class="fw-500">@Model.Quiz.OnDate.ToString("HH:mm:ss")</span>
+                        </div>
+
+                        <div class="item">
+                            <span class="fw-500">End Time</span>
+                            <span class="fw-500">@Model.Quiz.PeriodTime</span>
+                        </div>
+                        <div class="item">
+                            <span class="fw-500">Status</span>
+                            <span class="fw-500">@Model.Quiz.Status</span>
+                        </div>
+                        <div class="item">
+
+                            @{
+                                var date = Model.Quiz.OnDate.Date;
+                                var time = Model.Quiz.PeriodTime;
+                                var fullTime = date + time;
+                            }
+                            @if (fullTime < DateTime.Now)
+                            {
+                                <span class="fw-500">Start Time</span>
+                                <span class="fw-500 "> @Model.Quiz.OnDate.TimeAgo()</span>
+                            }
+                            else
+                            {
+                                <span class="fw-500">Time Remaining</span>
+                                <span class="fw-500 countdown"></span>
+                            }
+                        </div>
+
+                        @if (Model.Quiz.PeriodTime >= DateTime.Now.TimeOfDay)
+                        {
+                            @if (Quiz.GetUserQuiz(Model.Quiz.Id))
+                            {
+                                <div class="item" style="padding-right:40%;padding-top:30px">
+                                    <a asp-page-handler="Questions" asp-route-id="@Model.Quiz.Id" class="button fw-500 -md -dark-1 text-white " id="startQuiz" style="visibility:hidden">Participate in the Exam</a>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+                <br />
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts
+    {
+    <!-- Countdown -->
+    <script src="~/AdminTheme/assets/comingsoon/jquery.countdown.js"></script>
+    <script src="~/AdminTheme/assets/comingsoon/jquery.simple-text-rotator.min.js"></script>
+
+    <script>
+        var date = @Html.Raw(Json.Serialize(Model.Quiz.OnDate.ToString("MMM dd, yyyy")));
+        var time = @Html.Raw(Json.Serialize(Model.Quiz.OnDate.ToShortTimeString()));
+        var finishTime1 = @Html.Raw(Json.Serialize(Model.Quiz.PeriodTime));
+        var currentTime1 = @Html.Raw(Json.Serialize(DateTime.Now.ToString("HH:mm:ss")));
+        $(document).ready(function () {
+            // Countdown
+            // To change date, simply edit: var endDate = "June 26, 2015 20:39:00";
+            $(function () {
+
+                var endDate = date + " " + time;
+                var finishTime = finishTime1;
+                var currentTime = currentTime1;
+               
+                $('.countdown').countdown({
+
+                    date: endDate,
+                    render: function (data) {
+                        if (data.years == 0 && data.days == 0 && data.hours == 0 && data.min == 0 && data.sec == 0) {
+
+                            notify("top center", "زمان امتحان شما فرا رسیده است", "success")
+                            document.getElementById("startQuiz").style.visibility = 'visible';
+
+                        }
+
+                        $(this.el).html(this.leadingZeros(data.days, 2) + ":" + this.leadingZeros(data.hours, 2) + ':' + this.leadingZeros(data.min, 2) + ':' + this.leadingZeros(data.sec, 2));
+                    }
+                });
+            });
+        });
+
+
+
+    </script>
+}

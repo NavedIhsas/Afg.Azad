@@ -1,0 +1,289 @@
+﻿@page
+@using AspNetCore.ReCaptcha
+@model WebHost.Pages.ContactUsModel
+@{
+    ViewData["Title"] = "Contact Us";
+
+    var des = "یاد پوهنتون چې د افغانستان د پرانیستی پوهنتون تر نامه لاندې خپل فعالیتونه ترسره کوي، اوس مهال افغان هلکان او نجونو ته په نړیوالو معیارونو کې د لوړ کیفیت زده کړې ";
+
+    ViewData["keywords"] = "Afghanistan Open University، کورس های آنلاین، پوهنتون برای دختران، پوهتون، دانشگاه آزاد افغانستان";
+    ViewData["description"] = des;
+    ViewData["ogDescription"] = des;
+    ViewData["twitterDescription"] = des;
+    ViewData["canonical"] = $"https://afgou.org";
+    ViewData["ogType"] = "product";
+    ViewData["ogTitle"] = " تماس با Afghanistan Open University";
+    ViewData["ogImage"] = "https://afgou.org/Theme/img/general/mainLogo.svg";
+    ViewData["twitterImage"] = "https://afgou.org/Theme/img/general/mainLogo.svg";
+    ViewData["ogUrl"] = $"https://afgou.org";
+    ViewData["twitterTitle"] = " تماس با Afghanistan Open University";
+    ViewData["twitterSite"] = $"https://afgou.org";
+    ViewData["author"] = "Afghanistan Open University";
+}
+
+
+<link href="~/admintheme/assets/css/loading.css" rel="stylesheet" />
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+
+<link rel="stylesheet" href="~/Theme/vendor/leaflet/leaflet.css" />
+
+<section class="">
+    <div id="map1" class="map"></div>
+</section>
+
+
+<section class="layout-pt-md layout-pb-lg">
+    <div data-anim-wrap class="container">
+        <div class="row y-gap-50 justify-between">
+            <div class="col-lg-4">
+                <h3 class="text-24 fw-500 ff-estedad">Contact Us</h3>
+                <p class="mt-25">Feel free to reach out to us for any inquiries or information.</p>
+
+                <div class="y-gap-30 pt-60 lg:pt-40">
+
+                    <div class="d-flex items-center">
+                        <div class="d-flex justify-center items-center size-60 rounded-full bg-light-7">
+                            <img src="~/Theme/img/contact-1/1.svg" alt="icon">
+                        </div>
+                        <div class="mr-20">123 Main St, City ville...<br> Continue address with street and number</div>
+                    </div>
+
+                    <div class="d-flex items-center">
+                        <div class="d-flex justify-center items-center size-60 rounded-full bg-light-7">
+                            <img src="~/Theme/img/contact-1/2.svg" alt="icon">
+                        </div>
+                        <div class="mr-20">
+                            <a href="tel:+4917657803483">+49-17657803483 </a>
+                        </div>
+                    </div>
+
+                    <div class="d-flex items-center">
+                        <div class="d-flex justify-center items-center size-60 rounded-full bg-light-7">
+                            <img src="~/Theme/img/contact-1/3.svg" alt="icon">
+                        </div>
+                        <div class="mr-20">
+                            <a href="mailto:info[at]afgou.or">info@afgou.org</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <h3 class="text-24 fw-500 ff-estedad">Send a Message</h3>
+                <p class="mt-25">Use the form below to send us a message or ask a question.</p>
+                @if (ViewData["Robot"] != null)
+                {
+                    <div class="col-12">
+                        <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8 height-0">
+                            <div class="text-error-2 text-center lh-2 fw-500">@ViewData["Robot"]</div>
+                        </div>
+                    </div>
+                }
+                <form class="contact-form row y-gap-30 pt-60 lg:pt-40" id="submit-form" name="submitForm" method="post">
+                    <div class="col-md-6">
+                        <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Name</label>
+                        <input type="text" asp-for="Contact.Fullname" required="" placeholder="Your Name">
+                        <span asp-validation-for="Contact.Fullname" class="text-error-2"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Email (optional) </label>
+                        <input type="email" asp-for="Contact.Email" placeholder="Valid Email">
+                        <span asp-validation-for="Contact.Email" class="text-error-2"></span>
+                    </div>
+                    <div class="col-12">
+                        <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Message</label>
+                        <textarea asp-for="Contact.Message" required="" placeholder="Message text" rows="8"></textarea>
+                        <span asp-validation-for="Contact.Message" class="text-error-2"></span>
+                    </div>
+                    @Html.ReCaptcha()
+
+
+                    <div class="col-12">
+                        <button type="button" id="submit" class="button -md -purple-1 text-white">
+                            Send
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="layout-pt-lg layout-pb-lg bg-light-4">
+    <div class="container">
+        <div class="row justify-center text-center">
+            <div class="col-xl-8 col-lg-9 col-md-11">
+
+                <div class="sectionTitle ">
+
+                    <h2 class="sectionTitle__title ">Frequently Asked Questions</h2>
+
+                    <p class="sectionTitle__text ">Get answers to common questions about our services.</p>
+                </div>
+
+                <div class="accordion -block text-left pt-60 lg:pt-40 js-accordion">
+                    <div class="accordion__item">
+                        <div class="accordion__button">
+                            <div class="accordion__icon">
+                                <div class="icon" data-feather="plus"></div>
+                                <div class="icon" data-feather="minus"></div>
+                            </div>
+                            <span class="text-16 fw-500 text-dark-1">Do you offer discounts for students?</span>
+                        </div>
+
+                        <div class="accordion__content">
+                            <div class="accordion__content__inner text-right">
+                                <p>Yes, we offer discounts for students. Please provide valid student identification for verification.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion__item">
+                        <div class="accordion__button">
+                            <div class="accordion__icon">
+                                <div class="icon" data-feather="plus"></div>
+                                <div class="icon" data-feather="minus"></div>
+                            </div>
+                            <span class="text-16 fw-500 text-dark-1">Do you provide special pricing for large teams?</span>
+                        </div>
+
+                        <div class="accordion__content">
+                            <div class="accordion__content__inner text-right">
+                                <p>Yes, we offer special pricing for large teams. Contact us for customized quotes based on your team size and requirements.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion__item">
+                        <div class="accordion__button">
+                            <div class="accordion__icon">
+                                <div class="icon" data-feather="plus"></div>
+                                <div class="icon" data-feather="minus"></div>
+                            </div>
+                            <span class="text-16 fw-500 text-dark-1">What is the past experience of your teachers?</span>
+                        </div>
+
+                        <div class="accordion__content">
+                            <div class="accordion__content__inner text-right">
+                                <p>Our teachers have extensive experience in their respective fields, with proven track records of successful teaching and positive student outcomes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion__item">
+                        <div class="accordion__button">
+                            <div class="accordion__icon">
+                                <div class="icon" data-feather="plus"></div>
+                                <div class="icon" data-feather="minus"></div>
+                            </div>
+                            <span class="text-16 fw-500 text-dark-1">What is your course refund policy?</span>
+                        </div>
+
+                        <div class="accordion__content">
+                            <div class="accordion__content__inner text-right">
+                                <p>Our course refund policy allows for a full refund within the first 30 days of enrollment. Please refer to our terms and conditions for more details.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion__item">
+                        <div class="accordion__button">
+                            <div class="accordion__icon">
+                                <div class="icon" data-feather="plus"></div>
+                                <div class="icon" data-feather="minus"></div>
+                            </div>
+                            <span class="text-16 fw-500 text-dark-1">Do you offer discounts for non-profit organizations?</span>
+                        </div>
+
+                        <div class="accordion__content">
+                            <div class="accordion__content__inner text-right">
+                                <p>Yes, we offer discounts for non-profit organizations. Contact us with details about your organization for more information.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("Shared/_ValidationScriptsPartial");
+    }
+    <script src="~/Theme/vendor/leaflet/leaflet.js"></script>
+    <script>
+
+
+        $(document).ready(function () {
+            var map = L.map('map1').setView([51.403495048462226, 6.763295128835967], 15);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            L.marker([51.403495048462226, 6.763295128835967]).addTo(map);
+        });
+
+    </script>
+
+    <script>
+
+        $("#submit").on('click', function () {
+            var form = $("#submit-form");
+            var validate = form.validate();
+            if (form.valid() === false)
+                return false;
+
+            $.ajax({
+                url: '',
+                data: new FormData(document.forms.submitForm),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                beforeSend: function () {
+                    $('#loader').removeClass('hidden')
+                },
+                success: function (result) {
+                    debugger
+                    if (result === true) {
+                        swal({
+                            title: "Done!",
+                            text: "Your message has been successfully sent. We will review it shortly and get back to you as soon as possible.",
+                            type: "success",
+                            confirmButtonText: "Ok!",
+                            closeOnConfirm: true
+                        });
+                        $("#Contact_Fullname").val("");
+                        $("#Contact_Email").val("");
+                        $("#Contact_Message").val("");
+                    }
+                    else {
+                        // notify("top right", result, "error");
+                        swal({
+                            title: "Error!",
+                            text: result,
+                            type: "error",
+                            confirmButtonText: "Try again",
+                        }, function () {
+                            location.reload();
+                        });
+
+
+
+        }
+                        },
+            complete: function () {
+                $('#loader').addClass('hidden')
+            },
+                    })
+                })
+    </script>
+}

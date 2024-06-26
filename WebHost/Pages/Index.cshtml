@@ -1,0 +1,123 @@
+﻿@page
+@model IndexModel
+@inject IStringLocalizer<IndexModel> Localizer
+@{
+    ViewData["Title"] = "Home";
+    const string des = "پوهنتون آزاد افغانستان اولین پوهنتون آنلاین در افغانستان است که کورس ها ودروس مختلفی دانشگاهی و غیر دانشگاهی را به صورت Free به شاگردان عزیز ارایه میکنید.";
+    ViewData["keywords"] = "Afghanistan Open University، کورس های آنلاین، پوهنتون برای دختران، پوهتون، دانشگاه آزاد افغانستان";
+    ViewData["description"] = des;
+    ViewData["ogDescription"] = des;
+    ViewData["twitterDescription"] = des;
+    ViewData["canonical"] = $"https://afgou.org";
+    ViewData["ogType"] = "product";
+    ViewData["ogTitle"] = "Afghanistan Open University";
+    ViewData["ogImage"] = "https://afgou.org/Theme/img/general/mainLogo.svg";
+    ViewData["twitterImage"] = "https://afgou.org/Theme/img/general/mainLogo.svg";
+    ViewData["ogUrl"] = $"https://afgou.org";
+    ViewData["twitterTitle"] = "Afghanistan Open University";
+    ViewData["twitterSite"] = $"https://afgou.org";
+    ViewData["author"] = "نوید احساس";
+}
+<div class="content-wrapper  js-content-wrapper">
+    <section data-anim-wrap class="mainSlider -type-1 js-mainSlider">
+        <div class="swiper-wrapper">
+            @foreach (var item in Model.Slider)
+            {
+                <div class="swiper-slide">
+                    <div data-anim-child="fade" class="mainSlider__bg">
+                        <div class="bg-image js-lazy" data-bg="/FileUploader/@item.Picture"></div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="container">
+            <div class="row justify-center text-center">
+                <div class="col-xl-6 col-lg-8">
+                    <div class="mainSlider__content">
+                        <h1 data-anim-child="slide-up delay-3" class="mainSlider__title text-white">
+                            @Model.Text?.Title
+                        </h1>
+
+                        <p data-anim-child="slide-up delay-4" class="mainSlider__text text-white">
+                            @Model.Text?.ShortTitle
+                        </p>
+
+                        <form method="get">
+                            <div data-anim-child="slide-up delay-5" class="mainSlider__form">
+                                <input name="search" id="searchValue" type="text" placeholder="What do you want to learn today?">
+
+                                <button asp-page="/Courses" id="submitSearch1" class="button -md -purple-1 text-white">
+                                    <i class="icon icon-search ml-15"></i>
+                                    @Localizer["Search"]
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div data-anim-child="slide-up delay-6" class="row y-gap-20 justify-center mainSlider__items">
+
+                <div class="col-xl-3 col-md-4 col-sm-6">
+                    <div class="mainSlider-item text-center">
+                        <img src="~/Theme/img/home-2/mainSlider/icons/1.svg" alt="icon">
+                        <h4 class="text-18 fw-500 lh-18 text-white mt-8">100,000 Online Courses</h4>
+                        <p class="text-15 text-white">Explore new courses</p>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-4 col-sm-6">
+                    <div class="mainSlider-item text-center">
+                        <img src="~/Theme/img/home-2/mainSlider/icons/2.svg" alt="icon">
+                        <h4 class="text-18 fw-500 lh-18 text-white mt-8">Experienced Instructors</h4>
+                        <p class="text-15 text-white">Find the right instructor for you</p>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-4 col-sm-6">
+                    <div class="mainSlider-item text-center">
+                        <img src="~/Theme/img/home-2/mainSlider/icons/3.svg" alt="icon">
+                        <h4 class="text-18 fw-500 lh-18 text-white mt-8">Proper Education</h4>
+                        <p class="text-15 text-white">Progress with proper planning</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="swiper-prev button -white-20 text-white size-60 rounded-full d-flex justify-center items-center js-prev">
+            <i class="icon icon-arrow-left text-24"></i>
+        </button>
+
+        <button class="swiper-next button -white-20 text-white size-60 rounded-full d-flex justify-center items-center js-next">
+            <i class="icon icon-arrow-right text-24"></i>
+        </button>
+    </section>
+
+    @await Component.InvokeAsync("PopularCourse")
+    @await Component.InvokeAsync("CourseGroup")
+    @await Component.InvokeAsync("LatestCourses")
+    @await Component.InvokeAsync("LastArticles")
+    @await Component.InvokeAsync("LatestNews")
+</div>
+
+@section Scripts
+    {
+    
+    <script>
+
+        //$(document).ready(function () {
+           
+        //    setInterval(function () {
+        //        document.getElementsByClassName("icon-arrow-left")[0].click();
+        //    }, 5000);
+
+        //    setInterval(function () {
+        //        document.getElementsByClassName("icon-arrow-right")[0].click();
+        //    }, 20000);
+
+        //});
+
+    </script>
+}

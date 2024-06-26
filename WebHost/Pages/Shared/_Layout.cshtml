@@ -1,0 +1,213 @@
+﻿@using Afg.Azad.UnQuery.Contract.Course
+@using WebHost.Services
+@inject ICourseQuery Course;
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#f7858d">
+    <meta name="msapplication-navbutton-color" content="#f7858d">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f7858d">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/img/favicon_io/site.webmanifest">
+    <link href="~/theme/css/custom.css" rel="stylesheet" />
+    <title>@ViewData["Title"] | Afghanistan Open University</title>
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="@ViewData["keywords"]">
+    <meta name="description" content="@ViewData["description"]">
+    <meta property="og:type" content="@ViewData["ogType"]" />
+    <meta property="og:title" content="@ViewData["ogTitle"]" />
+    <meta property="og:description" content="@ViewData["description"]" />
+    <meta property="og:locale" content="prs-AF">
+    <meta property="og:image" content="@ViewData["ogImage"]" />
+    <meta property="og:url" content="@ViewData["ogUrl"]" />
+    <meta property="og:site_name" content="Afghanistan Open University" />
+    <meta name="robots" content="index,follow">
+    <meta name="owner" content="Afghanistan Open University">
+    <meta name="twitter:title" content="@ViewData["twitterTitle"]">
+    <meta name="twitter:description" content="@ViewData["twitterDescription"]">
+    <meta name="twitter:image" content="@ViewData["twitterImage"]" />
+    <meta name="twitter:site" content="@ViewData["twitterSite"]" />
+    @if (ViewData["author"] != null)
+    {
+        <meta name="author" content="@ViewData["author"]">
+    }
+
+    <link rel="canonical" href="@ViewData["canonical"]" />
+
+
+    @if (CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
+    {
+        <link rel="stylesheet" href="~/Theme/css/base.min.css" />
+        <link rel="stylesheet" href="~/Theme/css/choices.min.css" />
+        <link rel="stylesheet" href="~/Theme/css/all.min.css" />
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="~/Theme/css/vendors.css">
+        <link rel="stylesheet" href="~/Theme/css/main.css">
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/Theme/ltr/css/base.min.css" />
+        <link rel="stylesheet" href="~/Theme/ltr/css/choices.min.css" />
+        <link rel="stylesheet" href="~/Theme/ltr/css/all.min.css" />
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="~/Theme/ltr/css/vendors.css">
+        <link rel="stylesheet" href="~/Theme/ltr/css/main.css">
+    }
+    <link rel="stylesheet" href="~/AdminTheme/assets/css/helper.css">
+    <link href="~/theme/fonts/sahel-font-face.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Theme/css/Custom.css">
+    <link href="~/admintheme/assets/sweet-alert/sweet-alert.min.css" rel="stylesheet" />
+
+    <title>@ViewData["Title"] | Afghanistan Open University</title>
+</head>
+
+<body class="preloader-visible" data-barba="wrapper">
+    <!-- preloader start -->
+    <div class="preloader js-preloader">
+        <div class="preloader__bg"></div>
+    </div>
+    <!-- preloader end -->
+
+
+    <main class="main-content  ">
+
+        @if (ViewData["Title"] == "صفحه اص5لی")
+        {
+            @await Component.InvokeAsync("Menu")
+        }
+        else
+        {
+            @await Component.InvokeAsync("Menu2")
+        }
+
+
+
+        @RenderBody()
+
+        <footer class="footer -type-1 bg-dark-1 -green-links">
+            <div class="container">
+                <div class="footer-columns">
+                    <div class="row y-gap-30">
+                        <div class="col-xl-2 col-lg-4 col-md-6">
+                            <div class="text-17 fw-500 text-white uppercase mb-25">Quick Access</div>
+                            <div class="d-flex y-gap-10 flex-column">
+                                <a asp-page="AboutUs">About Us</a>
+                                <a asp-page="Articles">Blog</a>
+                                @* <a href="instructor-become.html">@SharedResources.Get("BecomeTeacher")</a>*@
+                                <a asp-page="/Courses">Courses</a>
+                                <a asp-page="/ContactUs">Contact Us</a>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-5">
+                            <div class="text-17 fw-500 text-white uppercase mb-25">Course Group</div>
+                            <div class="row justify-between y-gap-20">
+                                <div class="col-md-12">
+                                    <div class="d-flex y-gap-10 flex-column">
+                                        @foreach (var item in Course.FooterCourseGroup())
+                                        {
+                                            <a asp-page="/Courses" asp-route-SearchModel.SubGroupId="@item.Id">@item.Title</a>
+                                        }
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-5">
+                            <div class="text-17 fw-500 text-white uppercase mb-25">Latest Courses</div>
+                            <div class="row justify-between y-gap-20">
+                                <div class="col-md-12">
+                                    <div class="d-flex y-gap-10 flex-column">
+                                        @foreach (var item in Course.FooterCourse())
+                                        {
+                                            <a asp-page="/CourseDetails" asp-route-id="@item.CourseSlug">@item.CourseName</a>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="text-17 fw-500 text-white uppercase mb-25"> keep In Touch</div>
+                            <div class="footer-columns-form">
+                                <div>FlowUs</div>
+                                <div class="footer-header-socials">
+                                    <div class="footer-header-socials__list" style="letter-spacing:20px">
+                                        <a target="_blank" href="https://www.facebook.com/afghanistanopenuniversity" style="text-decoration: none;"><i class="icon-facebook"></i></a>
+                                        <a target="_blank" href="https://www.linkedin.com/company/afghanistan-open-university/" style="text-decoration: none;"><i class="icon-linkedin"></i></a>
+                                        <a target="_blank" href="https://twitter.com/AfgOpenUni?t=VknbMQetp3TDhzerAC6nbg&amp&s=09" style="text-decoration: none;"><i class="icon-twitter"></i></a>
+                                        <a target="_blank" href="https://instagram.com/afghanistanopenuniversity?igshid=NzZlODBkYWE4Ng==" style="text-decoration: none;"><i class="icon-instagram"></i></a>
+                                        <a target="_blank" href="https://t.me/AfghanistanOpenUniversity"><i class="fa fa-telegram"></i></a>
+                                        <a target="_blank" href="https://youtube.com/@@afghanistanopenuniversityaou?si=0Nwtydanqw0gV3tX"><i class="fa fa-youtube"></i></a>
+                                        <a target="_blank" href="https://whatsapp.com/channel/0029Va8eyjjKgsNmhQJ6on1F"><i class="fab fa-whatsapp"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-30 border-top-light-15">
+                    <div class="row justify-center items-center y-gap-20">
+                        <div class="col-auto">
+                            <div class="d-flex items-center h-100 text-white text-center">
+                                @*@SharedResources.Get("copyRight")*@
+                                <p>&copy; 2023 All rights reserved, Afghanistan Open University | Designed by <a href="" target="_blank">Endark Team</a>.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="~/AdminTheme/assets/js/jquery.min.js"></script>
+
+    @if (CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
+    {
+        <script src="~/Theme/js/vendors.js"></script>
+        <script src="~/Theme/js/main.js"></script>
+    }
+    else
+    {
+        <script src="~/Theme/ltr/js/vendors.js"></script>
+        <script src="~/Theme/ltr/js/main.js"></script>
+    }
+
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalronlinevisitorservice.js"></script>
+    @*     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    *@
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+
+    <script src="~/AdminTheme/assets/js/notify.min.js"></script>
+    <script src="~/admintheme/assets/sweet-alert/sweet-alert.min.js"></script>
+    <script src="~/admintheme/assets/sweet-alert/sweet-alert.init.js"></script>
+    <script src="~/Theme/js/custom.js"></script>
+
+
+    @await RenderSectionAsync("Scripts", false)
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+﻿@model Shop.Management.Application.Contract.CourseGroup.CreateCourseGroupViewModel
+@{
+    ViewData["Title"] = "ایجاد گروه آموزش جدید";
+}
+
+<div class="container">
+    <partial name="Shared/_Create_View_Header" />
+    <form asp-page="./Index" asp-page-handler="Create"
+          method="post"
+          data-ajax="true"
+          data-action="Refresh"
+          enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label">عنوان <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="Title" placeholder="عنوان گروه" onchange="makeSlug('Title', 'Slug'), fillField('Title', 'PictureAlt'),fillField('Title', 'PictureTitle')">
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SubGroupId" class="control-label">گروه اصلی <span class="text-danger">*</span></label>
+                        <select type="text" class="form-control" asp-for="SubGroupId" asp-items="@(new SelectList(Model.CourseGroupSelectList, "Id", "Title"))">
+                            <option selected>ندارد</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="SubGroupId"></span>
+                    </div>
+                </div>
+            </div> 
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Picture" class="control-label">تصویر( <small style="color:gray; font-size: smaller">تصاویر تان کم رنگ مایل به دارک مانند تصاویر باشد که در صفحه اصلی سایت موجود هست.</small> <span class="text-danger">*</span></label>
+                        <input  onchange="validateImage(this,300,160,'submitButton')" type="file" class="form-control" asp-for="Picture" placeholder="تصویر گروه">
+                        <span class="text-danger" asp-validation-for="Picture"></span>
+                        <p class="help-block">سایز تصویر : width: 300 px ; height: 160 px</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SinglePicture" class="control-label">تصویر</label>
+                        <input  onchange="validateImage(this,300,350,'submitButton')" type="file" class="form-control" asp-for="SinglePicture" placeholder="تصویر گروه">
+                        <span class="text-danger" asp-validation-for="Picture"></span>
+                        <p class="help-block">سایز تصویر : width: 300 px ; height: 350 px</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">بستن</button>
+            <button id="submitButton" type="submit" class="btn btn-info waves-effect waves-light">ایجاد</button>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+

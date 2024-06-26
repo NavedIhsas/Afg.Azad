@@ -1,0 +1,153 @@
+﻿@page
+@model  EditModel
+@{
+    Layout = "Shared/_AdminLayout";
+    ViewData["Title"] = "ویرایش خبر";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">ایجاد خبر جدید</h3>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                <div class="panel-body col-md-8">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Command.Title" class="control-label">نام</label>
+                                <input id="title" type="text" class="form-control" asp-for="Command.Title" onchange="makeSlug('title', 'slug')">
+                                <span asp-validation-for="Command.Title" class="error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Command.Slug" class="control-label">اسلاگ</label>
+                                <input id="slug" type="text" class="form-control" asp-for="Command.Slug">
+                                <span asp-validation-for="Command.Slug" class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Command.PictureAlt" class="control-label">Alt</label>
+                                <input type="text" class="form-control" asp-for="Command.PictureAlt">
+                                <span asp-validation-for="Command.PictureAlt" class="error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Command.PictureTitle" class="control-label">عنوان تصویر</label>
+                                <input type="text" class="form-control" asp-for="Command.PictureTitle">
+                                <span asp-validation-for="Command.PictureTitle" class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group no-margin">
+                                <label asp-for="Command.ShortDescription" class="control-label">توضیحات کوتاه</label>
+                                <textarea class="form-control autogrow" asp-for="Command.ShortDescription" id="shortDescription" onchange="fillField('shortDescription', 'metaDescription')"
+                                          style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+                                <span asp-validation-for="Command.ShortDescription" class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group no-margin">
+                                <label asp-for="Command.Description" class="control-label">توضیحات اصلی</label>
+                                <textarea class="form-control autogrow" id="Description" asp-for="Command.Description"
+                                          style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+                                <span asp-validation-for="Command.Description" class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group no-margin">
+                                <label asp-for="Command.Description2" class="control-label">توضیحات دوم (اختیاری)</label>
+                                <textarea id="Description2" class="form-control autogrow" asp-for="Command.Description2" rows="5"></textarea>
+
+                                <span class="text-danger" asp-validation-for="Command.Description2"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Command.Keywords" class="control-label">کلمات کلیدی</label>
+                                <input type="text" class="form-control" asp-for="Command.Keywords">
+                                <span asp-validation-for="Command.Keywords" class="error"></span>
+                                <p class="help-block">کلمات کلیدی را با - از همدیگر جدا کنید</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group no-margin">
+                                <label asp-for="Command.MetaDescription" class="control-label">توضیحات متا</label>
+                                <textarea class="form-control autogrow" id="metaDescription" asp-for="Command.MetaDescription"
+                                          style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+                                <span asp-validation-for="Command.MetaDescription" class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+                 
+                </div>
+
+
+                <div class="col-md-4">
+                    <p></p>
+                    <img id="imgCourse" class="thumbnail img-responsive" src="~/FileUploader/@Model.Command.Picture" />
+                    <div class="form-group">
+                        <label asp-for="Command.Picture" class="control-label">عکس<span class="text-danger">*</span></label>
+                        <input onchange="validateImage(this,1290,600,'submitButton'),loadImg('imgCourse')" id="imgCourseUp" type="file" asp-for="Command.Picture" class="form-control" accept="image/*">
+                        <span class="text-danger" asp-validation-for="Command.Picture"></span>
+                        <p class="help-block"> مشخصۀ تصویر: width:1290px و  Height:600px:</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <p></p>
+                    <img id="imgCourse1" class="thumbnail img-responsive" src="~/Theme/img/blog/1.png" />
+                    <div class="form-group">
+                        <label asp-for="Command.Picture" class="control-label">عکس دوم<span class="text-danger">*</span></label>
+                        <input id="imgCourseUp1" onchange="validateImage(this,615,500,'submitButton'),loadImg('imgCourse1')" type="file" asp-for="Command.File" class="form-control" accept="image/*">
+                        <span class="text-danger" asp-validation-for="Command.Picture"></span>
+                        <p class="help-block"> مشخصۀ تصویر: width:615px و  Height:500px:</p>
+                    </div>
+                </div>
+                    <input type="hidden" asp-for="Command.AuthorId" value="@Model.Command.AuthorId"/>
+                    <input type="hidden" asp-for="Command.Id" value="@Model.Command.Id"/>
+                    
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-b-5">ویرایش</button>
+                    <a asp-page="./Index" class="btn btn-dark waves-effect waves-light m-b-5">بازگشت</a>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Description', {
+            customConfig: '/theme/js/ckeditor.js'
+        });
+
+        CKEDITOR.replace('Description2', {
+            customConfig: '/theme/js/ckeditor.js'
+        });
+
+    </script>
+
+}
+

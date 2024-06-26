@@ -1,0 +1,106 @@
+﻿@page
+@using _0_FrameWork.Application
+@model EditModel
+@{
+    ViewData["Title"] = "ویرایش کاربر";
+    Layout = "Shared/_AdminLayout";
+}
+
+<div id="page-wrapper">
+    <div class="container">
+
+        <partial name="Shared/_Create_View_Header" />
+
+        <br />
+        <br />
+        <p>
+            یاد داشت: در صورتیکه  نقش سطح دسترسی عملیاتی را نداشته  باشد نمیتواند منو یا دکمه اون عملیات
+            را ببیند.
+
+        </p>
+        <br />
+        <h4 class="text-info"> بعد از ویرایش سطح دسترسی لازم است که کاربر مورد نظر از سیستم خارج شده و دوباره لاگین کنید تا تغییرات مورد نظر اعمال شود</h4>
+        <form method="post" enctype="multipart/form-data">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Role.Name" class="control-label">عنوان نقش<span class="text-danger">*</span></label>
+                            <input type="text" name="name" value="@Model.Role.Name" class="form-control">
+                            <span class="text-danger" asp-validation-for="Role.Name"></span>
+                        </div>
+                    </div>
+                    <label class="control-label col-md-3">انتخاب دسترسی ها</label>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            <select multiple="multiple" name="Permissions" value="@Model.Role.Permissions" asp-items="@Model.Permissions" class="multi-select" id="my_multi_select2">
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <input type="hidden" asp-for="Role.Id" value="@Model.Role.Id" />
+
+                <button type="submit" class="btn btn-info waves-effect waves-light">ویرایش</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+@section Css
+    {
+    <link href="~/AdminTheme/assets/jquery-multi-select/multi-select.css" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+    {
+    <script type="text/javascript" src="~/AdminTheme/assets/jquery-multi-select/jquery.multi-select.js"></script>
+    <script type="text/javascript" src="~/AdminTheme/assets/jquery-multi-select/jquery.quicksearch.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            $('#my_multi_select2').multiSelect({
+                selectableOptgroup: true,
+                selectableHeader:
+                    "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                selectionHeader:
+                    "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                afterInit: function (ms) {
+                    var that = this,
+                        $selectableSearch = that.$selectableUl.prev(),
+                        $selectionSearch = that.$selectionUl.prev(),
+                        selectableSearchString =
+                            '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                        selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                        .on('keydown',
+                            function (e) {
+                                if (e.which === 40) {
+                                    that.$selectableUl.focus();
+                                    return false;
+                                }
+                            });
+
+                    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                        .on('keydown',
+                            function (e) {
+                                if (e.which == 40) {
+                                    that.$selectionUl.focus();
+                                    return false;
+                                }
+                            });
+                },
+                afterSelect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                },
+                afterDeselect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                }
+            });
+        });
+    </script>
+
+}

@@ -1,0 +1,370 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <Authors>Navid Ihsas</Authors>
+    <Company>Endark</Company>
+    <Product>Open Unveristy Afghanistan</Product>
+    <PackageProjectUrl>https://afgou.org</PackageProjectUrl>
+    <NeutralLanguage>fa-AF</NeutralLanguage>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+    <WarningLevel>9999</WarningLevel>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <Content Remove="wwwroot\lib\microsoft\signalr\dist\browser\SignalROnlineVisitorService.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.ReCaptcha" Version="1.8.1" />
+    <PackageReference Include="dropzone" Version="4.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
+
+
+
+
+    <!--Serilog-->
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <!--<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.5.0" />-->
+    <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
+    <PackageReference Include="SharpCompress" Version="0.37.2" />
+    <PackageReference Include="UAParser" Version="3.1.47" />
+    <PackageReference Include="WebMarkupMin.AspNetCore7" Version="2.16.1" />
+    <!--Serilog-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Administration\Pages\Shared\Components\Notification\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="wwwroot\FileUploader\CKEditorImages\" />
+    <Folder Include="wwwroot\FileUploader\NewFolder\" />
+    <Folder Include="wwwroot\FileUploader\Thumb\News\" />
+    <Folder Include="wwwroot\FileUploader\UserAvatar\" />
+    <Folder Include="wwwroot\Logs\" />
+  </ItemGroup>
+
+
+
+
+  <ItemGroup>
+    <None Include="Areas\Administration\Pages\Comment\Index.cshtml" />
+    <None Include="Areas\Administration\Pages\Notifications\AdminsActivity.cshtml" />
+    <None Include="Areas\Administration\Pages\Notifications\Index.cshtml" />
+    <None Include="Areas\Administration\Pages\Discount\ColleagueDiscount\Create.cshtml" />
+    <None Include="Areas\Administration\Pages\Discount\ColleagueDiscount\Edit.cshtml" />
+    <None Include="Areas\Administration\Pages\Discount\ColleagueDiscount\Index.cshtml" />
+    <None Include="Areas\Administration\Pages\Discount\CustomerDiscount\Create.cshtml" />
+    <None Include="Areas\Administration\Pages\Discount\CustomerDiscount\Edit.cshtml" />
+    <None Include="Areas\Administration\Pages\Discount\CustomerDiscount\Index.cshtml" />
+    <None Include="Areas\Administration\Pages\Discount\DiscountCode\Create.cshtml" />
+    <None Include="Areas\Administration\Pages\Discount\DiscountCode\Edit.cshtml" />
+    <None Include="Areas\Administration\Pages\Discount\DiscountCode\Index.cshtml" />
+    <None Include="Areas\Administration\Pages\News\Create.cshtml" />
+    <None Include="Areas\Administration\Pages\News\Edit.cshtml" />
+    <None Include="Areas\Administration\Pages\News\Index.cshtml" />
+    <None Include="Areas\Administration\Pages\Slider\Create.cshtml" />
+    <None Include="Areas\Administration\Pages\Slider\Edit.cshtml" />
+    <None Include="Areas\Administration\Pages\Slider\Index.cshtml" />
+    <None Include="wwwroot\Img\favicon_io\site.webmanifest" />
+    <None Include="wwwroot\lib\microsoft\signalr\dist\browser\signalr.js" />
+    <None Include="wwwroot\lib\microsoft\signalr\dist\browser\signalr.js.map" />
+    <None Include="wwwroot\lib\microsoft\signalr\dist\browser\signalr.min.js" />
+    <None Include="wwwroot\lib\microsoft\signalr\dist\browser\signalr.min.js.map" />
+    <None Include="wwwroot\lib\microsoft\signalr\dist\browser\SignalROnlineVisitorService.js" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-Black.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-BlackItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-Bold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-BoldItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-Condensed.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedBlack.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedBlackItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedBold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedBoldItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedExtraBold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedExtraBoldItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedExtraLight.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedExtraLightItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedHeavy.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedHeavyItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedLight.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedLightItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedMedium.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedMediumItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedSemiBold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedSemiBoldItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedSuperHeavy.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedSuperHeavyItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedThin.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedThinItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedUltraBold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-CondensedUltraBoldItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-ExtraBold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-ExtraBoldItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-ExtraLight.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-ExtraLightItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-Heavy.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-HeavyItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-Italic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-Light.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-LightItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-Medium.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-MediumItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-Regular.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-SemiBold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-SemiBoldItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-SuperHeavy.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-SuperHeavyItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-Thin.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-ThinItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-UltraBold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Anjoman Pro\02- Woff2\Anjoman-UltraBoldItalic.woff2" />
+    <None Include="wwwroot\Theme\fonts\dana\dana-fanum-medium.woff2" />
+    <None Include="wwwroot\Theme\fonts\Estedad\Estedad-Bold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Estedad\Estedad-FD-Bold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Farhang-pro\woff2\FarhangFaNum-Black.woff2" />
+    <None Include="wwwroot\Theme\fonts\Farhang-pro\woff2\FarhangFaNum-Bold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Farhang-pro\woff2\FarhangFaNum-DemiBold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Farhang-pro\woff2\FarhangFaNum-ExtraBold.woff2" />
+    <None Include="wwwroot\Theme\fonts\Farhang-pro\woff2\FarhangFaNum-ExtraLight.woff2" />
+    <None Include="wwwroot\Theme\fonts\Farhang-pro\woff2\FarhangFaNum-Light.woff2" />
+    <None Include="wwwroot\Theme\fonts\Farhang-pro\woff2\FarhangFaNum-Medium.woff2" />
+    <None Include="wwwroot\Theme\fonts\Farhang-pro\woff2\FarhangFaNum-Regular.woff2" />
+    <None Include="wwwroot\Theme\fonts\Farhang-pro\woff2\FarhangFaNum-Thin.woff2" />
+    <None Include="wwwroot\Theme\fonts\fontawesome-webfont3e6e.svg" />
+    <None Include="wwwroot\Theme\fonts\fontawesome-webfont3e6e.woff2" />
+    <None Include="wwwroot\Theme\fonts\icomoonf3f8.svg" />
+    <None Include="wwwroot\Theme\fonts\IRANYekan\svg\iranyekanwebblack.svg" />
+    <None Include="wwwroot\Theme\fonts\IRANYekan\svg\iranyekanwebbold.svg" />
+    <None Include="wwwroot\Theme\fonts\IRANYekan\svg\iranyekanwebextrablack.svg" />
+    <None Include="wwwroot\Theme\fonts\IRANYekan\svg\iranyekanwebextrabold.svg" />
+    <None Include="wwwroot\Theme\fonts\IRANYekan\svg\iranyekanweblight.svg" />
+    <None Include="wwwroot\Theme\fonts\IRANYekan\svg\iranyekanwebmedium.svg" />
+    <None Include="wwwroot\Theme\fonts\IRANYekan\svg\iranyekanwebregular.svg" />
+    <None Include="wwwroot\Theme\fonts\IRANYekan\svg\iranyekanwebthin.svg" />
+    <None Include="wwwroot\Theme\img\404\1.svg" />
+    <None Include="wwwroot\Theme\img\app\buttons\1.svg" />
+    <None Include="wwwroot\Theme\img\app\buttons\2.svg" />
+    <None Include="wwwroot\Theme\img\clients\1.svg" />
+    <None Include="wwwroot\Theme\img\clients\2.svg" />
+    <None Include="wwwroot\Theme\img\clients\3.svg" />
+    <None Include="wwwroot\Theme\img\clients\4.svg" />
+    <None Include="wwwroot\Theme\img\clients\5.svg" />
+    <None Include="wwwroot\Theme\img\clients\6.svg" />
+    <None Include="wwwroot\Theme\img\contact-1\1.svg" />
+    <None Include="wwwroot\Theme\img\contact-1\2.svg" />
+    <None Include="wwwroot\Theme\img\contact-1\3.svg" />
+    <None Include="wwwroot\Theme\img\coursesCards\icons\1.svg" />
+    <None Include="wwwroot\Theme\img\coursesCards\icons\2.svg" />
+    <None Include="wwwroot\Theme\img\coursesCards\icons\3.svg" />
+    <None Include="wwwroot\Theme\img\coursesCards\icons\review.svg" />
+    <None Include="wwwroot\Theme\img\featureCards\1.svg" />
+    <None Include="wwwroot\Theme\img\featureCards\2.svg" />
+    <None Include="wwwroot\Theme\img\featureCards\3.svg" />
+    <None Include="wwwroot\Theme\img\featureCards\4.svg" />
+    <None Include="wwwroot\Theme\img\featureCards\5.svg" />
+    <None Include="wwwroot\Theme\img\featureCards\6.svg" />
+    <None Include="wwwroot\Theme\img\footer\footer-logo.svg" />
+    <None Include="wwwroot\Theme\img\general\logo-black.svg" />
+    <None Include="wwwroot\Theme\img\general\logo-dark.svg" />
+    <None Include="wwwroot\Theme\img\general\logo-pure-white.svg" />
+    <None Include="wwwroot\Theme\img\general\logo.svg" />
+    <None Include="wwwroot\Theme\img\help-center\1.svg" />
+    <None Include="wwwroot\Theme\img\help-center\2.svg" />
+    <None Include="wwwroot\Theme\img\help-center\3.svg" />
+    <None Include="wwwroot\Theme\img\help-center\4.svg" />
+    <None Include="wwwroot\Theme\img\help-center\5.svg" />
+    <None Include="wwwroot\Theme\img\help-center\6.svg" />
+    <None Include="wwwroot\Theme\img\home-2\learning\icons\1.svg" />
+    <None Include="wwwroot\Theme\img\home-2\learning\icons\2.svg" />
+    <None Include="wwwroot\Theme\img\home-2\learning\icons\3.svg" />
+    <None Include="wwwroot\Theme\img\home-2\mainSlider\icons\1.svg" />
+    <None Include="wwwroot\Theme\img\home-2\mainSlider\icons\2.svg" />
+    <None Include="wwwroot\Theme\img\home-2\mainSlider\icons\3.svg" />
+    <None Include="wwwroot\Theme\img\home-2\works\1.svg" />
+    <None Include="wwwroot\Theme\img\home-2\works\2.svg" />
+    <None Include="wwwroot\Theme\img\home-2\works\3.svg" />
+    <None Include="wwwroot\Theme\img\masthead\1.svg" />
+    <None Include="wwwroot\Theme\img\masthead\2.svg" />
+    <None Include="wwwroot\Theme\img\masthead\icons\1.svg" />
+    <None Include="wwwroot\Theme\img\masthead\icons\2.svg" />
+    <None Include="wwwroot\Theme\img\masthead\icons\3.svg" />
+    <None Include="wwwroot\Theme\img\menus\close.svg" />
+    <None Include="wwwroot\Theme\img\misc\lines\1.svg" />
+    <None Include="wwwroot\Theme\img\misc\lines\2.svg" />
+    <None Include="wwwroot\Theme\img\misc\quote.svg" />
+    <None Include="wwwroot\Theme\img\pricing\1.svg" />
+    <None Include="wwwroot\Theme\img\pricing\2.svg" />
+    <None Include="wwwroot\Theme\img\pricing\3.svg" />
+    <None Include="wwwroot\Theme\img\team\icons\1.svg" />
+    <None Include="wwwroot\Theme\img\team\icons\2.svg" />
+    <None Include="wwwroot\Theme\js\main.js" />
+    <None Include="wwwroot\Theme\js\vendors.js" />
+    <None Include="wwwroot\Theme\ltr\fonts\fontawesome-webfont3e6e.svg" />
+    <None Include="wwwroot\Theme\ltr\fonts\fontawesome-webfont3e6e.woff2" />
+    <None Include="wwwroot\Theme\ltr\fonts\icomoonf3f8.svg" />
+    <None Include="wwwroot\Theme\ltr\img\404\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\app\buttons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\app\buttons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\clients\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\clients\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\clients\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\clients\4.svg" />
+    <None Include="wwwroot\Theme\ltr\img\clients\5.svg" />
+    <None Include="wwwroot\Theme\ltr\img\clients\6.svg" />
+    <None Include="wwwroot\Theme\ltr\img\contact-1\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\contact-1\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\contact-1\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\coursesCards\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\coursesCards\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\coursesCards\icons\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\coursesCards\icons\review.svg" />
+    <None Include="wwwroot\Theme\ltr\img\featureCards\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\featureCards\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\featureCards\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\featureCards\4.svg" />
+    <None Include="wwwroot\Theme\ltr\img\featureCards\5.svg" />
+    <None Include="wwwroot\Theme\ltr\img\featureCards\6.svg" />
+    <None Include="wwwroot\Theme\ltr\img\footer\footer-logo.svg" />
+    <None Include="wwwroot\Theme\ltr\img\general\logo-black.svg" />
+    <None Include="wwwroot\Theme\ltr\img\general\logo-dark.svg" />
+    <None Include="wwwroot\Theme\ltr\img\general\logo-pure-white.svg" />
+    <None Include="wwwroot\Theme\ltr\img\general\logo.svg" />
+    <None Include="wwwroot\Theme\ltr\img\help-center\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\help-center\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\help-center\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\help-center\4.svg" />
+    <None Include="wwwroot\Theme\ltr\img\help-center\5.svg" />
+    <None Include="wwwroot\Theme\ltr\img\help-center\6.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-2\learning\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-2\learning\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-2\learning\icons\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-2\mainSlider\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-2\mainSlider\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-2\mainSlider\icons\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\achieve\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\achieve\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\achieve\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\achieve\4.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\masthead\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\masthead\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\masthead\icons\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\works\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\works\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-3\works\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-4\learning\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-4\learning\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-4\learning\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-4\learning\4.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-4\masthead\shape.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-5\learning\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-5\learning\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-5\learning\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-5\learning\4.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-5\masthead\bg.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-6\hero\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-6\hero\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-6\hero\icons\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-7\about\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-7\about\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-7\about\icons\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-7\hero\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-7\hero\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\categories\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\categories\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\categories\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\categories\4.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\categories\5.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\categories\6.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\categories\7.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\hero\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\hero\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\hero\icons\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\what\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\what\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\home-8\what\icons\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\masthead\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\masthead\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\masthead\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\masthead\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\masthead\icons\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\menus\close.svg" />
+    <None Include="wwwroot\Theme\ltr\img\misc\lines\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\misc\lines\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\misc\quote.svg" />
+    <None Include="wwwroot\Theme\ltr\img\pricing\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\pricing\2.svg" />
+    <None Include="wwwroot\Theme\ltr\img\pricing\3.svg" />
+    <None Include="wwwroot\Theme\ltr\img\team\icons\1.svg" />
+    <None Include="wwwroot\Theme\ltr\img\team\icons\2.svg" />
+    <None Include="wwwroot\Theme\ltr\js\main.js" />
+    <None Include="wwwroot\Theme\ltr\js\vendors.js" />
+    <None Include="wwwroot\Theme\ltr\vendor\Chart\chart.min.js" />
+    <None Include="wwwroot\Theme\ltr\vendor\leaflet\leaflet.js" />
+    <None Include="wwwroot\Theme\vendor\Chart\chart.min.js" />
+    <None Include="wwwroot\Theme\vendor\fullcalendar\fullcalendar-init.js" />
+    <None Include="wwwroot\Theme\vendor\fullcalendar\fullcalendar.min.js" />
+    <None Include="wwwroot\Theme\vendor\fullcalendar\global.min.js" />
+    <None Include="wwwroot\Theme\vendor\fullcalendar\locale-all.js" />
+    <None Include="wwwroot\Theme\vendor\fullcalendar\moment-jalaali.js" />
+    <None Include="wwwroot\Theme\vendor\fullcalendar\moment.min.js" />
+    <None Include="wwwroot\Theme\vendor\leaflet\leaflet.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\0_FrameWork\0_FrameWork.csproj" />
+    <ProjectReference Include="..\AccountManagement.Infrastructure\AccountManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\BlogManagement.Infrastructure\BlogManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\CommentManagement.Infrastructure\CommentManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\DiscountManagement.Infrastructure\DiscountManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\ShopManagement.Configuration\ShopManagement.Configuration.csproj" />
+    <ProjectReference Include="..\ShopManagement.Infrastructure.EfCore\ShopManagement.Infrastructure.EfCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Components\AccountHeader\Default.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Components\AccountHeader\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Components\LastArticles\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Components\LatestNews\Default.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Components\LastArticles\Default.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Components\LatestNews\Default.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\global.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,123 @@
+﻿@page
+@using _0_Framework.Application
+@using Afg.Azad.UnQuery.Contract.Course
+@model WebHost.Pages.QuizModel
+@inject ICourseQuery CourseQuery;
+@inject IStringLocalizer<QuizModel> Localize
+@{
+    ViewData["Title"] = @Localize["QuizList"];
+    var des = "پوهنتون آزاد افغانستان اولین پوهنتون آنلاین در افغانستان است که کورس ها ودروس مختلفی دانشگاهی و غیر دانشگاهی را به صورت Free به شاگردان عزیز ارایه میکنید.";
+    ViewData["keywords"] = "Afghanistan Open University، کورس های آنلاین، پوهنتون برای دختران، پوهتون، دانشگاه آزاد افغانستان";
+    ViewData["description"] = des;
+    ViewData["ogDescription"] = des;
+    ViewData["twitterDescription"] = des;
+    ViewData["canonical"] = $"https://afgou.org";
+    ViewData["ogType"] = "Quiz";
+    ViewData["ogTitle"] = "Afghanistan Open University";
+    ViewData["ogImage"] = "https://afgou.org/Theme/img/general/mainLogo.svg";
+    ViewData["twitterImage"] = "https://afgou.org/Theme/img/general/mainLogo.svg";
+    ViewData["ogUrl"] = $"https://afgou.org";
+    ViewData["twitterTitle"] = "Afghanistan Open University";
+    ViewData["twitterSite"] = $"https://afgou.org";
+    ViewData["author"] = "Afghanistan Open University";
+}
+
+<div class="content-wrapper  js-content-wrapper">
+    <section data-anim="fade" class="breadcrumbs ">
+        <div class="container">
+            <div class="row">
+                <div class="col-auto">
+                    <div class="breadcrumbs__content">
+
+                        <div class="breadcrumbs__item ">
+                            <a asp-page="Index">@Localize["Home"]</a>
+                        </div>
+
+                        <div class="breadcrumbs__item ">
+                            <a href="#">@Localize["QuizList"]</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="page-header -type-1">
+        <div class="container">
+            <div class="page-header__content">
+                <div class="row justify-center text-center">
+                    <div class="col-auto">
+                        <div data-anim="slide-up delay-1">
+
+                            <h1 class="page-header__title">@Localize["QuizList"]</h1>
+
+                        </div>
+
+                        <div data-anim="slide-up delay-2">
+
+                            <p class="page-header__text">@Localize["QuizDes"]</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="layout-pt-sm layout-pb-lg">
+        <div data-anim-wrap class="container">
+            <div class="tabs -pills js-tabs">
+
+                <div class="tabs__content pt-40 js-tabs-content">
+                    <div class="row y-gap-30">
+
+                        @foreach (var item in Model.List)
+                        {
+                            <div class="col-xl-3 col-md-6">
+                                <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4" style="background-color:gainsboro">
+                                    <div>
+
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            @if (CourseQuery.UserInCourse(User.Identity.Name, item.CourseId))
+                                            {
+                                                <a asp-page="/QuizStatus" asp-route-id="@item.Id">
+                                                    <div class="lh-2 fw-500">@item.CourseName</div>
+                                                    <div class="text-14 lh-2 fw-700 text-dark-1 mt-20 ff-estedad">@item.Name</div>
+                                                    <div class="lh-2 mt-25"><span class="text-purple-1">@item.OnDate.ToFarsi()</span> </div>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a title="You are not a member of this course.">
+                                                    <div class="lh-2 fw-500">@item.CourseName</div>
+                                                    <div class="text-14 lh-2 fw-700 text-dark-1 mt-20 ff-estedad">@item.Name</div>
+                                                    <div class="lh-2 mt-25"><span class="text-purple-1">@item.OnDate.ToFarsi()</span> </div>
+                                                </a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <a href="/login">
+                                                <div class="lh-2 fw-500">@item.CourseName</div>
+                                                <div class="text-14 lh-2 fw-700 text-dark-1 mt-20 ff-estedad">@item.Name</div>
+                                                <div class="lh-2 mt-25"><span class="text-purple-1">@item.OnDate.ToFarsi()</span> </div>
+                                            </a>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>

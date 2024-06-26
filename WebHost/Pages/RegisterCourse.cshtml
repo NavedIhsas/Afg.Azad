@@ -1,0 +1,315 @@
+﻿@model Afg.Azad.UnQuery.Contract.Course.RegisterCourseQueryModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Register Course";
+}
+
+<section data-anim="fade" class="breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                <div class="breadcrumbs__content">
+
+                    <div class="breadcrumbs__item">
+                        <a asp-page="/Index">Home</a>
+                    </div>
+
+                    <div class="breadcrumbs__item">
+                        <a asp-page="/Courses">Other</a>
+                    </div>
+
+                    <div class="breadcrumbs__item">
+                        <a asp-page="/CouresDetails" asp-route-id="@Model.Slug">@Model.Name</a>
+                    </div>
+
+                    <div class="breadcrumbs__item">
+                        <a href="#">Course Registration</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-header -type-1">
+    <div class="container">
+        <div class="page-header__content">
+            <div class="row justify-center text-center">
+                <div class="col-auto">
+                    <div data-anim="slide-up delay-1">
+
+                        <h1 class="page-header__title">Course Registration for "@Model.Name"</h1>
+
+                    </div>
+
+                    <div data-anim="slide-up delay-2">
+
+                        <p class="page-header__text">Please carefully fill out the form below based on your ID card</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="layout-pt-md layout-pb-lg">
+    <div class="container">
+        <div class="row y-gap-50">
+            <div class="col-lg-8">
+                <div class="shopCheckout-form">
+                    <form method="post" class="contact-form row x-gap-30 y-gap-30" id="RegisterForm" name="RegisterForm">
+                        <div class="col-12">
+                            <h5 class="text-20">Personal Information</h5>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">First Name <span class="text-error-2"><span class="text-error-2">*</span></span></label>
+                            <input type="text" asp-for="User.Firstname" placeholder="First Name">
+                            <span asp-validation-for="User.Firstname" class="text-error-2"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Last Name <span class="text-error-2"><span class="text-error-2">*</span></span></label>
+                            <input type="text" asp-for="User.Lastname" placeholder="Last Name">
+                            <span asp-validation-for="User.Lastname" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">National ID <span class="text-error-2"><span class="text-error-2">*</span></span></label>
+                            <input type="text" asp-for="User.NationalCode" placeholder="Electronic ID or old ID...">
+                            <span asp-validation-for="User.NationalCode" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Father's Name <span class="text-error-2"><span class="text-error-2">*</span></span></label>
+                            <input type="text" asp-for="User.FatherName" placeholder="Father's Name">
+                            <span asp-validation-for="User.FatherName" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Date of Birth</label>
+                            <input type="text" asp-for="User.BirthDate" placeholder="Date of Birth">
+                            <span asp-validation-for="User.BirthDate" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Province <span class="text-error-2"><span class="text-error-2">*</span></span> </label>
+                            <select id="province" asp-for="User.ProvinceId" class="selectize wide js-selectize" asp-items="@(new SelectList(@Model.Province,"Id","Name"))">
+                                <option value="0">--Select--</option>
+                            </select>
+                            <span asp-validation-for="User.ProvinceId" class="text-error-2"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">City <span class="text-error-2"><span class="text-error-2">*</span></span> </label>
+                            <select id="city" asp-for="User.CityId" class="selectize wide js-selectize" asp-items="@(new SelectList(Model.Cities,"Id","City"))">
+                                <option value="0">--Select--</option>
+                            </select>
+                            <span asp-validation-for="User.CityId" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Gender <span class="text-error-2"><span class="text-error-2">*</span></span> </label>
+                            <select asp-for="User.Gander" class="selectize wide js-selectize">
+                                <option value="0">--Select--</option>
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                            </select>
+                            <span asp-validation-for="User.Gander" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Address Continued</label>
+                            <input type="text" asp-for="User.Area" placeholder="Area, Street, Number...">
+                            <span asp-validation-for="User.Area" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Mobile Number <span class="text-error-2"><span class="text-error-2">*</span></span></label>
+                            <input type="text" asp-for="User.Phone" placeholder="Mobile Number">
+                            <span asp-validation-for="User.Phone" class="text-error-2"></span>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(Model.User.Email))
+                        {
+                            <div class="col-sm-6">
+                                <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Email (Cannot be changed)</label>
+                                <input readonly="" type="email" asp-for="User.Email" value="@Model.User.Email">
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-sm-6">
+                                <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Email <span class="text-error-2"><span class="text-error-2">*</span></span></label>
+                                <input type="email" asp-for="User.Email" placeholder="***gmail.com">
+                                <span asp-validation-for="User.Email" class="text-error-2"></span>
+                            </div>
+
+                        }
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Scan Photo </label>
+                            <input type="file" asp-for="User.Photo">
+                            <span asp-validation-for="User.Photo" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Scan ID </label>
+                            <input asp-for="User.NationalPhoto" type="file">
+                                   
+                            <span asp-validation-for="User.NationalPhoto" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <h5 class="text-20 fw-500 pt-30">Additional Information</h5>
+                        </div>
+                        <div class="col-12">
+                            <label class="text-16 lh-2 fw-500 text-dark-1 mb-10">Write any additional comments (Optional)</label>
+                            <textarea asp-for="User.Description" id="form_notes" rows="8" placeholder="Write any additional comments (Optional)"></textarea>
+                            <span asp-validation-for="User.Description" class="text-error-2"></span>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="row x-gap-10 y-gap-10">
+                                <div class="col-auto">
+                                    <button id="submitBtn" type="button" class="button -md -dark-1 text-white">Register</button>
+                                </div>
+                                <div class="col-auto">
+                                    <button asp-page="/CourseDetails" asp-route-id="@Model.Slug" class="button -md -outline-dark-1 text-dark-1">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="">
+                    <div class="pt-30 pb-15 bg-white border-light rounded-8 bg-light-4">
+                        <h5 class="px-30 text-20 fw-500">
+                            Course Enrollment
+                        </h5>
+
+                        <div class="d-flex justify-between px-30 mt-25">
+                            <div class="py-15 fw-500 text-dark-1">Course Name</div>
+                            <div class="py-15 fw-500 text-dark-1">@Model.Name</div>
+                        </div>
+
+                        <div class="d-flex justify-between border-top-dark px-30">
+                            <div class="py-15 text-grey">Course Level</div>
+                            <div class="py-15 text-grey">@Model.CourseLevel</div>
+                        </div>
+
+                        <div class="d-flex justify-between px-30">
+                            <div class="py-15 text-grey">Course Status </div>
+                            <div class="py-15 text-grey">@Model.CourseStatus</div>
+                        </div>
+
+                        <div class="d-flex justify-between border-top-dark px-30">
+                            <div class="py-15 fw-500">Course Instructor</div>
+                            <div class="py-15 fw-500">@Model.TeacherName</div>
+                        </div>
+
+                        <div class="d-flex justify-between border-top-dark px-30">
+                            <div class="py-15 fw-500 text-dark-1">Course Code</div>
+                            <div class="py-15 fw-500 text-dark-1">@Model.Code</div>
+                        </div>
+
+                    </div>
+
+                    <div class="py-30 px-30 bg-white mt-30 border-light rounded-8 bg-light-4">
+                        <h5 class="text-20 fw-500">
+                            Important Note
+                        </h5>
+
+                        <div class="mt-30">
+                            <p class="ml-25 pl-5 mt-25">We will determine your level using an online test; if your level is lower than this course, you will be automatically enrolled in another class (prerequisite class).</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-30">
+                        <button class="button -md -accent col-12 -uppercase text-white">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<input type="hidden" value="@Model.Id" id="courseId" />
+<input type="hidden" value="@Model.Slug" id="slug" />
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $("#province").change(function (e) {
+            var value = $("#province").val();
+            $.ajax({
+                url: "/UserPanel?handler=GetCiy&id=" + value,
+                type: "get",
+                success: function (result) {
+                    $('#city').empty()
+                    result.forEach(x => {
+                        $('#city').append(`<option value="${x.id}">${x.city}</option> `);
+
+                    });
+                }
+
+            })
+        })
+
+        $("#submitBtn").click(function () {
+           
+            var courseId = $("#courseId").val();
+            var slug = $("#slug").val();
+            var form = $("#RegisterForm");
+            form.validate();
+            if (form.valid() === false) {
+                return false;
+            }
+            $.ajax({
+                url: '/CourseDetails/' + slug + '?handler=RegisterCourse&courseId=' + courseId,
+                data: new FormData(document.forms.RegisterForm),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+
+                success: function (result) {
+                   
+                    debugger
+                    if (result.isSucceeded) {
+                        window.swal.fire(
+                            {
+                              title: "موفق",
+                              text: "ثبت نام شما با موفقیت انجام شد",
+                              type: "success",
+                              showCancelButton: false,
+                              confirmButtonColor: '#DD6B55',
+                              confirmButtonText: 'بازگشت به کورس',
+                            },
+                        ).then(function (isConfirm) {
+                            window.location.href = "/CourseDetails/" + slug;
+                        });
+
+                    }
+                    else {
+                        debugger
+                        notify("top center", result.message, "error");
+                    }
+
+                },
+
+            });
+        })
+
+    </script>
+                            }

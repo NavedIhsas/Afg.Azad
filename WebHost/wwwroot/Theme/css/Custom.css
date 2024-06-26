@@ -1,0 +1,21 @@
+﻿
+@font-face {
+    font-family: Sahel;
+    font-weight: normal;
+    src: url("../fonts/Sahel.ttf");
+}
+
+.sahel-font{
+    font-family:Sahel;
+}
+
+.aboutUs-text{
+    line-height:2;
+}
+.text-17.lh-15.fw-500.text-dark-1.mt-10{
+    height:70px !important;
+}
+body {
+    position: relative;
+    z-index: 0;
+}

@@ -1,0 +1,299 @@
+﻿
+@model Shop.Management.Application.Contract.Course.EditCourseViewModel
+@{
+    ViewData["Title"] = "ویرایش آموزش";
+    Layout = "Shared/_AdminLayout";
+}
+
+<link href="~/AdminTheme/assets/tagsinput/jquery.tagsinput.css" rel="stylesheet" />
+<link href="~/admintheme/assets/css/loading.css" rel="stylesheet" />
+<div id="loader" class="lds-dual-ring hidden overlay"></div>
+
+<div id="page-wrapper">
+    <div class="container">
+        <partial name="Shared/_Create_View_Header" />
+
+        <form method="post" asp-page="Index" asp-page-handler="Edit" enctype="multipart/form-data" id="updateCourseForm" name="updateCourseForm">
+            <div class="modal-body col col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">نام<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" asp-for="Name">
+                            <span class="text-danger" asp-validation-for="Name"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Price" class="control-label">قیمت</label>
+                            <input type="text" class="form-control" asp-for="Price" >
+                            <span class="text-danger" asp-validation-for="Price"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="CourseGroupId" class="control-label">گروه آموزشی<span class="text-danger">*</span></label>
+                            <Select asp-for="CourseGroupId" asp-Items="@(new SelectList(Model.CourseGroupSelectList, "Id", "Title"));" type="file" class="form-control">
+                                <option >--انتخاب کنید--</option>
+                            </Select>
+                            <span class="text-danger" asp-validation-for="CourseGroupId"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group no-margin">
+                            <label asp-for="TeacherId" class="control-label">استاد کورس  </label>
+                            <select class="form-control autogrow" asp-for="TeacherId" asp-items="@(new SelectList(Model.TeacherSelectList, "Id", "AccountName"))">
+                                <option >انتخاب کنید</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="TeacherId"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="CourseLevelId" class="control-label">سطح کورس</label>
+                            <Select asp-for="CourseLevelId" asp-Items="@(new SelectList(Model.CourseLevelSelectList, "Id", "Title"));" type="file" class="form-control">
+                                <option >--انتخاب کنید--</option>
+                            </Select>
+                            <span class="text-danger" asp-validation-for="CourseLevelId"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="CourseStatusId" class="control-label">وضعیت کورس  </label>
+                            <Select asp-for="CourseStatusId" asp-Items="@(new SelectList(Model.CourseStatusSelectList, "Id", "Title"));" type="file" class="form-control">
+                                <option >--انتخاب کنید--</option>
+                            </Select>
+                            <span class="text-danger" asp-validation-for="CourseStatusId"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Code" class="control-label">کد این کورس  </label>
+                            <input type="text" class="form-control" asp-for="Code">
+                            <span class="text-danger" asp-validation-for="Code"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="File" class="control-label">فایل</label>
+                            <input type="file" asp-for="File" class="form-control" accept="video/*">
+                            <span class="text-danger" asp-validation-for="File"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="PictureAlt" class="control-label">Alt<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" asp-for="PictureAlt">
+                            <span class="text-danger" asp-validation-for="PictureAlt" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="PictureTitle" class="control-label">عنوان<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" asp-for="PictureTitle">
+                            <span class="text-danger" asp-validation-for="PictureTitle"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="KeyWords" class="control-label">کلمات کلیدی<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" asp-for="KeyWords">
+                            <p class="help-block">کلمات را با - از همدیگر جدا کنید</p>
+                            <span class="text-danger" asp-validation-for="KeyWords"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Slug" class="control-label">اسلاگ<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" asp-for="Slug" placeholder="اسلاگ را نمیتوانید تغییر دهید" disabled>
+                            <span class="text-danger" asp-validation-for="Slug"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label class=" control-label"> چیز های را که خواهد یاد گرفت</label>
+                            <input asp-for="ToBeLearn" id="tags" class="form-control" />
+                            <p class="help-block">بعد از وارد کردن هر آیتیم Enter را بزنید.</p>
+                        </div>
+                    </div>
+                </div><!-- form-group -->
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label class=" control-label">پیش نیاز های این کورس</label>
+                            <input asp-for="NeedToLean" id="needLearn" class="form-control" />
+                            <p class="help-block">بعد از وارد کردن هر آیتیم Enter را بزنید.</p>
+                        </div>
+                    </div>
+                </div><!-- form-group -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label asp-for="ShortDescription" class="control-label">توضیحات کوتاه<span class="text-danger">*</span></label>
+                            <textarea class="form-control autogrow" asp-for="ShortDescription" rows="4" onchange="fillField('ShortDescription', 'MetaDescription')"></textarea>
+                            <span class="text-danger" asp-validation-for="ShortDescription"></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label asp-for="MetaDescription" class="control-label">توضیحات متا<span class="text-danger">*</span></label>
+                            <textarea class="form-control autogrow" asp-for="MetaDescription" rows="2"></textarea>
+                            <span class="text-danger" asp-validation-for="MetaDescription"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label asp-for="Description" class="control-label">توضیحات</label>
+                            <textarea  class="form-control autogrow" asp-for="Description" rows="5"></textarea>
+
+                            <span class="text-danger" asp-validation-for="Description"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <p></p>
+                <img id="imgCourse" class="thumbnail img-responsive" src="/FileUploader/@Model.PictureName" />
+                <div class="form-group">
+                    <label asp-for="Picture" class="control-label">عکس<span class="text-danger">*</span></label>
+                    <input id="imgCourseUp" onchange="validateImage(this,450,315,'submitButton')" type="file" asp-for="Picture" class="form-control" accept="image/*">
+                    <span class="text-danger" asp-validation-for="Picture"></span>
+                    <p class="help-block"> width:450px; height:315px,size:60kb</p>
+                </div>
+
+                <br />
+                <hr />
+
+                <img id="DemoImg" class="thumbnail img-responsive" src="/FileUploader/@Model.StringDemoPoster" />
+                <div class="form-group">
+                    <label asp-for="DemoPoster" class="control-label">عکس پشت زمینه دمو</label>
+                    <input id="DemoCourse" type="file" asp-for="DemoPoster" class="form-control" accept="image/*">
+                    <span class="text-danger" asp-validation-for="DemoPoster"></span>
+                </div>
+                <partial name="Shared/PartialView/UploadPhotoGuid"/>
+
+
+            </div>
+            
+            <input asp-for="Id" value="@Model.Id" type="hidden" />
+            <input asp-for="Slug" value="@Model.Slug" type="hidden" />
+
+            <div class="modal-footer">
+                <button type="button" id="submitButton" class="btn btn-info">ویرایش</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script src="~/AdminTheme/assets/tagsinput/jquery.tagsinput.min.js"></script>
+    <script>
+
+        jQuery(document).ready(function () {
+            jQuery('#tags').tagsInput({ width: 'auto' });
+        });
+          jQuery(document).ready(function () {
+            jQuery('#needLearn').tagsInput({ width: 'auto' });
+        });
+
+        CKEDITOR.replace('Description', {
+            customConfig: '~/js/Config.js'
+        });
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgCourse').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#submitButton").click(function () {
+           
+  
+            var form = $("#updateCourseForm");
+
+            var editor = CKEDITOR.instances.Description;
+            var descriptionValue = editor.getData();
+            $("#Description").val(descriptionValue);
+           
+            form.validate();
+            if (form.valid() === false) {
+                return false;
+            }
+            $.ajax({
+                url: '?handler=Edit',
+                data: new FormData(document.forms.updateCourseForm),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                headers: {
+                    RequestVerificationToken:
+                        $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                beforeSend: function () {
+                    $('#loader').removeClass('hidden')
+                },
+                success: function (result) {
+                   
+
+                    if (result.isSucceeded) {
+                        window.location.href = "/Administration/Courses/Course/";
+                   
+                    }
+                    else {
+                        notify("top center", result.message, "error");
+                    }
+
+                },
+                complete: function () {
+                    $('#loader').addClass('hidden')
+                },
+            });
+        })
+
+
+
+        $("#imgCourseUp").change(function () {
+            readURL(this);
+        });
+    </script>
+}
+

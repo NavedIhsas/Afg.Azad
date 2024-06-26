@@ -1,0 +1,64 @@
+﻿@page
+@using _0_FrameWork.Application
+@using Type = _0_FrameWork.Application.ThisType
+@model IndexModel
+@{
+    ViewData["Title"] = "پنل اعلانات";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bell fa-fw"></i> پنل اعلانات
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        @foreach (var item in Model.List)
+                        {
+                            switch (item.Type)
+                            {
+                                case Type.Comment:
+                                    <a asp-page="/Comment/Index" class="list-group-item">
+                                        <i class="fa fa-comment fa-fw"></i> @item.Text
+                                        <span class="pull-left text-muted small">
+                                            <em>@item.CreationDate.TimeAgo()</em>
+                                        </span>
+                                    </a>
+                                    break;
+
+                                case Type.Account:
+                                    <a asp-page="/Account/Users/Index" class="list-group-item">
+                                        <i class="fa fa-user fa-fw"></i> @item.Text
+                                        <span class="pull-left text-muted small">
+                                            <em>@item.CreationDate.TimeAgo()</em>
+                                        </span>
+                                    </a>
+                                    break;
+
+                                case Type.Order:
+                                    <a asp-page="/Orders/Index" class="list-group-item">
+                                        <i class="fa fa-shopping-cart fa-fw"></i> @item.Text
+                                        <span class="pull-left text-muted small">
+                                            <em>@item.CreationDate.TimeAgo()</em>
+                                        </span>
+                                    </a>
+                                    break;
+
+                                case Type.Course:
+                                    <a href="#" class="list-group-item">
+                                        <i class="fa fa-download fa-fw"></i> @item.Text
+                                        <span class="pull-left text-muted small">
+                                            <em>@item.CreationDate.TimeAgo()</em>
+                                        </span>
+                                    </a>
+                                    break;
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
